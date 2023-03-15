@@ -5,11 +5,13 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.11.11",
     "@mui/material": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-hook-form": "^7.43.5",
     "react-scripts": "latest",
     "typescript": "latest"
   },
