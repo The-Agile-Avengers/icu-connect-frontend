@@ -11,10 +11,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Layout from "./shared/Layout";
-import Copyright from "./Copyright";
+import Layout from "../components/shared/Layout";
+import Copyright from "../components/Copyright";
 
-export default function SignUp() {
+const SignUpPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -122,3 +122,6 @@ export default function SignUp() {
     </Layout>
   );
 }
+
+
+export default SignUpPage;

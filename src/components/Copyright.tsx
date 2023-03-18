@@ -7,16 +7,14 @@ export type CopyrightProps = {
   sx: SxProps;
 };
 
-const Copyright: React.FC<CopyrightProps> = ({ sx }: CopyrightProps) => {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" sx={sx}>
-      {"Copyright © "}
-      <Link color="inherit" href="#">
+const Copyright: React.FC<CopyrightProps> = ({ sx }: CopyrightProps) => (
+  <Typography variant="body2" color="text.secondary" align="center" sx={sx}>
+    {"Copyright © "}
+    <Link color="inherit" href="#">
         ICU Connect
-      </Link>{" "}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-};
+    </Link>{" "}
+    {new Date().getFullYear()}.
+  </Typography>
+);
 
 export default Copyright;

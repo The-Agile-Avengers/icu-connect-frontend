@@ -10,16 +10,17 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Layout from "./shared/Layout";
-import Copyright from "./Copyright";
+import Layout from "../components/shared/Layout";
+import Copyright from "../components/Copyright";
 
 type LoginFormFields = "email" | "password";
 
 interface LoginFormData extends FormData {
+  // eslint-disable-next-line no-unused-vars
   get(name: LoginFormFields): FormDataEntryValue | null;
 }
 
-export default function SignIn() {
+const LoginPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data: LoginFormData = new FormData(event.currentTarget);
@@ -103,3 +104,6 @@ export default function SignIn() {
     </Layout>
   );
 }
+
+
+export default LoginPage;
