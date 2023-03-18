@@ -1,6 +1,5 @@
-import { CssBaseline, Switch, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
-import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
 import theme from "../../theme";
 import { IProps } from "./types";
 

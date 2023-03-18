@@ -9,6 +9,10 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", 'unused-imports'],
   root: true,
+  rules: {
+    "no-unused-vars": 2,
+    'unused-imports/no-unused-imports-ts': 2,
+  },
 };

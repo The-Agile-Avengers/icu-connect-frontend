@@ -1,6 +1,5 @@
-import { Switch } from "@mui/material";
 import React from "react";
-import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const AppRouter = () => {
   return (
