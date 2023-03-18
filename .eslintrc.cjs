@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    "eslint:recommended", 
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],
