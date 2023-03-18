@@ -12,7 +12,7 @@ module.exports = {
   plugins: ["@typescript-eslint", 'unused-imports'],
   root: true,
   rules: {
-    "no-unused-vars": 2,
+    "no-unused-vars": 0,
     'unused-imports/no-unused-imports-ts': 2,
   },
 };
