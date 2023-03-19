@@ -6,10 +6,16 @@ import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import SignIn from './components/LoginForm';
 import SignUp from './components/SignUpForm';
+import CoursePage from './pages/CoursePage';
+import Navbar from './components/Navbar/Navbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography variant="body2" color='black' align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -19,6 +25,18 @@ function Copyright() {
   );
 }
 
+
+export default function App() {
+  const drawerWidth = 220; 
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <Navbar/>
+      <CoursePage/>
+    </Box>
+  );
+}
+
+/*
 export default function App() {
   return (
     <Container maxWidth="sm">
@@ -27,4 +45,4 @@ export default function App() {
       </Box>
     </Container>
   );
-}
+}*/
