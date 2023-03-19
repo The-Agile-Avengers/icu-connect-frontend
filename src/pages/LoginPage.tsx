@@ -12,7 +12,7 @@ import Layout from "../components/shared/Layout";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
-import { Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink, useNavigate} from "react-router-dom";
 
 
 type LoginForm = {
@@ -21,6 +21,8 @@ type LoginForm = {
 }
 
 const LoginPage: React.FC = () => {
+
+  const navigate = useNavigate();
   
   const {
     register,
@@ -33,7 +35,9 @@ const LoginPage: React.FC = () => {
     console.log(formData)
     api.post('/users', formData)
       .then((response) => {
+        localStorage.setItem("AuthToken", JSON.stringify(response.data));
         console.log(response.data);
+        navigate("/")
       })
       .catch((error) => {
         setError("email", {type: "focus"})
