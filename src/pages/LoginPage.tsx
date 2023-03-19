@@ -12,39 +12,36 @@ import Layout from "../components/shared/Layout";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
-import { Link as RouterLink, useNavigate} from "react-router-dom";
-
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 type LoginForm = {
   email: string;
   password: string;
-}
+};
 
 const LoginPage: React.FC = () => {
-
   const navigate = useNavigate();
-  
-  const {
-    register,
-    handleSubmit,
-    setError,
-  } = useForm<LoginForm>({ mode: 'onChange' });
+
+  const { register, handleSubmit, setError } = useForm<LoginForm>({
+    mode: "onChange",
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit: SubmitHandler<LoginForm> = formData => {
-    console.log(formData)
-    api.post('/users', formData)
+  const onSubmit: SubmitHandler<LoginForm> = (formData) => {
+    console.log(formData);
+    api
+      .post("/users", formData)
       .then((response) => {
         localStorage.setItem("AuthToken", JSON.stringify(response.data));
         console.log(response.data);
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
-        setError("email", {type: "focus"})
-        setError("password", {type: "focus"})
+        setError("email", { type: "focus" });
+        setError("password", { type: "focus" });
         console.log(error);
       });
-  }
+  };
 
   return (
     <Layout>
@@ -70,7 +67,7 @@ const LoginPage: React.FC = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              {...register('email', { required: true })}
+              {...register("email", { required: true })}
               required
               margin="normal"
               fullWidth
@@ -80,7 +77,7 @@ const LoginPage: React.FC = () => {
               autoFocus
             />
             <TextField
-              {...register('password', { required: true })}
+              {...register("password", { required: true })}
               required
               margin="normal"
               fullWidth
@@ -119,7 +116,6 @@ const LoginPage: React.FC = () => {
       </Container>
     </Layout>
   );
-}
-
+};
 
 export default LoginPage;

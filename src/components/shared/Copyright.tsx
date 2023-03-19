@@ -11,7 +11,7 @@ const Copyright: React.FC<CopyrightProps> = ({ sx }: CopyrightProps) => (
   <Typography variant="body2" color="text.secondary" align="center" sx={sx}>
     {"Copyright © "}
     <Link color="inherit" href="#">
-        ICU Connect
+      ICU Connect
     </Link>{" "}
     {new Date().getFullYear()}.
   </Typography>
