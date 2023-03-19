@@ -12,7 +12,6 @@ declare module '@mui/material/styles' {
 }
 
 
-
 // A custom theme for this app
 const theme = createTheme({
   palette: {

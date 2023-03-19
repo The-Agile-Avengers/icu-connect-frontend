@@ -9,9 +9,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { mainNavbarItems } from './NavbarListItems'; 
 import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Unstable_Grid2';
 import { Typography } from '@mui/material';
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 
 const Logo = () => {
     return(
