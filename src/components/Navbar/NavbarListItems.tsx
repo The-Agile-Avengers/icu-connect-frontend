@@ -2,10 +2,11 @@ import React from "react";
 import PeopleIcon from "@mui/icons-material/People";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import SearchIcon from "@mui/icons-material/Search";
+import { SvgIconProps } from "@mui/material";
 
 type mainNavbarItemsType = Array<{
   id: number;
-  icon: any; //TODO: assign correct type
+  icon:  React.ReactElement<SvgIconProps>;
   label: string;
   route: string;
 }>;
