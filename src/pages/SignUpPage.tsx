@@ -20,7 +20,7 @@ import { Link as RouterLink, useNavigate} from "react-router-dom";
 
 type SignUpForm = {
   email: string;
-  name: string;
+  username: string;
   password: string;
   terms: boolean;
 }
@@ -39,14 +39,14 @@ const SignUpPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<SignUpForm> = formData => {
     console.log(formData)
-    api.post('/users', formData)
+    api.post('/users', {"username": formData.username, "email": formData.email, "password": formData.password })
       .then((response) => {
-        localStorage.setItem("AuthToken", JSON.stringify(response.data));
+        // localStorage.setItem("AuthToken", JSON.stringify(response.data));
         console.log(response.data);
-        navigate("/")
+        navigate("/login")
       })
       .catch((error) => {
-        setError("name", {type: "focus"})
+        setError("username", {type: "focus"})
         setError("email", {type: "focus"})
         console.log(error);
       });
@@ -79,15 +79,15 @@ const SignUpPage: React.FC = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  {...register('name', { required: true })}
+                  {...register('username', { required: true })}
                   required
                   fullWidth
                   id="name"
                   label="Username"
                   autoComplete="name"
                   autoFocus
-                  error={!!formState.errors.name}
-                  helperText={formState.errors.name ? 'Please enter your username' : ''}
+                  error={!!formState.errors.username}
+                  helperText={formState.errors.username ? 'Please enter your username' : ''}
                 />
               </Grid>
               <Grid item xs={12}>
