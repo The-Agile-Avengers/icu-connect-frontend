@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import CoursePage from "../../pages/CoursePage";
 import LoginPage from "../../pages/LoginPage";
 import MyCommunitiesPage from "../../pages/MyCommunitiesPage";
 import SignUpPage from "../../pages/SignUpPage";
@@ -12,6 +13,7 @@ const AppRouter = () => (
         /* User is logged in */
         <>
           <Route index path="/" element={<MyCommunitiesPage />} />
+          <Route index path="/coursepage" element={<CoursePage />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>
