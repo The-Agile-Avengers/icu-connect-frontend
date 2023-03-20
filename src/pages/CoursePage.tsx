@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { BoxTitle, PageTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import Layout from "../components/shared/Layout";
+import CourseInfo from "../components/CourseInfo";
 
 export default function CoursePage() {
   return (
@@ -39,9 +40,12 @@ export default function CoursePage() {
               </Box>
               <Box sx={{ gridArea: "info" }}>
                 <BoxTitle title="Info" />
-                <Box sx={{ bgcolor: "secondary.main" }}>.</Box>{" "}
+                <Box sx={{ bgcolor: "secondary.main" }}>.
+                  <CourseInfo/>
+                </Box>{" "}
                 {
                   //TODO - Replace with Info-Box Component
+                  
                 }
               </Box>
               <Box sx={{ gridArea: "posts" }}>
