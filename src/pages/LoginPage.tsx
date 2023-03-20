@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Layout from "../components/shared/Layout";
+import LayoutSignUp from "../components/shared/Layout-SignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <LayoutSignUp>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -114,7 +114,7 @@ const LoginPage: React.FC = () => {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </Layout>
+    </LayoutSignUp>
   );
 };
 

@@ -2,11 +2,9 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
 import theme from "../../design/theme";
 import { IProps } from "../../utils/types";
-import Navbar from "../Navbar/Navbar";
 
-const Layout: React.FC<IProps> = ({ children }: IProps) => (
+const LayoutSignUp: React.FC<IProps> = ({ children }: IProps) => (
   <ThemeProvider theme={theme}>
-    <Navbar />
     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
     {children}
@@ -16,4 +14,4 @@ const Layout: React.FC<IProps> = ({ children }: IProps) => (
 /*
  * Don't forget to export your component!
  */
-export default Layout;
+export default LayoutSignUp;
