@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
-import theme from "../../theme";
+import theme from "../../design/theme";
 import { IProps } from "../../utils/types";
 
 const Layout: React.FC<IProps> = ({ children }: IProps) => (
