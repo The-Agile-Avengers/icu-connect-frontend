@@ -31,12 +31,12 @@ const theme = createTheme({
     h1: {
       fontSize: "3em",
       fontWeight: 600,
-      color: '#000000',
+      color: "#000000",
     },
     h2: {
       fontSize: "2em",
       fontWeight: 600,
-      color: '#000000',
+      color: "#000000",
     },
   },
 });
