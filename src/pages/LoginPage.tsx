@@ -2,8 +2,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -11,24 +9,42 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Layout from "../components/shared/Layout";
-import Copyright from "../components/Copyright";
+import Copyright from "../components/shared/Copyright";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { api } from "../utils/api";
+import { Link as RouterLink, useNavigate} from "react-router-dom";
 
-type LoginFormFields = "email" | "password";
 
-interface LoginFormData extends FormData {
-  // eslint-disable-next-line no-unused-vars
-  get(name: LoginFormFields): FormDataEntryValue | null;
+type LoginForm = {
+  email: string;
+  password: string;
 }
 
 const LoginPage: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data: LoginFormData = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+
+  const navigate = useNavigate();
+  
+  const {
+    register,
+    handleSubmit,
+    setError,
+  } = useForm<LoginForm>({ mode: 'onChange' });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit: SubmitHandler<LoginForm> = formData => {
+    console.log(formData)
+    api.post('/users', formData)
+      .then((response) => {
+        localStorage.setItem("AuthToken", JSON.stringify(response.data));
+        console.log(response.data);
+        navigate("/")
+      })
+      .catch((error) => {
+        setError("email", {type: "focus"})
+        setError("password", {type: "focus"})
+        console.log(error);
+      });
+  }
 
   return (
     <Layout>
@@ -49,50 +65,50 @@ const LoginPage: React.FC = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
-            noValidate
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 1 }}
           >
             <TextField
-              margin="normal"
+              {...register('email', { required: true })}
               required
+              margin="normal"
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
               autoComplete="email"
               autoFocus
             />
             <TextField
-              margin="normal"
+              {...register('password', { required: true })}
               required
+              margin="normal"
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link component={RouterLink} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
