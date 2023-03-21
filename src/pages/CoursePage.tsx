@@ -3,11 +3,11 @@ import Box from "@mui/material/Box";
 import { BoxTitle, PageTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import Layout from "../components/shared/Layout";
-import CourseInfo from "../components/CourseInfo";
-import CoursePost from "../components/CoursePost";
+import CourseInfo from "../components/CoursePage/CourseInfo";
+import CoursePost from "../components/CoursePage/CoursePost";
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import BasicSpeedDial from "../components/BasicSpeedDial";
-import Reviews from "../components/Reviews";
+import Reviews from "../components/CoursePage/Reviews";
 
 export default function CoursePage() {
   return (
