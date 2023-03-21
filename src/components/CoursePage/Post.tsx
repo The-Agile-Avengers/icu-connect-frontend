@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../Models/UserModel";
+import CommentIcon from '@mui/icons-material/Comment';
 
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
@@ -32,6 +33,10 @@ export default function Post({account, title, postText, time}:PostValues) {
             <p style={{ textAlign: "left", color: "gray" }}>
               posted {time} ago
             </p>
+            <div style={{ float:"right" }}>
+              <CommentIcon/>
+            </div>
+            
           </Grid>
         </Grid>
       </Paper>

@@ -63,7 +63,7 @@ export default function CoursePage() {
                   <Reviews/>
                 </Box>{" "}
               </Box>
-              <Box color="#21B34B" position="absolute" bottom="15px" right="15px">
+              <Box position="absolute" bottom="0px" right="0px">
                 <BasicSpeedDial/>
               </Box>{" "}
             </Box>
