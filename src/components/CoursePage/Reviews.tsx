@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 
-import { Icon } from '@mui/material';
+import ReviewItem from './ReviewItem';
+import { UserModel } from '../../Models/UserModel';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,7 +16,15 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const imgLink =
+  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
+const userExample: UserModel={
+  id:1,
+  name:"Test User",
+  email:"testUser@uzh.ch",
+  avatar: imgLink
+}
 
 
 export default function Reviews() {
@@ -33,22 +41,34 @@ export default function Reviews() {
       
       <Grid container spacing={2} direction="column">
         <Grid item xs={8}>
-          <Item> 
-            <a href="coursePage">{postTitle}</a>
-            <Typography component="h2"> {postTitle} </Typography> 
-            
-          </Item>
+          <ReviewItem
+            account= {userExample}
+            ratingContent={5}
+            ratingTeaching={2}
+            ratingWorkload={4}
+            textRating='I did like to course, but it was a difficult course.'
+            time='22.3.2023'
+          />
         </Grid>
         <Grid item xs={4}>
-          <Item>
-            <Typography component="h2"> {postTitle} </Typography> 
-            
-          </Item>
+          <ReviewItem
+            account= {userExample}
+            ratingContent={5}
+            ratingTeaching={2}
+            ratingWorkload={4}
+            textRating='I did like to course, but it was a difficult course.'
+            time='22.3.2023'
+          />
         </Grid>
         <Grid item xs={8}>
-          <Item>
-            <Typography component="h2"> {postTitle} </Typography> 
-          </Item>
+          <ReviewItem
+            account= {userExample}
+            ratingContent={5}
+            ratingTeaching={2}
+            ratingWorkload={4}
+            textRating='I did like to course, but it was a difficult course.'
+            time='22.3.2023'
+          />
         </Grid>
       </Grid>
     </Box>

@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../Models/UserModel";

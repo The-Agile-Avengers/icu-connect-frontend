@@ -1,7 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
-import { Avatar, Divider, Grid, Paper, Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import Post from "./Post";
 import { UserModel } from "../../Models/UserModel";
 

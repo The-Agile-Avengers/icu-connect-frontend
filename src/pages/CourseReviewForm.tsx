@@ -8,7 +8,8 @@ import CoursePost from "../components/CoursePage/CoursePost";
 import BasicSpeedDial from "../components/BasicSpeedDial";
 import Reviews from "../components/CoursePage/Reviews";
 
-export default function CoursePage() {
+
+export default function CourseReviewForm() {
   return (
     <Layout>
       <Box sx={{ display: "flex" }}>
@@ -43,28 +44,11 @@ export default function CoursePage() {
               </Box>
               
               <Box sx={{ gridArea: "info" }}>
-                <BoxTitle title="Info" />
+                <BoxTitle title=" New Review" />
                 <Box sx={{ bgcolor: "secondary.main" }}>.
                   <CourseInfo/>
                 </Box>{" "}
               </Box>
-              <Box sx={{ gridArea: "posts" }}>
-                <Box display= "inline-block">
-                  <BoxTitle title="Posts" />
-                </Box>
-                <Box sx={{ bgcolor: "secondary.main" }}>
-                  <CoursePost />
-                </Box>{" "}
-              </Box>
-              <Box sx={{ gridArea: "reviews" }}>
-                <BoxTitle title="Reviews" />
-                <Box sx={{ bgcolor: "secondary.main" }}>
-                  <Reviews/>
-                </Box>{" "}
-              </Box>
-              <Box position="absolute" bottom="0px" right="0px">
-                <BasicSpeedDial/>
-              </Box>{" "}
             </Box>
           </Box>
         </Box>
