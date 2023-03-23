@@ -1,23 +1,20 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../Models/UserModel";
-import CommentIcon from '@mui/icons-material/Comment';
+import CommentIcon from "@mui/icons-material/Comment";
 
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 export interface PostValues {
-    account: UserModel,
-    title: string,
-    postText: string,
-    time: string,
+  account: UserModel;
+  title: string;
+  postText: string;
+  time: string;
 }
-  
 
-
-export default function Post({account, title, postText, time}:PostValues) {
+export default function Post({ account, title, postText, time }: PostValues) {
   return (
     <div style={{ padding: 14 }}>
       <Paper style={{ padding: "40px 20px" }}>
@@ -27,21 +24,16 @@ export default function Post({account, title, postText, time}:PostValues) {
           </Grid>
           <Grid justifyContent="left" item xs zeroMinWidth>
             <h4 style={{ margin: 0, textAlign: "left" }}>{title}</h4>
-            <p style={{ textAlign: "left" }}>
-              {postText}
-            </p>
+            <p style={{ textAlign: "left" }}>{postText}</p>
             <p style={{ textAlign: "left", color: "gray" }}>
               posted {time} ago
             </p>
-            <div style={{ float:"right" }}>
-              <CommentIcon/>
+            <div style={{ float: "right" }}>
+              <CommentIcon />
             </div>
-            
           </Grid>
         </Grid>
       </Paper>
     </div>
   );
 }
-
-
