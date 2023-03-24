@@ -2,27 +2,20 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { BoxTitle, PageTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
-import Layout from "../components/shared/Layout";
-import {
-  Grid,
-  IconButton,
-  IconContainerProps,
-  Paper,
-  Rating,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import Button from "@mui/material/Button";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useNavigate } from "react-router-dom";
+import { Grid, IconButton, IconContainerProps, Paper, Rating, TextField, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Button from '@mui/material/Button';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate, useParams } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { api } from "../utils/api";
 
 function IconContainer(props: IconContainerProps) {
   const { value, ...other } = props;
@@ -68,15 +61,47 @@ const StyledRatingWorkload = styled(Rating)(() => ({
   },
 }));
 
+type ReviewForm = {
+    ratingContent: number;
+    ratingTeaching:number;
+    ratingWorkload: number;
+  };
+
+
+
+
+
 export default function CourseReviewForm() {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
-  const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
+  const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);  
+
+  const params = useParams();
+  const communityId = params.id
+  console.log(params.id);
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate("/coursePage");
+    navigate('/coursePage/'+communityId);
   }
+
+  const { handleSubmit } = useForm<ReviewForm>({
+    mode: "onChange",
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
+    console.log(formData);
+    api
+      .post("/communities/"+{communityId}+"/ratings", formData)
+      .then((response) => {
+        console.log(response.data);
+        navigate("/coursePage"+{communityId});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Layout title="Course Page: Advanced Software Systems">
@@ -160,10 +185,8 @@ export default function CourseReviewForm() {
                               setRatingTeaching(newValueTeaching);
                             }}
                           />
-                          <div style={{ display: "block" }}>
-                            <Typography component="legend">
-                              <b>Workload</b>
-                            </Typography>
+                            <Typography component="legend"><b>Workload</b></Typography>
+
                             <Rating
                               name="simple-controlled"
                               value={ratingWorkload}
@@ -181,9 +204,11 @@ export default function CourseReviewForm() {
                               rows={4}
                             />
                           </div>
-                        </div>
-                        <Button variant="contained">SUBMIT</Button>
-                      </Grid>
+                        <Button 
+                        variant="contained"
+                        onSubmit={handleSubmit(onSubmit)}
+                         >SUBMIT</Button>
+                    </Grid>
                     </Grid>
                   </Paper>
                 </div>

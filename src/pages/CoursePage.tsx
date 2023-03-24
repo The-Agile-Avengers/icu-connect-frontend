@@ -6,8 +6,21 @@ import CourseInfo from "../components/CoursePage/CourseInfo";
 import CoursePost from "../components/CoursePage/CoursePost";
 import BasicSpeedDial from "../components/BasicSpeedDial";
 import Reviews from "../components/CoursePage/Reviews";
+import { useParams } from "react-router-dom";
+
+
+
 
 export default function CoursePage() {
+
+  const params = useParams();
+  const communityId = params.id ? params.id:"wrong";
+  console.log(params.id);
+
+
+
+
+
   return (
     <Layout title="Course Page">
       <Box
@@ -31,34 +44,34 @@ export default function CoursePage() {
             gridTemplateRows: "auto",
             gridTemplateAreas: `"header header"
               "info posts"
-              "reviews posts"`,
-          }}
-        >
-          <Box sx={{ gridArea: "info" }}>
-            <BoxTitle title="Info" />
-            <Box sx={{ bgcolor: "secondary.main" }}>
-              .
-              <CourseInfo />
-            </Box>{" "}
-          </Box>
-          <Box sx={{ gridArea: "posts" }}>
-            <Box display="inline-block">
-              <BoxTitle title="Posts" />
+              "reviews posts"`
+              }}
+            >
+              <Box sx={{ gridArea: "info" }}>
+                <BoxTitle title="Info" />
+                <Box sx={{ bgcolor: "secondary.main" }}>.
+                  <CourseInfo/>
+                </Box>{" "}
+              </Box>
+              <Box sx={{ gridArea: "posts" }}>
+                <Box display= "inline-block">
+                  <BoxTitle title="Posts" />
+                </Box>
+                <Box sx={{ bgcolor: "secondary.main" }}>
+                  <CoursePost />
+                </Box>{" "}
+              </Box>
+              <Box sx={{ gridArea: "reviews" }}>
+                <BoxTitle title="Reviews" />
+                <Box sx={{ bgcolor: "secondary.main" }}>
+                  <Reviews/>
+                </Box>{" "}
+              </Box>
+              <Box position="absolute" bottom="0px" right="0px">
+                <BasicSpeedDial
+                  communityId= {communityId} />
+              </Box>{" "}
             </Box>
-            <Box sx={{ bgcolor: "secondary.main" }}>
-              <CoursePost />
-            </Box>{" "}
-          </Box>
-          <Box sx={{ gridArea: "reviews" }}>
-            <BoxTitle title="Reviews" />
-            <Box sx={{ bgcolor: "secondary.main" }}>
-              <Reviews />
-            </Box>{" "}
-          </Box>
-          <Box position="absolute" bottom="0px" right="0px">
-            <BasicSpeedDial />
-          </Box>{" "}
-        </Box>
       </Box>
     </Layout>
   );
