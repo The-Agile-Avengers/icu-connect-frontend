@@ -1,21 +1,19 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
 
 import ReviewItem from './ReviewItem';
 import { UserModel } from '../../Models/UserModel';
 
 
-const Item = styled(Paper)(({ theme }) => ({
+/*const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
+*/
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
@@ -28,8 +26,6 @@ const userExample: UserModel={
 
 
 export default function Reviews() {
-  const postTitle ="I have a question"
-  const lables = "This is my question"
   
   return (
     <Box

@@ -11,8 +11,6 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const imgLink =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 export interface ReviewValues {
     account: UserModel,
@@ -60,7 +58,7 @@ const customIconsTeaching: {
       },
     };
     
-const StyledRatingWorkload = styled(Rating)(({ theme }) => ({
+const StyledRatingWorkload = styled(Rating)(( ) => ({
   '& .MuiRating-iconFilled': {
     color: '#ff6d75',
   },

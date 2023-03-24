@@ -3,61 +3,12 @@ import Box from "@mui/material/Box";
 import { BoxTitle, PageTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import Layout from "../components/shared/Layout";
-import { Grid, IconButton, IconContainerProps, Paper, Rating, TextField } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import { Grid, IconButton, Paper,  TextField } from "@mui/material";
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from "react-router-dom";
 
 
-function IconContainer(props: IconContainerProps) {
-  const { value, ...other } = props;
-  return <span {...other}>{customIconsTeaching[value].icon}</span>;
-}
-   
-const StyledRatingTeaching = styled(Rating)(({ theme }) => ({
-  '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
-    color: theme.palette.action.disabled,
-  },
-}));
-const customIconsTeaching: {
-        [index: string]: {
-          icon: React.ReactElement;
-          label: string;
-        };
-      } = {
-        1: {
-          icon: <SentimentVeryDissatisfiedIcon color="error" />,
-          label: 'Very Dissatisfied',
-        },
-        2: {
-          icon: <SentimentDissatisfiedIcon color="error" />,
-          label: 'Dissatisfied',
-        },
-        3: {
-          icon: <SentimentSatisfiedIcon color="warning" />,
-          label: 'Neutral',
-        },
-        4: {
-          icon: <SentimentSatisfiedAltIcon color="success" />,
-          label: 'Satisfied',
-        },
-        5: {
-          icon: <SentimentVerySatisfiedIcon color="success" />,
-          label: 'Very Satisfied',
-        },
-      };
-      
-const StyledRatingWorkload = styled(Rating)(({ theme }) => ({
-  '& .MuiRating-iconFilled': {
-    color: '#ff6d75',
-  },
-}));
 
 export default function CourseReviewForm() {
   const navigate = useNavigate();

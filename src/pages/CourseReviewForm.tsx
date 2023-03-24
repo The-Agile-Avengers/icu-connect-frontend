@@ -55,7 +55,7 @@ const customIconsTeaching: {
         },
       };
       
-const StyledRatingWorkload = styled(Rating)(({ theme }) => ({
+const StyledRatingWorkload = styled(Rating)(( ) => ({
   '& .MuiRating-iconFilled': {
     color: '#ff6d75',
   },
