@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { BoxTitle, PageTitle } from "../design/typography";
+import { BoxTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import { Grid, IconButton, IconContainerProps, Paper, Rating, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
@@ -16,6 +16,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
+import Layout from "../components/shared/Layout";
 
 function IconContainer(props: IconContainerProps) {
   const { value, ...other } = props;
@@ -77,12 +78,12 @@ export default function CourseReviewForm() {
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);  
 
   const params = useParams();
-  const communityId = params.id
+  const communityId = params.id?.toString();
   console.log(params.id);
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate('/coursePage/'+communityId);
+    navigate('/coursePage/'+ communityId);
   }
 
   const { handleSubmit } = useForm<ReviewForm>({
@@ -90,13 +91,13 @@ export default function CourseReviewForm() {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
+  const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
     console.log(formData);
     api
-      .post("/communities/"+{communityId}+"/ratings", formData)
+      .post("/communities/"+communityId+"/ratings", formData)
       .then((response) => {
         console.log(response.data);
-        navigate("/coursePage"+{communityId});
+        navigate("/coursePage"+communityId);
       })
       .catch((error) => {
         console.log(error);
@@ -185,30 +186,30 @@ const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
                               setRatingTeaching(newValueTeaching);
                             }}
                           />
-                            <Typography component="legend"><b>Workload</b></Typography>
+                          <Typography component="legend"><b>Workload</b></Typography>
 
-                            <Rating
-                              name="simple-controlled"
-                              value={ratingWorkload}
-                              onChange={(event, newValueWorkload) => {
-                                newValueWorkload = newValueWorkload
-                                  ? newValueWorkload
-                                  : 0;
-                                setRatingWorkload(newValueWorkload);
-                              }}
-                            />
-                            <TextField
-                              id="outlined-multiline-static"
-                              label="Text Review"
-                              multiline
-                              rows={4}
-                            />
-                          </div>
+                          <Rating
+                            name="simple-controlled"
+                            value={ratingWorkload}
+                            onChange={(event, newValueWorkload) => {
+                              newValueWorkload = newValueWorkload
+                                ? newValueWorkload
+                                : 0;
+                              setRatingWorkload(newValueWorkload);
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-static"
+                            label="Text Review"
+                            multiline
+                            rows={4}
+                          />
+                        </div>
                         <Button 
-                        variant="contained"
-                        onSubmit={handleSubmit(onSubmit)}
-                         >SUBMIT</Button>
-                    </Grid>
+                          variant="contained"
+                          onSubmit={handleSubmit(onSubmit)}
+                        >SUBMIT</Button>
+                      </Grid>
                     </Grid>
                   </Paper>
                 </div>
