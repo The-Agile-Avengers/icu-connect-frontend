@@ -78,14 +78,16 @@ export default function CourseReviewForm() {
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
   
-  const navigate = useNavigate();
-  function handleClick() {
-    navigate('/coursePage');
-  }
+  
 
   const params = useParams();
   const communityId = params.id
   console.log(params.id);
+
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate('/coursePage/'+communityId);
+  }
 
   const { handleSubmit } = useForm<ReviewForm>({
     mode: "onChange",
@@ -98,7 +100,7 @@ const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
       .post("/communities/"+{communityId}+"/ratings", formData)
       .then((response) => {
         console.log(response.data);
-        navigate("/coursePage");
+        navigate("/coursePage"+{communityId});
       })
       .catch((error) => {
         console.log(error);
@@ -106,7 +108,7 @@ const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
   };
 
   return (
-    <Layout>
+    <Layout title="Course Page: Advanced Software Systems">
       <Box sx={{ display: "flex" }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1, p: 4, heigth: "100%" }}>
@@ -134,10 +136,6 @@ const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
               "reviews posts"`,
               }}
             >
-              <Box sx={{ gridArea: "header" }}>
-                <PageTitle title="Course Page: Advanced Software Systems" />
-              </Box>
-              
               <Box sx={{ gridArea: "info" }}>
                 <IconButton aria-label="delete" onClick={handleClick}>
                   <ArrowBackIosIcon />

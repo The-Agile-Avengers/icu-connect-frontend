@@ -7,9 +7,10 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 
+
 const actions = [
-  { icon: <AddCommentIcon />, name: 'New Post' },
-  { icon: <ThumbsUpDownIcon />, name: 'New Rating' }
+  { icon: <AddCommentIcon />, name: "New Post" },
+  { icon: <ThumbsUpDownIcon />, name: "New Rating" },
 ];
 interface BasicSpeedDialProps {
   communityId: string;

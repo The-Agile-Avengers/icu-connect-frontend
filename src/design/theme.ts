@@ -32,11 +32,13 @@ const theme = createTheme({
       fontSize: "3em",
       fontWeight: 600,
       color: "#000000",
+      marginBottom: "0.5em",
     },
     h2: {
       fontSize: "2em",
       fontWeight: 600,
       color: "#000000",
+      marginBottom: "0.5em",
     },
   },
 });

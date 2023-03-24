@@ -18,7 +18,7 @@ export default function CourseReviewForm() {
     
 
   return (
-    <Layout>
+    <Layout title="Course Page: Advanced Software Systems">
       <Box sx={{ display: "flex" }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1, p: 4, heigth: "100%" }}>
@@ -46,10 +46,6 @@ export default function CourseReviewForm() {
               "reviews posts"`,
               }}
             >
-              <Box sx={{ gridArea: "header" }}>
-                <PageTitle title="Course Page: Advanced Software Systems" />
-              </Box>
-              
               <Box sx={{ gridArea: "info" }}>
                 <IconButton aria-label="back" onClick={handleClick}>
                   <ArrowBackIosIcon />
