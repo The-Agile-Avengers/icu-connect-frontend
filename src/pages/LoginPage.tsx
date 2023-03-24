@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import LayoutSignUp from "../components/shared/Layout-SignUp";
+import LayoutSignUp from "../components/shared/LayoutSignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
