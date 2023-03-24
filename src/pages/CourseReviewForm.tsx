@@ -14,7 +14,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { api } from "../utils/api";
 
 
 function IconContainer(props: IconContainerProps) {
@@ -61,6 +63,16 @@ const StyledRatingWorkload = styled(Rating)(( ) => ({
   },
 }));
 
+type ReviewForm = {
+    ratingContent: number;
+    ratingTeaching:number;
+    ratingWorkload: number;
+  };
+
+
+
+
+
 export default function CourseReviewForm() {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
@@ -70,6 +82,28 @@ export default function CourseReviewForm() {
   function handleClick() {
     navigate('/coursePage');
   }
+
+  const params = useParams();
+  const communityId = params.id
+  console.log(params.id);
+
+  const { handleSubmit } = useForm<ReviewForm>({
+    mode: "onChange",
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
+    console.log(formData);
+    api
+      .post("/communities/"+{communityId}+"/ratings", formData)
+      .then((response) => {
+        console.log(response.data);
+        navigate("/coursePage");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Layout>
@@ -141,7 +175,6 @@ export default function CourseReviewForm() {
                               setRatingTeaching(newValueTeaching);
                             }}
                           />
-                          <div style={{display:"block"}}>
                             <Typography component="legend"><b>Workload</b></Typography>
                             <Rating
                               name="simple-controlled"
@@ -158,10 +191,10 @@ export default function CourseReviewForm() {
                               rows={4}
                             />
                           </div>
-                    
-                          
-                        </div>
-                        <Button variant="contained" >SUBMIT</Button>
+                        <Button 
+                        variant="contained"
+                        onSubmit={handleSubmit(onSubmit)}
+                         >SUBMIT</Button>
                         
                       </Grid>
                     </Grid>

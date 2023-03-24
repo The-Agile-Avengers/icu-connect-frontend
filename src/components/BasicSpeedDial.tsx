@@ -11,16 +11,20 @@ const actions = [
   { icon: <AddCommentIcon />, name: 'New Post' },
   { icon: <ThumbsUpDownIcon />, name: 'New Rating' }
 ];
+interface BasicSpeedDialProps {
+  communityId: string;
+}
 
-export default function BasicSpeedDial() {
+export default function BasicSpeedDial(props: BasicSpeedDialProps) {
   const navigate = useNavigate();
+  const communityId = props.communityId;
 
   function handleClick(name:string) {
     if (name === 'New Post') {
       const path = `/postForm`;
       navigate(path);
     } else if (name === 'New Rating') {
-      const path = `/reviewForm`;
+      const path = `/reviewForm/`+ communityId;
       navigate(path);
     }
   }

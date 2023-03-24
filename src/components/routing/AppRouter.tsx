@@ -15,9 +15,9 @@ const AppRouter = () => (
         /* User is logged in */
         <>
           <Route index path="/" element={<MyCommunitiesPage />} />
-          <Route index path="/coursepage" element={<CoursePage />} />
-          <Route index path="/reviewForm" element={<CourseReviewForm />} />
-          <Route index path="/postForm" element={<CoursePostForm />} />
+          <Route index path="/coursepage/:id" element={<CoursePage />} />
+          <Route index path="/reviewForm/:id" element={<CourseReviewForm />} />
+          <Route index path="/postForm/" element={<CoursePostForm />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>

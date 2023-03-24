@@ -7,8 +7,21 @@ import CourseInfo from "../components/CoursePage/CourseInfo";
 import CoursePost from "../components/CoursePage/CoursePost";
 import BasicSpeedDial from "../components/BasicSpeedDial";
 import Reviews from "../components/CoursePage/Reviews";
+import { useParams } from "react-router-dom";
+
+
+
 
 export default function CoursePage() {
+
+  const params = useParams();
+  const communityId = params.id ? params.id:"wrong";
+  console.log(params.id);
+
+
+
+
+
   return (
     <Layout>
       <Box sx={{ display: "flex" }}>
@@ -63,7 +76,8 @@ export default function CoursePage() {
                 </Box>{" "}
               </Box>
               <Box position="absolute" bottom="0px" right="0px">
-                <BasicSpeedDial/>
+                <BasicSpeedDial
+                  communityId= {communityId} />
               </Box>{" "}
             </Box>
           </Box>
