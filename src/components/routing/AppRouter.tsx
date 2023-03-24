@@ -6,6 +6,8 @@ import MyCommunitiesPage from "../../pages/MyCommunitiesPage";
 import SearchPage from "../../pages/SearchPage";
 import SignUpPage from "../../pages/SignUpPage";
 import { isLoggedIn } from "../../utils/utils";
+import CourseReviewForm from "../../pages/CourseReviewForm";
+import CoursePostForm from "../../pages/CoursePostForm";
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -15,7 +17,8 @@ const AppRouter = () => (
         <>
           <Route index path="/" element={<MyCommunitiesPage />} />
           <Route index path="/coursepage" element={<CoursePage />} />
-          <Route index path="/search" element={<SearchPage />} />
+          <Route index path="/reviewForm" element={<CourseReviewForm />} />
+          <Route index path="/postForm" element={<CoursePostForm />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>

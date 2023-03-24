@@ -44,7 +44,7 @@ const customIconsTeaching: {
     },
   };
   
-const StyledRatingWorkload = styled(Rating)(({ theme }) => ({
+const StyledRatingWorkload = styled(Rating)(( ) => ({
   '& .MuiRating-iconFilled': {
     color: '#ff6d75',
   },
@@ -56,9 +56,9 @@ function IconContainer(props: IconContainerProps) {
 }
 
 export default function CourseInfo() {
-  const [valueContent, setValueContent] = React.useState<number | null>(3);
-  const [valueTeaching, setValueTeaching] = React.useState<number | null>(4);
-  const [valueWorkload, setValueWorkload] = React.useState<number | null>(5);
+  const [valueContent ] = React.useState<number | null>(3);
+  const [valueTeaching ] = React.useState<number | null>(4);
+  const [valueWorkload ] = React.useState<number | null>(5);
   const courseName = "Advanced Software Engineering (L+E)";
   const courseNumber ="03SM22MI0026";
   const ects = 6;
