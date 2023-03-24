@@ -2,7 +2,6 @@ import React from "react";
 
 import { Avatar, Grid, IconContainerProps, Paper, Rating, Typography } from "@mui/material";
 import { UserModel } from "../../Models/UserModel";
-import CommentIcon from '@mui/icons-material/Comment';
 import { styled } from '@mui/material/styles';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
