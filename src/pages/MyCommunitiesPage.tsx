@@ -1,10 +1,8 @@
 import React from "react";
-import LayoutSignUp from "../components/shared/Layout-SignUp";
+import Layout from "../components/shared/Layout";
 
 const MyCommunitiesPage: React.FC = () => (
-  <LayoutSignUp>
-    <h1>Future My Course Communities Overview Page</h1>
-  </LayoutSignUp>
+  <Layout title="Future My Course Communities" />
 );
 
 export default MyCommunitiesPage;

@@ -6,7 +6,7 @@ import { SvgIconProps } from "@mui/material";
 
 type mainNavbarItemsType = Array<{
   id: number;
-  icon:  React.ReactElement<SvgIconProps>;
+  icon: React.ReactElement<SvgIconProps>;
   label: string;
   route: string;
 }>;
@@ -16,18 +16,18 @@ export const mainNavbarItems: mainNavbarItemsType = [
     id: 0,
     icon: <SearchIcon />,
     label: "Search",
-    route: "search",
+    route: "/search",
   },
   {
     id: 1,
     icon: <PeopleIcon />,
     label: "Courses",
-    route: "courses",
+    route: "/",
   },
   {
     id: 2,
     icon: <QuestionMarkIcon />,
-    label: "XYZ",
-    route: "xyz",
+    label: "Course Page",
+    route: "/coursepage",
   },
 ];

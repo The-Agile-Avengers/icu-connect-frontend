@@ -10,7 +10,7 @@ import { UserModel } from '../../Models/UserModel';
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: 'center',
+  textAlign: "center",
   color: theme.palette.text.secondary,
 }));
 */
@@ -26,15 +26,13 @@ const userExample: UserModel={
 
 
 export default function Reviews() {
-  
   return (
     <Box
       sx={{
-        '& > legend': { mt: 2 },
+        "& > legend": { mt: 2 },
         color: "#000000",
       }}
     >
-      
       <Grid container spacing={2} direction="column">
         <Grid item xs={8}>
           <ReviewItem

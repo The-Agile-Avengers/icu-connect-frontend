@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import CoursePage from "../../pages/CoursePage";
 import LoginPage from "../../pages/LoginPage";
 import MyCommunitiesPage from "../../pages/MyCommunitiesPage";
+import SearchPage from "../../pages/SearchPage";
 import SignUpPage from "../../pages/SignUpPage";
 import { isLoggedIn } from "../../utils/utils";
 import CourseReviewForm from "../../pages/CourseReviewForm";
