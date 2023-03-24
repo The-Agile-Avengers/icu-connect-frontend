@@ -3,22 +3,19 @@ import Box from "@mui/material/Box";
 import { BoxTitle, PageTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import Layout from "../components/shared/Layout";
-import { Grid, IconButton, Paper,  TextField } from "@mui/material";
-import Button from '@mui/material/Button';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Grid, IconButton, Paper, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
-
-
 
 export default function CourseReviewForm() {
   const navigate = useNavigate();
   function handleClick() {
-    navigate('/coursePage');
+    navigate("/coursePage");
   }
-    
 
   return (
-    <Layout>
+    <Layout title="Course Page: Advanced Software Systems">
       <Box sx={{ display: "flex" }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1, p: 4, heigth: "100%" }}>
@@ -46,10 +43,6 @@ export default function CourseReviewForm() {
               "reviews posts"`,
               }}
             >
-              <Box sx={{ gridArea: "header" }}>
-                <PageTitle title="Course Page: Advanced Software Systems" />
-              </Box>
-              
               <Box sx={{ gridArea: "info" }}>
                 <IconButton aria-label="back" onClick={handleClick}>
                   <ArrowBackIosIcon />
@@ -58,10 +51,14 @@ export default function CourseReviewForm() {
                 <div style={{ padding: 14 }}>
                   <Paper style={{ padding: " 20px" }}>
                     <Grid container wrap="nowrap" spacing={2}>
-                      <Grid justifyContent="left" item xs zeroMinWidth >
-                        <div style={{display: "block"}}>
+                      <Grid justifyContent="left" item xs zeroMinWidth>
+                        <div style={{ display: "block" }}>
                           <p>Enter the Post Title: </p>
-                          <TextField id="standard-basic" label="Standard" variant="standard" />
+                          <TextField
+                            id="standard-basic"
+                            label="Standard"
+                            variant="standard"
+                          />
                           <p>Your Post: </p>
                           <TextField
                             id="outlined-multiline-static"
@@ -70,8 +67,7 @@ export default function CourseReviewForm() {
                             rows={4}
                           />
                         </div>
-                        <Button variant="contained" >POST</Button>
-                        
+                        <Button variant="contained">POST</Button>
                       </Grid>
                     </Grid>
                   </Paper>

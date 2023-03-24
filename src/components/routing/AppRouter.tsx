@@ -19,6 +19,7 @@ const AppRouter = () => (
           <Route index path="/coursepage" element={<CoursePage />} />
           <Route index path="/reviewForm" element={<CourseReviewForm />} />
           <Route index path="/postForm" element={<CoursePostForm />} />
+          <Route index path="/search" element={<SearchPage />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>
