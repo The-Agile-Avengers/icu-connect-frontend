@@ -58,33 +58,64 @@ function IconContainer(props: IconContainerProps) {
   return <span {...other}>{customIconsTeaching[value].icon}</span>;
 }
 
-type IInfo = {
-  content: any;
-  pageable: any;
+type GetInfoResponse = {
+  content: Content[];
 };
 
-type GetInfoResponse = {
-  data: IInfo[];
+type Content = {
+  id: number;
+  moduleId: string;
+  name: string;
+  instructor: Instructor;
+  subscribersCount: number;
+  rating: Rating;
+};
+
+type Instructor = {
+  id: number;
+  name: string;
+};
+
+type Rating = {
+  id: number;
+  teaching: number;
+  content: number;
+  workload: number;
+};
+
+const DefaultContent = {
+  id: 0,
+  moduleId: "",
+  name: "",
+  instructor: {
+    id: 0,
+    name: "",
+  },
+  subscribersCount: 0,
+  rating: {
+    id: 0,
+    teaching: 1,
+    content: 1,
+    workload: 1,
+  },
 };
 
 export default function CourseInfo() {
-  const [valueContent] = useState<number | null>(3);
-  const [valueTeaching] = useState<number | null>(4);
-  const [valueWorkload] = useState<number | null>(5);
-  /*const [info, setInfo] = useState<IInfo[] | null>;*/
-  const courseName = "Advanced Software Engineering (L+E)";
-  const courseNumber = "03SM22MI0026";
-  const ects = 6;
-  const teacher = "Harald Gall";
-  const description =
-    "This course has the goal of deepening the knowledge about advanced software engineering practices. The lectures will be complemented by a software project developed in teams. The teams will work by applying most of the software engineering processes presented within the lectures. At the end of the course, the teams will present their project.";
+  const [content, setContent] = useState<Content>(DefaultContent);
+  const [valueContent] = useState<number>(content.rating.content);
+  const [valueTeaching] = useState<number>(content.rating.teaching);
+  const [valueWorkload] = useState<number>(content.rating.workload);
 
   async function getInfo() {
     try {
       // 👇️ const data: GetInfoResponse
-      const { data, status } = await api.get<GetInfoResponse>("/communities");
+      const { data, status } = await api.get<GetInfoResponse>(
+        "/communities?page=0&size=5" //TODO - get data via module_id from url when implemented in BE
+      );
 
-      console.log(JSON.stringify(data, null, 4));
+      console.log(JSON.stringify(data.content[0], null, 4));
+
+      setContent(data.content[0]);
 
       // 👇️ "response status is: 200"
       console.log("response status is: ", status);
@@ -104,7 +135,10 @@ export default function CourseInfo() {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getInfo();
-  });
+  }, []);
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  useEffect(() => {}, [content]);
 
   return (
     <Box
@@ -115,19 +149,13 @@ export default function CourseInfo() {
     >
       <Typography component="legend">
         <b>Course Name: </b>
-        {courseName}
+        {content.name}
       </Typography>
       <Typography component="legend">
-        <b>Number: </b> {courseNumber}
+        <b>Number: </b> {content.moduleId}
       </Typography>
       <Typography component="legend">
-        <b>ECTS: </b> {ects}
-      </Typography>
-      <Typography component="legend">
-        <b>Teacher: </b> {teacher}
-      </Typography>
-      <Typography component="legend">
-        <b>Description:</b> {description}
+        <b>Teacher: </b> {content.instructor.name}
       </Typography>
       <Typography component="legend">
         <b>Course Content</b>

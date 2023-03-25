@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../Models/UserModel";
 import CommentIcon from "@mui/icons-material/Comment";
