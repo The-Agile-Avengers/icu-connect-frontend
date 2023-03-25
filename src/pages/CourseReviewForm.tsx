@@ -56,16 +56,17 @@ const customIconsTeaching: {
   },
 };
 
-const StyledRatingWorkload = styled(Rating)(() => ({
+const StyledRatingContent = styled(Rating)(() => ({
   "& .MuiRating-iconFilled": {
     color: "#ff6d75",
   },
 }));
 
 type ReviewForm = {
-    ratingContent: number;
-    ratingTeaching:number;
-    ratingWorkload: number;
+    content: number;
+    teaching:number;
+    workload: number;
+    text: string;
   };
 
 
@@ -76,31 +77,43 @@ export default function CourseReviewForm() {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);  
+  const [textRating] = React.useState<string>("");
+
+  let reviewObj: ReviewForm={
+    content: ratingContent,
+    teaching: ratingTeaching,
+    workload: ratingWorkload,
+    text: textRating
+  }
+
 
   const params = useParams();
-  const communityId = params.id?.toString();
-  console.log(params.id);
+  const communityId = params.id?  params.id.toString() : "wrong";
+  console.log(typeof params.id);
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate('/coursePage/'+ communityId);
+    navigate('/coursePage/'+ communityId?.toString());
   }
 
-  const { handleSubmit } = useForm<ReviewForm>({
-    mode: "onChange",
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { register, handleSubmit } = useForm<ReviewForm>();
+  
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
-    console.log(formData);
+    reviewObj.text = formData.text;
+    reviewObj= {"content": 5, "teaching": 4, "workload": 4, "text": "adlv"}
+    console.log(typeof reviewObj);
+    
     api
-      .post("/communities/"+communityId+"/ratings", formData)
+      .post("/communities/" + communityId.toString() + "/ratings", reviewObj)
       .then((response) => {
         console.log(response.data);
-        navigate("/coursePage"+communityId);
+        navigate("/coursePage" + communityId?.toString());
+        return "successfull";
       })
       .catch((error) => {
         console.log(error);
+        return "error";
       });
   };
 
@@ -144,71 +157,76 @@ export default function CourseReviewForm() {
                       <Grid justifyContent="left" item xs zeroMinWidth>
                         <div style={{ display: "block" }}>
                           <p>Please rate the course: </p>
-                          <Typography component="legend">
-                            <b>Course Content</b>
-                          </Typography>
-                          <StyledRatingWorkload
-                            name="customized-color"
-                            value={ratingContent}
-                            getLabelText={(ratingContent: number) =>
-                              `${ratingContent} Heart${
-                                ratingContent !== 1 ? "s" : ""
-                              }`
-                            }
-                            precision={1}
-                            icon={<FavoriteIcon fontSize="inherit" />}
-                            emptyIcon={
-                              <FavoriteBorderIcon fontSize="inherit" />
-                            }
-                            onChange={(event, newValueContent) => {
-                              newValueContent = newValueContent
-                                ? newValueContent
-                                : 0;
-                              setRatingContent(newValueContent);
-                            }}
-                          />
+                          <form 
+                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                            onSubmit={handleSubmit(onSubmit)}>
+                            <Typography component="legend">
+                              <b>Course Content</b>
+                            </Typography>
+                            <StyledRatingContent
+                              name="customized-color"
+                              value={ratingContent}
+                              getLabelText={(ratingContent: number) =>
+                                `${ratingContent} Heart${
+                                  ratingContent !== 1 ? "s" : ""
+                                }`
+                              }
+                              precision={1}
+                              icon={<FavoriteIcon fontSize="inherit" />}
+                              emptyIcon={
+                                <FavoriteBorderIcon fontSize="inherit" />
+                              }
+                              onChange={(event, newValueContent) => {
+                                newValueContent = newValueContent
+                                  ? newValueContent
+                                  : 0;
+                                setRatingContent(newValueContent);
+                              }}
+                            />
+                            <Typography component="legend">
+                              <b>Teaching</b>
+                            </Typography>
+                            <StyledRatingTeaching
+                              name="highlight-selected-only"
+                              value={ratingTeaching}
+                              IconContainerComponent={IconContainer}
+                              getLabelText={(value: number) =>
+                                customIconsTeaching[value].label
+                              }
+                              highlightSelectedOnly
+                              onChange={(event, newValueTeaching) => {
+                                newValueTeaching = newValueTeaching
+                                  ? newValueTeaching
+                                  : 0;
+                                setRatingTeaching(newValueTeaching);
+                              }}
+                            />
+                            <Typography component="legend"><b>Workload</b></Typography>
 
-                          <Typography component="legend">
-                            <b>Teaching</b>
-                          </Typography>
-                          <StyledRatingTeaching
-                            name="highlight-selected-only"
-                            value={ratingTeaching}
-                            IconContainerComponent={IconContainer}
-                            getLabelText={(value: number) =>
-                              customIconsTeaching[value].label
-                            }
-                            highlightSelectedOnly
-                            onChange={(event, newValueTeaching) => {
-                              newValueTeaching = newValueTeaching
-                                ? newValueTeaching
-                                : 0;
-                              setRatingTeaching(newValueTeaching);
-                            }}
-                          />
-                          <Typography component="legend"><b>Workload</b></Typography>
-
-                          <Rating
-                            name="simple-controlled"
-                            value={ratingWorkload}
-                            onChange={(event, newValueWorkload) => {
-                              newValueWorkload = newValueWorkload
-                                ? newValueWorkload
-                                : 0;
-                              setRatingWorkload(newValueWorkload);
-                            }}
-                          />
-                          <TextField
-                            id="outlined-multiline-static"
-                            label="Text Review"
-                            multiline
-                            rows={4}
-                          />
+                            <Rating
+                              name="simple-controlled"
+                              value={ratingWorkload}
+                              onChange={(event, newValueWorkload) => {
+                                newValueWorkload = newValueWorkload
+                                  ? newValueWorkload
+                                  : 0;
+                                setRatingWorkload(newValueWorkload);
+                              }}
+                            />
+                            <TextField
+                              {...register("text", { required: false })}
+                              margin="normal"
+                              id="textRating"
+                              label="Text Review"
+                              multiline
+                              rows={4}
+                            />
+                            <Button 
+                              variant="contained"
+                              type="submit"
+                            >SUBMIT</Button>
+                          </form>
                         </div>
-                        <Button 
-                          variant="contained"
-                          onSubmit={handleSubmit(onSubmit)}
-                        >SUBMIT</Button>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -221,3 +239,4 @@ export default function CourseReviewForm() {
     </Layout>
   );
 }
+
