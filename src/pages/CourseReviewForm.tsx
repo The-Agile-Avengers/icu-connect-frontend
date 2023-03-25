@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { BoxTitle, PageTitle } from "../design/typography";
+import { BoxTitle } from "../design/typography";
 import Navbar from "../components/Navbar/Navbar";
 import Layout from "../components/shared/Layout";
 import {

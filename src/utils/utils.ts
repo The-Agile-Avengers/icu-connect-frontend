@@ -2,7 +2,7 @@ export function isLoggedIn(): boolean {
   const authToken = localStorage.getItem("AuthToken");
   localStorage.setItem(
     "AuthToken",
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MjMiLCJleHAiOjE2Nzk2OTA0OTYsImlhdCI6MTY3OTY3MjQ5Nn0.c4yyopb9Hwg--HdnH11n8Nt_FusU5BO9--HeghZL9p661QA1gPofbYrK7cD3Ya4xdZohyWZZ8ef0VnG53Gys-g"
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0NyIsImV4cCI6MTY3OTc3NTM1MSwiaWF0IjoxNjc5NzU3MzUxfQ.e_cR0zcwWxEZVfpTckmXqBM597SZfu1-6NH80uuxTM2M_iXeRnhOnQfGiTWyqXUofkXnJWbP6eoOhyVdzgIrDw"
   );
   return !!authToken;
 }
