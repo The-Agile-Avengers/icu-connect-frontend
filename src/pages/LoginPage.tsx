@@ -12,7 +12,7 @@ import LayoutSignUp from "../components/shared/LayoutSignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
-import { Link as RouterLink, redirect, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 type LoginForm = {
   username: string;
@@ -26,19 +26,15 @@ type LoginFormResponseData = {
 };
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-
   const { register, handleSubmit, setError, formState } = useForm<LoginForm>({
     mode: "onChange",
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<LoginForm> = (formData) => {
-    console.log(formData);
     api
       .post("/login", formData)
       .then((response: LoginFormResponseData) => {
-        console.log(response);
         localStorage.setItem("AuthToken", response.data.jwt);
         window.location.reload();
       })
