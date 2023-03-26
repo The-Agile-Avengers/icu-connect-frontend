@@ -15,6 +15,7 @@ import CoursePost from "../components/course/post/CoursePost";
 import CourseReview from "../components/course/review/CourseReview";
 import CourseForm from "../components/course/CourseForm";
 import CoursePostForm from "../components/course/post/CoursePostForm";
+import CourseReviewForm from "../components/course/review/CourseReviewForm";
 
 /* ToDo: Delete Mockup Data */
 const imgLink =
@@ -90,6 +91,7 @@ const CoursePage: React.FC = () => {
                 time="22.3.2023"
               />
             ))}
+          <CourseReviewForm />
         </Box>
       </Box>
     </Layout>

@@ -79,62 +79,60 @@ export default function CourseReview({
   time,
 }: ReviewValues) {
   return (
-    <div style={{ padding: 14 }}>
-      <Paper style={{ padding: "40px 20px" }}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar alt="Remy Sharp" src={account.avatar} />
-          </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div style={{ display: "block" }}>
-                <Typography component="legend">
-                  <b>Course Content</b>
-                </Typography>
-                <StyledRatingWorkload
-                  name="customized-color"
-                  value={ratingContent}
-                  getLabelText={(value: number) =>
-                    `${value} Heart${value !== 1 ? "s" : ""}`
-                  }
-                  precision={0.5}
-                  icon={<FavoriteIcon fontSize="inherit" />}
-                  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-                  readOnly
-                />
-              </div>
-
-              <div style={{ display: "block" }}>
-                <Typography component="legend">
-                  <b>Teaching</b>
-                </Typography>
-                <StyledRatingTeaching
-                  name="highlight-selected-only"
-                  value={ratingTeaching}
-                  IconContainerComponent={IconContainer}
-                  getLabelText={(value: number) =>
-                    customIconsTeaching[value].label
-                  }
-                  highlightSelectedOnly
-                  readOnly
-                />
-              </div>
-              <div style={{ display: "block" }}>
-                <Typography component="legend">
-                  <b>Workload</b>
-                </Typography>
-                <Rating
-                  name="simple-controlled"
-                  value={ratingWorkload}
-                  readOnly
-                />
-              </div>
-            </div>
-            <p style={{ textAlign: "left" }}>{textRating}</p>
-            <p style={{ textAlign: "left", color: "gray" }}>Review: {time}</p>
-          </Grid>
+    <Paper style={{ padding: "20px", margin: "20px 0" }}>
+      <Grid container wrap="nowrap" spacing={2}>
+        <Grid item>
+          <Avatar alt="Remy Sharp" src={account.avatar} />
         </Grid>
-      </Paper>
-    </div>
+        <Grid justifyContent="left" item xs zeroMinWidth>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "block" }}>
+              <Typography component="legend">
+                <b>Course Content</b>
+              </Typography>
+              <StyledRatingWorkload
+                name="customized-color"
+                value={ratingContent}
+                getLabelText={(value: number) =>
+                  `${value} Heart${value !== 1 ? "s" : ""}`
+                }
+                precision={0.5}
+                icon={<FavoriteIcon fontSize="inherit" />}
+                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                readOnly
+              />
+            </div>
+
+            <div style={{ display: "block" }}>
+              <Typography component="legend">
+                <b>Teaching</b>
+              </Typography>
+              <StyledRatingTeaching
+                name="highlight-selected-only"
+                value={ratingTeaching}
+                IconContainerComponent={IconContainer}
+                getLabelText={(value: number) =>
+                  customIconsTeaching[value].label
+                }
+                highlightSelectedOnly
+                readOnly
+              />
+            </div>
+            <div style={{ display: "block" }}>
+              <Typography component="legend">
+                <b>Workload</b>
+              </Typography>
+              <Rating
+                name="simple-controlled"
+                value={ratingWorkload}
+                readOnly
+              />
+            </div>
+          </div>
+          <p style={{ textAlign: "left" }}>{textRating}</p>
+          <p style={{ textAlign: "left", color: "gray" }}>Review: {time}</p>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 }

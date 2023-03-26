@@ -18,7 +18,6 @@ export default function CourseReviewForm() {
           id="outlined-multiline-static"
           label="Text Review"
           multiline
-          rows={4}
         />
       </div>
       <Button variant="contained">POST</Button>

@@ -121,127 +121,64 @@ const CourseReviewForm: React.FC = () => {
   };
 
   return (
-    <Layout title="Course Page: Advanced Software Systems">
-      <Box sx={{ display: "flex" }}>
-        <Navbar />
-        <Box component="main" sx={{ flexGrow: 1, p: 4, heigth: "100%" }}>
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              color: "#fff",
-              "& > .MuiBox-root > .MuiBox-root": {
-                p: 1,
-                borderRadius: 2,
-                fontSize: "0.875rem",
-                fontWeight: "700",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: 1,
-                gridTemplateRows: "auto",
-                gridTemplateAreas: `"header header"
-              "info posts"
-              "reviews posts"`,
-              }}
-            >
-              <Box sx={{ gridArea: "info" }}>
-                <IconButton aria-label="delete" onClick={handleClick}>
-                  <ArrowBackIosIcon />
-                </IconButton>
-                <BoxTitle title=" New Review" />
-                <div style={{ padding: 14 }}>
-                  <Paper style={{ padding: " 20px" }}>
-                    <Grid container wrap="nowrap" spacing={2}>
-                      <Grid justifyContent="left" item xs zeroMinWidth>
-                        <div style={{ display: "block" }}>
-                          <p>Please rate the course: </p>
-                          <form
-                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onSubmit={handleSubmit(onSubmit)}
-                          >
-                            <Typography component="legend">
-                              <b>Course Content</b>
-                            </Typography>
-                            <StyledRatingContent
-                              name="customized-color"
-                              value={ratingContent}
-                              getLabelText={(ratingContent: number) =>
-                                `${ratingContent} Heart${
-                                  ratingContent !== 1 ? "s" : ""
-                                }`
-                              }
-                              precision={1}
-                              icon={<FavoriteIcon fontSize="inherit" />}
-                              emptyIcon={
-                                <FavoriteBorderIcon fontSize="inherit" />
-                              }
-                              onChange={(event, newValueContent) => {
-                                newValueContent = newValueContent
-                                  ? newValueContent
-                                  : 0;
-                                setRatingContent(newValueContent);
-                              }}
-                            />
-                            <Typography component="legend">
-                              <b>Teaching</b>
-                            </Typography>
-                            <StyledRatingTeaching
-                              name="highlight-selected-only"
-                              value={ratingTeaching}
-                              IconContainerComponent={IconContainer}
-                              getLabelText={(value: number) =>
-                                customIconsTeaching[value].label
-                              }
-                              highlightSelectedOnly
-                              onChange={(event, newValueTeaching) => {
-                                newValueTeaching = newValueTeaching
-                                  ? newValueTeaching
-                                  : 0;
-                                setRatingTeaching(newValueTeaching);
-                              }}
-                            />
-                            <Typography component="legend">
-                              <b>Workload</b>
-                            </Typography>
+    <Paper style={{ padding: "20px" }}>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Rate Course
+      </Typography>
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Typography sx={{ fontWeight: "bold" }}>Course Content</Typography>
+        <StyledRatingContent
+          name="customized-color"
+          value={ratingContent}
+          getLabelText={(ratingContent: number) =>
+            `${ratingContent} Heart${ratingContent !== 1 ? "s" : ""}`
+          }
+          precision={1}
+          icon={<FavoriteIcon fontSize="inherit" />}
+          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+          onChange={(event, newValueContent) => {
+            newValueContent = newValueContent ? newValueContent : 0;
+            setRatingContent(newValueContent);
+          }}
+        />
+        <Typography sx={{ fontWeight: "bold" }}>Teaching</Typography>
+        <StyledRatingTeaching
+          name="highlight-selected-only"
+          value={ratingTeaching}
+          IconContainerComponent={IconContainer}
+          getLabelText={(value: number) => customIconsTeaching[value].label}
+          highlightSelectedOnly
+          onChange={(event, newValueTeaching) => {
+            newValueTeaching = newValueTeaching ? newValueTeaching : 0;
+            setRatingTeaching(newValueTeaching);
+          }}
+        />
+        <Typography sx={{ fontWeight: "bold" }}>Workload</Typography>
 
-                            <Rating
-                              name="simple-controlled"
-                              value={ratingWorkload}
-                              onChange={(event, newValueWorkload) => {
-                                newValueWorkload = newValueWorkload
-                                  ? newValueWorkload
-                                  : 0;
-                                setRatingWorkload(newValueWorkload);
-                              }}
-                            />
-                            <TextField
-                              {...register("text", { required: false })}
-                              margin="normal"
-                              id="textRating"
-                              label="Text Review"
-                              multiline
-                              rows={4}
-                            />
-                            <Button variant="contained" type="submit">
-                              SUBMIT
-                            </Button>
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                </div>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Layout>
+        <Rating
+          name="simple-controlled"
+          value={ratingWorkload}
+          onChange={(event, newValueWorkload) => {
+            newValueWorkload = newValueWorkload ? newValueWorkload : 0;
+            setRatingWorkload(newValueWorkload);
+          }}
+        />
+        <TextField
+          {...register("text", { required: false })}
+          margin="normal"
+          id="textRating"
+          label="Text Review"
+          multiline
+          sx={{ width: "100%", mb: 2 }}
+        />
+        <Button variant="contained" type="submit">
+          SUBMIT
+        </Button>
+      </form>
+    </Paper>
   );
 };
 
