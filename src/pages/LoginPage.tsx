@@ -12,16 +12,14 @@ import LayoutSignUp from "../components/shared/LayoutSignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 type LoginForm = {
-  email: string;
+  username: string;
   password: string;
 };
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-
   const { register, handleSubmit, setError } = useForm<LoginForm>({
     mode: "onChange",
   });
@@ -30,14 +28,15 @@ const LoginPage: React.FC = () => {
   const onSubmit: SubmitHandler<LoginForm> = (formData) => {
     console.log(formData);
     api
-      .post("/users", formData)
+      .post("/login", formData)
       .then((response) => {
-        localStorage.setItem("AuthToken", JSON.stringify(response.data));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+        localStorage.setItem("AuthToken", response.data.jwt);
         console.log(response.data);
-        navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
-        setError("email", { type: "focus" });
+        setError("username", { type: "focus" });
         setError("password", { type: "focus" });
         console.log(error);
       });
@@ -67,13 +66,13 @@ const LoginPage: React.FC = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              {...register("email", { required: true })}
+              {...register("username", { required: true })}
               required
               margin="normal"
               fullWidth
-              id="email"
-              label="Email Address"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
