@@ -12,32 +12,34 @@ import LayoutSignUp from "../components/shared/LayoutSignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 type LoginForm = {
-  email: string;
+  username: string;
   password: string;
 };
 
-const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
+type LoginFormResponseData = {
+  data: {
+    jwt: string;
+  };
+};
 
-  const { register, handleSubmit, setError } = useForm<LoginForm>({
+const LoginPage: React.FC = () => {
+  const { register, handleSubmit, setError, formState } = useForm<LoginForm>({
     mode: "onChange",
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<LoginForm> = (formData) => {
-    console.log(formData);
     api
-      .post("/users", formData)
-      .then((response) => {
-        localStorage.setItem("AuthToken", JSON.stringify(response.data));
-        console.log(response.data);
-        navigate("/");
+      .post("/login", formData)
+      .then((response: LoginFormResponseData) => {
+        localStorage.setItem("AuthToken", response.data.jwt);
+        window.location.reload();
       })
       .catch((error) => {
-        setError("email", { type: "focus" });
+        setError("username", { type: "focus" });
         setError("password", { type: "focus" });
         console.log(error);
       });
@@ -67,13 +69,13 @@ const LoginPage: React.FC = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              {...register("email", { required: true })}
+              {...register("username", { required: true })}
               required
               margin="normal"
               fullWidth
-              id="email"
-              label="Email Address"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -95,6 +97,7 @@ const LoginPage: React.FC = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!formState.isValid}
             >
               Login
             </Button>
