@@ -6,8 +6,6 @@ import MyCommunitiesPage from "../../pages/MyCommunitiesPage";
 import SearchPage from "../../pages/SearchPage";
 import SignUpPage from "../../pages/SignUpPage";
 import { isLoggedIn } from "../../utils/utils";
-import CourseReviewForm from "../course/review/CourseReviewForm";
-import CoursePostForm from "../course/post/CoursePostForm";
 
 const AppRouter = () => (
   <BrowserRouter>
