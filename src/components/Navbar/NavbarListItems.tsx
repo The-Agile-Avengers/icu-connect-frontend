@@ -28,6 +28,6 @@ export const mainNavbarItems: mainNavbarItemsType = [
     id: 2,
     icon: <QuestionMarkIcon />,
     label: "Course Page",
-    route: "/coursepage",
+    route: "/course",
   },
 ];
