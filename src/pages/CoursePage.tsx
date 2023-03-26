@@ -1,78 +1,96 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import { BoxTitle } from "../design/typography";
+import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
-import CourseInfo from "../components/CoursePage/CourseInfo";
-import CoursePost from "../components/CoursePage/CoursePost";
-import BasicSpeedDial from "../components/BasicSpeedDial";
-import Reviews from "../components/CoursePage/Reviews";
+import CourseInfo from "../components/course/CourseInfo";
 import { useParams } from "react-router-dom";
+import {
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { UserModel } from "../Models/UserModel";
+import CoursePost from "../components/course/CoursePost";
+import CourseReview from "../components/course/CourseReview";
 
+/* ToDo: Delete Mockup Data */
+const imgLink =
+  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
+const userExample: UserModel = {
+  id: 1,
+  name: "Test User",
+  email: "testUser@uzh.ch",
+  avatar: imgLink,
+};
 
+type CoursePageParams = {
+  id: string;
+};
 
-export default function CoursePage() {
-
-  const params = useParams();
-  const communityId = params.id ? params.id:"wrong";
-  console.log(params.id);
-
-
-
-
+const CoursePage: React.FC = () => {
+  const { id } = useParams<CoursePageParams>();
 
   return (
-    <Layout title="Course Page">
-      <Box
-        sx={{
-          width: "100%",
-          height: "100%",
-          color: "#fff",
-          "& > .MuiBox-root > .MuiBox-root": {
-            p: 1,
-            borderRadius: 2,
-            fontSize: "0.875rem",
-            fontWeight: "700",
-          },
-        }}
-      >
+    <Layout>
+      <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography variant="h1" sx={{ mb: 0 }}>
+            Advanced Software Engineering (L+E)
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <CourseInfo />
+        </AccordionDetails>
+      </Accordion>
+
+      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
         <Box
+          title="Posts"
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: 1,
-            gridTemplateRows: "auto",
-            gridTemplateAreas: `"header header"
-              "info posts"
-              "reviews posts"`
+            bgcolor: "secondary.main",
+            p: 3,
+            flex: "1 0 500px",
           }}
         >
-          <Box sx={{ gridArea: "info" }}>
-            <BoxTitle title="Info" />
-            <Box sx={{ bgcolor: "secondary.main" }}>.
-              <CourseInfo/>
-            </Box>{" "}
-          </Box>
-          <Box sx={{ gridArea: "posts" }}>
-            <Box display= "inline-block">
-              <BoxTitle title="Posts" />
-            </Box>
-            <Box sx={{ bgcolor: "secondary.main" }}>
-              <CoursePost />
-            </Box>{" "}
-          </Box>
-          <Box sx={{ gridArea: "reviews" }}>
-            <BoxTitle title="Reviews" />
-            <Box sx={{ bgcolor: "secondary.main" }}>
-              <Reviews/>
-            </Box>{" "}
-          </Box>
-          <Box position="absolute" bottom="0px" right="0px">
-            <BasicSpeedDial
-              communityId= {communityId} />
-          </Box>{" "}
+          {Array(3)
+            .fill(1)
+            .map((i: number) => (
+              <CoursePost
+                key={i}
+                account={userExample}
+                title="I have a question"
+                postText="This is my question"
+                time="6 minutes"
+              />
+            ))}
+        </Box>
+        <Box
+          title="Reviews"
+          sx={{ bgcolor: "secondary.main", p: 3, flex: "1 0 500px" }}
+        >
+          {Array(3)
+            .fill(1)
+            .map((i: number) => (
+              <CourseReview
+                key={i}
+                account={userExample}
+                ratingContent={5}
+                ratingTeaching={2}
+                ratingWorkload={4}
+                textRating="I did like to course, but it was a difficult course."
+                time="22.3.2023"
+              />
+            ))}
         </Box>
       </Box>
     </Layout>
   );
-}
+};
+
+export default CoursePage;

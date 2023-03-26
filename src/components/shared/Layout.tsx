@@ -7,7 +7,7 @@ import { PageTitle } from "../../design/typography";
 
 interface IProps {
   children?: React.ReactNode;
-  title: string;
+  title?: string;
 }
 
 export type { IProps };
@@ -18,7 +18,7 @@ const Layout: React.FC<IProps> = ({ children, title }: IProps) => (
       <Navbar />
       <CssBaseline />
       <Box sx={{ display: "flex", flexDirection: "column", p: 3 }}>
-        <PageTitle title={title} />
+        {title && <PageTitle title={title} />}
         <Box
           component="main"
           sx={{

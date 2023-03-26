@@ -11,7 +11,12 @@ export interface PostValues {
   time: string;
 }
 
-export default function Post({ account, title, postText, time }: PostValues) {
+export default function CoursePost({
+  account,
+  title,
+  postText,
+  time,
+}: PostValues) {
   return (
     <div style={{ padding: 14 }}>
       <Paper style={{ padding: "40px 20px" }}>
