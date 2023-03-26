@@ -1,12 +1,10 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import { BoxTitle } from "../../design/typography";
-import Navbar from "../navbar/Navbar";
-import { Grid, IconButton, Paper } from "@mui/material";
-import Button from "@mui/material/Button";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { Grid, IconButton, Paper } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../shared/Layout";
+import { BoxTitle } from "../../design/typography";
 
 /*type NewCourseForm = {
     content: number;

@@ -16,7 +16,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/api";
 
 function IconContainer(props: IconContainerProps) {
