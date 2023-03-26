@@ -23,3 +23,7 @@ npm start
 - Eslint & Prettier
 - SonarCloud
 - Github Actions
+
+## Contributors
+
+- The Agile Avengers
