@@ -16,7 +16,6 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { api } from "../../../utils/api";
 
 function IconContainer(props: IconContainerProps) {
@@ -80,29 +79,31 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
-  const [textRating] = React.useState<string>("");
+  const [textRating, setTextRating] = React.useState<string>("");
 
-  let reviewObj: ReviewForm = {
+  const reviewObj: ReviewForm = {
     content: ratingContent,
     teaching: ratingTeaching,
     workload: ratingWorkload,
     text: textRating,
   };
 
-  const { register, handleSubmit } = useForm<ReviewForm>();
-  const navigate = useNavigate();
+  const { register, handleSubmit, reset } = useForm<ReviewForm>();
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
     reviewObj.text = formData.text;
-    reviewObj = { content: 5, teaching: 4, workload: 4, text: "adlv" };
+    //reviewObj = { content: 5, teaching: 4, workload: 4, text: "adlv" };
     console.log(typeof reviewObj);
 
     api
       .post(`/communities/${courseId}/ratings`, reviewObj)
       .then((response) => {
         console.log(response.data);
-        navigate(`/course/${courseId}`);
+        setRatingContent(3)
+        setRatingTeaching(3);
+        setRatingWorkload(3);
+        setTextRating("");
       })
       .catch((error) => {
         console.log(error);
@@ -163,7 +164,15 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
           multiline
           sx={{ width: "100%", mb: 2 }}
         />
-        <Button variant="contained" type="submit">
+        <Button 
+        variant="contained" 
+        type="submit"
+        onClick={() => {
+          reset(formValues => ({
+            ...formValues,
+            text: '',
+          }))
+        }} >
           SUBMIT
         </Button>
       </form>
