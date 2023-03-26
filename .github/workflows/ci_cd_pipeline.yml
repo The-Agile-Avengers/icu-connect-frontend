@@ -28,7 +28,7 @@ jobs:
       - name: Build the app
         run: npm run build
 
-       # Share artifact inside workflow
+        # Share artifact inside workflow
       - name: Share artifact inside workflow
         uses: actions/upload-artifact@v1
         with:
@@ -46,7 +46,7 @@ jobs:
       - name: Run ESLint and Prettier
         run: npm run eslint
       - name: Run Prettier
-          run: npm run prettier
+        run: npm run prettier
 
   sonarcloud:
     needs: build
