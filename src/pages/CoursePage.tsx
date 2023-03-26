@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UserModel } from "../Models/UserModel";
-import CoursePost from "../components/course/CoursePost";
-import CourseReview from "../components/course/CourseReview";
+import CoursePost from "../components/course/post/CoursePost";
+import CourseReview from "../components/course/review/CourseReview";
+import CourseForm from "../components/course/CourseForm";
 
 /* ToDo: Delete Mockup Data */
 const imgLink =
@@ -32,7 +33,7 @@ type CoursePageParams = {
 const CoursePage: React.FC = () => {
   const { id } = useParams<CoursePageParams>();
 
-  return (
+  return id ? (
     <Layout>
       <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
         <AccordionSummary
@@ -89,6 +90,10 @@ const CoursePage: React.FC = () => {
             ))}
         </Box>
       </Box>
+    </Layout>
+  ) : (
+    <Layout>
+      <CourseForm />
     </Layout>
   );
 };

@@ -1,22 +1,30 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { BoxTitle } from "../design/typography";
-import Navbar from "../components/Navbar/Navbar";
-import { Grid, IconButton, IconContainerProps, Paper, Rating, TextField, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Button from '@mui/material/Button';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { BoxTitle } from "../../../design/typography";
+import Navbar from "../../navbar/Navbar";
+import {
+  Grid,
+  IconButton,
+  IconContainerProps,
+  Paper,
+  Rating,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Button from "@mui/material/Button";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { api } from "../utils/api";
-import Layout from "../components/shared/Layout";
+import { api } from "../../../utils/api";
+import Layout from "../../shared/Layout";
 
 function IconContainer(props: IconContainerProps) {
   const { value, ...other } = props;
@@ -63,47 +71,42 @@ const StyledRatingContent = styled(Rating)(() => ({
 }));
 
 type ReviewForm = {
-    content: number;
-    teaching:number;
-    workload: number;
-    text: string;
-  };
+  content: number;
+  teaching: number;
+  workload: number;
+  text: string;
+};
 
-
-
-
-
-export default function CourseReviewForm() {
+const CourseReviewForm: React.FC = () => {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
-  const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);  
+  const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
   const [textRating] = React.useState<string>("");
 
-  let reviewObj: ReviewForm={
+  let reviewObj: ReviewForm = {
     content: ratingContent,
     teaching: ratingTeaching,
     workload: ratingWorkload,
-    text: textRating
-  }
-
+    text: textRating,
+  };
 
   const params = useParams();
-  const communityId = params.id?  params.id.toString() : "wrong";
+  const communityId = params.id ? params.id.toString() : "wrong";
   console.log(typeof params.id);
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate('/coursePage/'+ communityId?.toString());
+    navigate(`/coursePage/${communityId}`);
   }
 
   const { register, handleSubmit } = useForm<ReviewForm>();
-  
+
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
     reviewObj.text = formData.text;
-    reviewObj= {"content": 5, "teaching": 4, "workload": 4, "text": "adlv"}
+    reviewObj = { content: 5, teaching: 4, workload: 4, text: "adlv" };
     console.log(typeof reviewObj);
-    
+
     api
       .post("/communities/" + communityId.toString() + "/ratings", reviewObj)
       .then((response) => {
@@ -157,9 +160,10 @@ export default function CourseReviewForm() {
                       <Grid justifyContent="left" item xs zeroMinWidth>
                         <div style={{ display: "block" }}>
                           <p>Please rate the course: </p>
-                          <form 
-                          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onSubmit={handleSubmit(onSubmit)}>
+                          <form
+                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                            onSubmit={handleSubmit(onSubmit)}
+                          >
                             <Typography component="legend">
                               <b>Course Content</b>
                             </Typography>
@@ -201,7 +205,9 @@ export default function CourseReviewForm() {
                                 setRatingTeaching(newValueTeaching);
                               }}
                             />
-                            <Typography component="legend"><b>Workload</b></Typography>
+                            <Typography component="legend">
+                              <b>Workload</b>
+                            </Typography>
 
                             <Rating
                               name="simple-controlled"
@@ -221,10 +227,9 @@ export default function CourseReviewForm() {
                               multiline
                               rows={4}
                             />
-                            <Button 
-                              variant="contained"
-                              type="submit"
-                            >SUBMIT</Button>
+                            <Button variant="contained" type="submit">
+                              SUBMIT
+                            </Button>
                           </form>
                         </div>
                       </Grid>
@@ -238,5 +243,6 @@ export default function CourseReviewForm() {
       </Box>
     </Layout>
   );
-}
+};
 
+export default CourseReviewForm;

@@ -8,7 +8,7 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { UserModel } from "../../Models/UserModel";
+import { UserModel } from "../../../Models/UserModel";
 import { styled } from "@mui/material/styles";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
