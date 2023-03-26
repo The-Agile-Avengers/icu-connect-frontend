@@ -65,7 +65,7 @@ const CoursePage: React.FC = () => {
             .fill(1)
             .map((i: number) => (
               <CoursePost
-                key={i}
+                key={`A${i * Math.random()}`}
                 account={userExample}
                 title="I have a question"
                 postText="This is my question"
@@ -82,7 +82,7 @@ const CoursePage: React.FC = () => {
             .fill(1)
             .map((i: number) => (
               <CourseReview
-                key={i}
+                key={`B${i * Math.random()}`}
                 account={userExample}
                 ratingContent={5}
                 ratingTeaching={2}
@@ -91,7 +91,7 @@ const CoursePage: React.FC = () => {
                 time="22.3.2023"
               />
             ))}
-          <CourseReviewForm />
+          <CourseReviewForm courseId={id} />
         </Box>
       </Box>
     </Layout>

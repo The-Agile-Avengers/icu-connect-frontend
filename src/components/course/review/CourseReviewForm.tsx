@@ -1,30 +1,23 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import { BoxTitle } from "../../../design/typography";
-import Navbar from "../../navbar/Navbar";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import {
-  Grid,
-  IconButton,
   IconContainerProps,
   Paper,
   Rating,
   TextField,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useNavigate, useParams } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../utils/api";
-import Layout from "../../shared/Layout";
 
 function IconContainer(props: IconContainerProps) {
   const { value, ...other } = props;
@@ -77,7 +70,13 @@ type ReviewForm = {
   text: string;
 };
 
-const CourseReviewForm: React.FC = () => {
+interface CourseReviewFormProps {
+  courseId: string;
+}
+
+const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
+  courseId,
+}: CourseReviewFormProps) => {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
@@ -90,16 +89,8 @@ const CourseReviewForm: React.FC = () => {
     text: textRating,
   };
 
-  const params = useParams();
-  const communityId = params.id ? params.id.toString() : "wrong";
-  console.log(typeof params.id);
-
-  const navigate = useNavigate();
-  function handleClick() {
-    navigate(`/coursePage/${communityId}`);
-  }
-
   const { register, handleSubmit } = useForm<ReviewForm>();
+  const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
@@ -108,15 +99,13 @@ const CourseReviewForm: React.FC = () => {
     console.log(typeof reviewObj);
 
     api
-      .post("/communities/" + communityId.toString() + "/ratings", reviewObj)
+      .post(`/communities/${courseId}/ratings`, reviewObj)
       .then((response) => {
         console.log(response.data);
-        navigate("/coursePage" + communityId?.toString());
-        return "successfull";
+        navigate(`/course/${courseId}`);
       })
       .catch((error) => {
         console.log(error);
-        return "error";
       });
   };
 
