@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Layout from "../components/shared/Layout";
+import LayoutSignUp from "../components/shared/LayoutSignUp";
 import Copyright from "../components/shared/Copyright";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../utils/api";
@@ -53,7 +53,7 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <LayoutSignUp>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -160,7 +160,7 @@ const SignUpPage: React.FC = () => {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </Layout>
+    </LayoutSignUp>
   );
 };
 

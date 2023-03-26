@@ -1,17 +1,36 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
 import theme from "../../design/theme";
-import { IProps } from "../../utils/types";
+import Navbar from "../navbar/Navbar";
+import Box from "@mui/material/Box";
+import { PageTitle } from "../../design/typography";
 
-const Layout: React.FC<IProps> = ({ children }: IProps) => (
+interface IProps {
+  children?: React.ReactNode;
+  title?: string;
+}
+
+export type { IProps };
+
+const Layout: React.FC<IProps> = ({ children, title }: IProps) => (
   <ThemeProvider theme={theme}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-    <CssBaseline />
-    {children}
+    <Box sx={{ display: "flex" }}>
+      <Navbar />
+      <CssBaseline />
+      <Box sx={{ display: "flex", flexDirection: "column", p: 3 }}>
+        {title && <PageTitle title={title} />}
+        <Box
+          component="main"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {children}
+        </Box>
+      </Box>
+    </Box>
   </ThemeProvider>
 );
 
-/*
- * Don't forget to export your component!
- */
 export default Layout;

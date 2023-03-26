@@ -1,61 +1,105 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import { BoxTitle, PageTitle } from "../design/typography";
+import Box from "../components/shared/Box";
+import Layout from "../components/shared/Layout";
+import CourseInfo from "../components/course/CourseInfo";
+import { useParams } from "react-router-dom";
+import {
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { UserModel } from "../Models/UserModel";
+import CoursePost from "../components/course/post/CoursePost";
+import CourseReview from "../components/course/review/CourseReview";
+import CourseForm from "../components/course/CourseForm";
+import CoursePostForm from "../components/course/post/CoursePostForm";
+import CourseReviewForm from "../components/course/review/CourseReviewForm";
 
+/* ToDo: Delete Mockup Data */
+const imgLink =
+  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
-export default function CoursePage() {
-  return (
-    <Box component="main" sx={{ flexGrow: 1, p: 4, heigth: "100%" }}>
-      <Box
-        sx={{
-          width: "100%",
-          height: "100%",
-          color: "#fff",
-          "& > .MuiBox-root > .MuiBox-root": {
-            p: 1,
-            borderRadius: 2,
-            fontSize: "0.875rem",
-            fontWeight: "700",
-          },
-        }}
-      >
+const userExample: UserModel = {
+  id: 1,
+  name: "Test User",
+  email: "testUser@uzh.ch",
+  avatar: imgLink,
+};
+
+type CoursePageParams = {
+  id: string;
+};
+
+const CoursePage: React.FC = () => {
+  const { id } = useParams<CoursePageParams>();
+
+  return id ? (
+    <Layout>
+      <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography variant="h1" sx={{ mb: 0 }}>
+            Advanced Software Engineering (L+E)
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <CourseInfo />
+        </AccordionDetails>
+      </Accordion>
+
+      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
         <Box
+          title="Posts"
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: 1,
-            gridTemplateRows: "auto",
-            gridTemplateAreas: `"header header"
-              "info posts"
-              "reviews posts"`,
+            bgcolor: "secondary.main",
+            p: 3,
+            flex: "1 0 500px",
           }}
         >
-          <Box sx={{ gridArea: "header" }}>
-            <PageTitle title="Course Page" />
-          </Box>
-          <Box sx={{ gridArea: "info" }}>
-            <BoxTitle title="Info" />
-            <Box sx={{ bgcolor: "secondary.main" }}>.</Box>{" "}
-            {
-              //TODO - Replace with Info-Box Component
-            }
-          </Box>
-          <Box sx={{ gridArea: "posts" }}>
-            <BoxTitle title="Posts" />
-            <Box sx={{ bgcolor: "secondary.main" }}>.</Box>{" "}
-            {
-              //TODO - Replace with Posts Component
-            }
-          </Box>
-          <Box sx={{ gridArea: "reviews" }}>
-            <BoxTitle title="Reviews" />
-            <Box sx={{ bgcolor: "secondary.main" }}>.</Box>{" "}
-            {
-              //TODO - Replace with Reviews Component
-            }
-          </Box>
+          {Array(3)
+            .fill(1)
+            .map((i: number) => (
+              <CoursePost
+                key={`A${i * Math.random()}`}
+                account={userExample}
+                title="I have a question"
+                postText="This is my question"
+                time="6 minutes"
+              />
+            ))}
+          <CoursePostForm />
+        </Box>
+        <Box
+          title="Reviews"
+          sx={{ bgcolor: "secondary.main", p: 3, flex: "1 0 500px" }}
+        >
+          {Array(3)
+            .fill(1)
+            .map((i: number) => (
+              <CourseReview
+                key={`B${i * Math.random()}`}
+                account={userExample}
+                ratingContent={5}
+                ratingTeaching={2}
+                ratingWorkload={4}
+                textRating="I did like to course, but it was a difficult course."
+                time="22.3.2023"
+              />
+            ))}
+          <CourseReviewForm courseId={id} />
         </Box>
       </Box>
-    </Box>
+    </Layout>
+  ) : (
+    <Layout>
+      <CourseForm />
+    </Layout>
   );
-}
+};
+
+export default CoursePage;

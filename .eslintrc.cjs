@@ -18,6 +18,6 @@ module.exports = {
     "unused-imports/no-unused-imports-ts": 1,
     "arrow-body-style": ["error", "as-needed"],
     "react/self-closing-comp": ["error", { component: true, html: true }],
-    indent: [2, 2],
+    // indent: [2, 2],
   },
 };

@@ -11,10 +11,11 @@ import { mainNavbarItems } from "./NavbarListItems";
 import Avatar from "@mui/material/Avatar";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 const Logo = () => (
-  <Typography variant="h1" sx={{ color: "white", p: 4 }}>
-      ICU
+  <Typography variant="h1" sx={{ color: "white", p: 4, paddingTop: 5.2 }}>
+    ICU
     <span style={{ color: "#21B34B", fontSize: "0.6em" }}> connect</span>
   </Typography>
 );
@@ -43,6 +44,7 @@ const Profile = () => (
 
 const Navbar = () => {
   const drawerWidth = 250;
+  const navigate = useNavigate();
 
   return (
     <Drawer
@@ -63,11 +65,15 @@ const Navbar = () => {
       <Toolbar />
       <Divider />
       <List>
-        {mainNavbarItems.map((text) => (
-          <ListItem key={text.id} disablePadding>
+        {mainNavbarItems.map((item) => (
+          <ListItem
+            key={item.id}
+            disablePadding
+            onClick={() => navigate(item.route)}
+          >
             <ListItemButton>
-              <ListItemIcon sx={{ color: "white" }}>{text.icon}</ListItemIcon>
-              <ListItemText primary={text.label} />
+              <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
