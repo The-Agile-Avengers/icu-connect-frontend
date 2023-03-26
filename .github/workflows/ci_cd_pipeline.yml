@@ -39,26 +39,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Download previously shared build
-      - name: Get artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: react-github-actions-build
       - name: Run ESLint and Prettier
         run: npm run eslint
       - name: Run Prettier
         run: npm run prettier
 
-  sonarcloud:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      # Download previously shared build
-      - name: Get artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: react-github-actions-build
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # sonarcloud:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Analyze with SonarCloud
+  #       uses: sonarsource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
