@@ -170,7 +170,7 @@ const CourseReviewForm: React.FC = () => {
           {...register("text", { required: false })}
           margin="normal"
           id="textRating"
-          label="Text Review"
+          label="Review Text"
           multiline
           sx={{ width: "100%", mb: 2 }}
         />

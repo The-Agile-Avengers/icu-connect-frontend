@@ -16,7 +16,7 @@ export default function CourseReviewForm() {
         <TextField
           sx={{ width: "100%", mb: 2 }}
           id="outlined-multiline-static"
-          label="Text Review"
+          label="Post Text"
           multiline
         />
       </div>
