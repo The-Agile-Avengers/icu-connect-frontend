@@ -1,22 +1,8 @@
 import React from "react";
-
-import {
-  Avatar,
-  Grid,
-  IconContainerProps,
-  Paper,
-  Rating,
-  Typography,
-} from "@mui/material";
+import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../../Models/UserModel";
-import { styled } from "@mui/material/styles";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { RatingContent, RatingTeaching, RatingWorkload } from "../ratingIcons";
+import { Legend } from "../../../design/typography";
 
 export interface ReviewValues {
   account: UserModel;
@@ -26,49 +12,6 @@ export interface ReviewValues {
   textRating: string;
   time: string;
 }
-function IconContainer(props: IconContainerProps) {
-  const { value, ...other } = props;
-  return <span {...other}>{customIconsTeaching[value].icon}</span>;
-}
-
-const StyledRatingTeaching = styled(Rating)(({ theme }) => ({
-  "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
-    color: theme.palette.action.disabled,
-  },
-}));
-const customIconsTeaching: {
-  [index: string]: {
-    icon: React.ReactElement;
-    label: string;
-  };
-} = {
-  1: {
-    icon: <SentimentVeryDissatisfiedIcon color="error" />,
-    label: "Very Dissatisfied",
-  },
-  2: {
-    icon: <SentimentDissatisfiedIcon color="error" />,
-    label: "Dissatisfied",
-  },
-  3: {
-    icon: <SentimentSatisfiedIcon color="warning" />,
-    label: "Neutral",
-  },
-  4: {
-    icon: <SentimentSatisfiedAltIcon color="success" />,
-    label: "Satisfied",
-  },
-  5: {
-    icon: <SentimentVerySatisfiedIcon color="success" />,
-    label: "Very Satisfied",
-  },
-};
-
-const StyledRatingWorkload = styled(Rating)(() => ({
-  "& .MuiRating-iconFilled": {
-    color: "#ff6d75",
-  },
-}));
 
 export default function CourseReview({
   account,
@@ -87,46 +30,16 @@ export default function CourseReview({
         <Grid justifyContent="left" item xs zeroMinWidth>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "block" }}>
-              <Typography component="legend">
-                <b>Course Content</b>
-              </Typography>
-              <StyledRatingWorkload
-                name="customized-color"
-                value={ratingContent}
-                getLabelText={(value: number) =>
-                  `${value} Heart${value !== 1 ? "s" : ""}`
-                }
-                precision={0.5}
-                icon={<FavoriteIcon fontSize="inherit" />}
-                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-                readOnly
-              />
-            </div>
-
-            <div style={{ display: "block" }}>
-              <Typography component="legend">
-                <b>Teaching</b>
-              </Typography>
-              <StyledRatingTeaching
-                name="highlight-selected-only"
-                value={ratingTeaching}
-                IconContainerComponent={IconContainer}
-                getLabelText={(value: number) =>
-                  customIconsTeaching[value].label
-                }
-                highlightSelectedOnly
-                readOnly
-              />
+              <Legend label="Course Content" />
+              <RatingContent value={ratingContent} />
             </div>
             <div style={{ display: "block" }}>
-              <Typography component="legend">
-                <b>Workload</b>
-              </Typography>
-              <Rating
-                name="simple-controlled"
-                value={ratingWorkload}
-                readOnly
-              />
+              <Legend label="Teaching" />
+              <RatingTeaching value={ratingTeaching} />
+            </div>
+            <div style={{ display: "block" }}>
+              <Legend label="Workload" />
+              <RatingWorkload value={ratingWorkload} />
             </div>
           </div>
           <p style={{ textAlign: "left" }}>{textRating}</p>

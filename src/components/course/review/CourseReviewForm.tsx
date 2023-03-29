@@ -1,66 +1,10 @@
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import {
-  IconContainerProps,
-  Paper,
-  Rating,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Paper, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
-
-function IconContainer(props: IconContainerProps) {
-  const { value, ...other } = props;
-  return <span {...other}>{customIconsTeaching[value].icon}</span>;
-}
-
-const StyledRatingTeaching = styled(Rating)(({ theme }) => ({
-  "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
-    color: theme.palette.action.disabled,
-  },
-}));
-const customIconsTeaching: {
-  [index: string]: {
-    icon: React.ReactElement;
-    label: string;
-  };
-} = {
-  1: {
-    icon: <SentimentVeryDissatisfiedIcon color="error" />,
-    label: "Very Dissatisfied",
-  },
-  2: {
-    icon: <SentimentDissatisfiedIcon color="error" />,
-    label: "Dissatisfied",
-  },
-  3: {
-    icon: <SentimentSatisfiedIcon color="warning" />,
-    label: "Neutral",
-  },
-  4: {
-    icon: <SentimentSatisfiedAltIcon color="success" />,
-    label: "Satisfied",
-  },
-  5: {
-    icon: <SentimentVerySatisfiedIcon color="success" />,
-    label: "Very Satisfied",
-  },
-};
-
-const StyledRatingContent = styled(Rating)(() => ({
-  "& .MuiRating-iconFilled": {
-    color: "#ff6d75",
-  },
-}));
+import { RatingTeaching, RatingContent, RatingWorkload } from "../ratingIcons";
 
 type ReviewForm = {
   content: number;
@@ -100,7 +44,7 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
       .post(`/communities/${courseId}/ratings`, reviewObj)
       .then((response) => {
         console.log(response.data);
-        setRatingContent(3)
+        setRatingContent(3);
         setRatingTeaching(3);
         setRatingWorkload(3);
         setTextRating("");
@@ -119,41 +63,28 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Typography sx={{ fontWeight: "bold" }}>Course Content</Typography>
-        <StyledRatingContent
-          name="customized-color"
+        <Legend label="Course Content" />
+        <RatingContent
           value={ratingContent}
-          getLabelText={(ratingContent: number) =>
-            `${ratingContent} Heart${ratingContent !== 1 ? "s" : ""}`
-          }
-          precision={1}
-          icon={<FavoriteIcon fontSize="inherit" />}
-          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-          onChange={(event, newValueContent) => {
-            newValueContent = newValueContent ? newValueContent : 0;
-            setRatingContent(newValueContent);
+          onChange={(event, newValue) => {
+            newValue = newValue ? newValue : 0;
+            setRatingContent(newValue);
           }}
         />
-        <Typography sx={{ fontWeight: "bold" }}>Teaching</Typography>
-        <StyledRatingTeaching
-          name="highlight-selected-only"
+        <Legend label="Teaching" />
+        <RatingTeaching
           value={ratingTeaching}
-          IconContainerComponent={IconContainer}
-          getLabelText={(value: number) => customIconsTeaching[value].label}
-          highlightSelectedOnly
-          onChange={(event, newValueTeaching) => {
-            newValueTeaching = newValueTeaching ? newValueTeaching : 0;
-            setRatingTeaching(newValueTeaching);
+          onChange={(event, newValue) => {
+            newValue = newValue ? newValue : 0;
+            setRatingTeaching(newValue);
           }}
         />
-        <Typography sx={{ fontWeight: "bold" }}>Workload</Typography>
-
-        <Rating
-          name="simple-controlled"
+        <Legend label="Workload" />
+        <RatingWorkload
           value={ratingWorkload}
-          onChange={(event, newValueWorkload) => {
-            newValueWorkload = newValueWorkload ? newValueWorkload : 0;
-            setRatingWorkload(newValueWorkload);
+          onChange={(event, newValue) => {
+            newValue = newValue ? newValue : 0;
+            setRatingWorkload(newValue);
           }}
         />
         <TextField
@@ -164,15 +95,16 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
           multiline
           sx={{ width: "100%", mb: 2 }}
         />
-        <Button 
-        variant="contained" 
-        type="submit"
-        onClick={() => {
-          reset(formValues => ({
-            ...formValues,
-            text: '',
-          }))
-        }} >
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={() => {
+            reset((formValues) => ({
+              ...formValues,
+              text: "",
+            }));
+          }}
+        >
           SUBMIT
         </Button>
       </form>

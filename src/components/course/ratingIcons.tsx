@@ -44,6 +44,8 @@ export const customIconsTeaching: {
 
 type Props = {
   value: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
+  onChange?: (event: any, newValue: number) => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,7 +83,7 @@ export function RatingContent(props: Props): React.ReactElement<any, any> {
       getLabelText={(value: number) =>
         `${value} Heart${value !== 1 ? "s" : ""}`
       }
-      precision={0.5}
+      precision={0.5} //TODO - change to 1?
       icon={<FavoriteIcon fontSize="inherit" />}
       emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
       readOnly
