@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
-import CourseInfo from "../components/course/CourseInfo";
+import CommunityInfo from "../components/course/CommunityInfo";
 import { useParams } from "react-router-dom";
 import {
   Accordion,
@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UserModel } from "../Models/UserModel";
-import CoursePost from "../components/course/post/CoursePost";
-import CourseReview from "../components/course/review/CourseReview";
-import CourseForm from "../components/course/CourseForm";
-import CoursePostForm from "../components/course/post/CoursePostForm";
-import CourseReviewForm from "../components/course/review/CourseReviewForm";
+import CommunityPost from "../components/course/post/CommunityPost";
+import CommunityRating from "../components/course/rating/CommunityRating";
+import CommunityForm from "../components/course/CommunityForm";
+import CommunityPostForm from "../components/course/post/CommunityPostForm";
+import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
 
 /* ToDo: Delete Mockup Data */
 const imgLink =
@@ -28,12 +28,12 @@ const userExample: UserModel = {
   avatar: imgLink,
 };
 
-type CoursePageParams = {
+type CommunityPageParams = {
   id: string;
 };
 
-const CoursePage: React.FC = () => {
-  const { id } = useParams<CoursePageParams>();
+const Community: React.FC = () => {
+  const { id } = useParams<CommunityPageParams>();
 
   return id ? (
     <Layout>
@@ -48,7 +48,7 @@ const CoursePage: React.FC = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CourseInfo />
+          <CommunityInfo />
         </AccordionDetails>
       </Accordion>
 
@@ -64,7 +64,7 @@ const CoursePage: React.FC = () => {
           {Array(3)
             .fill(1)
             .map((i: number) => (
-              <CoursePost
+              <CommunityPost
                 key={`A${i * Math.random()}`}
                 account={userExample}
                 title="I have a question"
@@ -72,34 +72,34 @@ const CoursePage: React.FC = () => {
                 time="6 minutes"
               />
             ))}
-          <CoursePostForm />
+          <CommunityPostForm />
         </Box>
         <Box
-          title="Reviews"
+          title="Ratings"
           sx={{ bgcolor: "secondary.main", p: 3, flex: "1 0 500px" }}
         >
           {Array(3)
             .fill(1)
             .map((i: number) => (
-              <CourseReview
+              <CommunityRating
                 key={`B${i * Math.random()}`}
                 account={userExample}
                 ratingContent={5}
                 ratingTeaching={2}
                 ratingWorkload={4}
-                textRating="I did like to course, but it was a difficult course."
+                textRating="I did like the course, but it was a difficult course."
                 time="22.3.2023"
               />
             ))}
-          <CourseReviewForm courseId={id} />
+          <CommunityRatingForm courseId={id} />
         </Box>
       </Box>
     </Layout>
   ) : (
     <Layout>
-      <CourseForm />
+      <CommunityForm />
     </Layout>
   );
 };
 
-export default CoursePage;
+export default Community;

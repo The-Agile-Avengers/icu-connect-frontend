@@ -6,42 +6,42 @@ import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
 import { RatingTeaching, RatingContent, RatingWorkload } from "../ratingIcons";
 
-type ReviewForm = {
+type RatingForm = {
   content: number;
   teaching: number;
   workload: number;
   text: string;
 };
 
-interface CourseReviewFormProps {
+interface CommunityRatingFormProps {
   courseId: string;
 }
 
-const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
+const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   courseId,
-}: CourseReviewFormProps) => {
+}: CommunityRatingFormProps) => {
   const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
   const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
   const [textRating, setTextRating] = React.useState<string>("");
 
-  const reviewObj: ReviewForm = {
+  const ratingObj: RatingForm = {
     content: ratingContent,
     teaching: ratingTeaching,
     workload: ratingWorkload,
     text: textRating,
   };
 
-  const { register, handleSubmit, reset } = useForm<ReviewForm>();
+  const { register, handleSubmit, reset } = useForm<RatingForm>();
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  const onSubmit: SubmitHandler<ReviewForm> = (formData) => {
-    reviewObj.text = formData.text;
+  const onSubmit: SubmitHandler<RatingForm> = (formData) => {
+    ratingObj.text = formData.text;
     //reviewObj = { content: 5, teaching: 4, workload: 4, text: "adlv" };
-    console.log(typeof reviewObj);
+    console.log(typeof ratingObj);
 
     api
-      .post(`/communities/${courseId}/ratings`, reviewObj)
+      .post(`/communities/${courseId}/ratings`, ratingObj)
       .then((response) => {
         console.log(response.data);
         setRatingContent(3);
@@ -91,7 +91,8 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
           {...register("text", { required: false })}
           margin="normal"
           id="textRating"
-          label="Review Text"
+          label="Rating
+           Text"
           multiline
           sx={{ width: "100%", mb: 2 }}
         />
@@ -112,4 +113,4 @@ const CourseReviewForm: React.FC<CourseReviewFormProps> = ({
   );
 };
 
-export default CourseReviewForm;
+export default CommunityRatingForm;

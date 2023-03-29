@@ -49,7 +49,7 @@ const DefaultContent = {
   },
 };
 
-export default function CourseInfo() {
+export default function CommunityInfo() {
   const [content, setContent] = useState<Content>(DefaultContent);
 
   async function getInfo() {

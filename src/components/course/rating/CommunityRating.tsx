@@ -4,7 +4,7 @@ import { UserModel } from "../../../Models/UserModel";
 import { RatingContent, RatingTeaching, RatingWorkload } from "../ratingIcons";
 import { Legend } from "../../../design/typography";
 
-export interface ReviewValues {
+export interface RatingValues {
   account: UserModel;
   ratingContent: number;
   ratingTeaching: number;
@@ -13,14 +13,14 @@ export interface ReviewValues {
   time: string;
 }
 
-export default function CourseReview({
+export default function CommunityRating({
   account,
   ratingContent,
   ratingTeaching,
   ratingWorkload,
   textRating,
   time,
-}: ReviewValues) {
+}: RatingValues) {
   return (
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>

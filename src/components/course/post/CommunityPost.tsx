@@ -11,7 +11,7 @@ export interface PostValues {
   time: string;
 }
 
-export default function CoursePost({
+export default function CommunityPost({
   account,
   title,
   postText,
