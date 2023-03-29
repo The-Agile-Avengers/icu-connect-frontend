@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { api } from "../../utils/api";
-import { RatingTeaching, RatingWorkload } from "./ratingIcons";
+import { RatingTeaching, RatingContent, RatingWorkload } from "./ratingIcons";
+import { Legend } from "../../design/typography";
 
 type GetInfoResponse = {
   content: Content[];
@@ -87,41 +88,21 @@ export default function CourseInfo() {
   useEffect(() => {}, [content]);
 
   return (
-    <Box
-      sx={{
-        "& > legend": { mt: 2 },
-        color: "#000000",
-      }}
-    >
-      <Typography component="legend">
-        <b>Course Name: </b>
-        {content.name}
-      </Typography>
-      <Typography component="legend">
-        <b>Number: </b> {content.moduleId}
-      </Typography>
-      <Typography component="legend">
-        <b>Teacher: </b> {content.instructor.name}
-      </Typography>
-      <Typography component="legend">
-        <b>Course Content</b>
-      </Typography>
-      <RatingWorkload
+    <Box>
+      <Legend label="Course Name: " value={content.name} />
+      <Legend label="Module ID: " value={content.moduleId} />
+      <Legend label="Teacher: " value={content.instructor.name} />
+      <Legend label="Course Content" />
+      <RatingContent
         value={content.rating.workload === null ? 1 : content.rating.workload}
       />
-      <Typography component="legend">
-        <b>Teaching</b>
-      </Typography>
+      <Legend label="Teaching" />
       <RatingTeaching
         value={content.rating.teaching === null ? 1 : content.rating.teaching}
       />
-      <Typography component="legend">
-        <b>Workload</b>
-      </Typography>
-      <Rating
-        name="simple-controlled"
+      <Legend label="Workload" />
+      <RatingWorkload
         value={content.rating.workload === null ? 1 : content.rating.workload}
-        readOnly
       />
     </Box>
   );

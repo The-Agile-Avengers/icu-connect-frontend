@@ -1,10 +1,26 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-type Props = {
+type TitleProps = {
   title: string;
 };
 
-export const PageTitle = (props: Props) => <Typography variant="h1">{props.title}</Typography>;
+type LegendProps = {
+  label: string;
+  value?: string;
+};
 
-export const BoxTitle = (props: Props) => <Typography variant="h2">{props.title}</Typography>;
+export const PageTitle = (props: TitleProps) => (
+  <Typography variant="h1">{props.title}</Typography>
+);
+
+export const BoxTitle = (props: TitleProps) => (
+  <Typography variant="h2">{props.title}</Typography>
+);
+
+export const Legend = (props: LegendProps) => (
+  <Typography sx={{ mt: 2 }}>
+    <b>{props.label}</b>
+    {props.value}
+  </Typography>
+);

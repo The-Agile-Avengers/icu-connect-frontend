@@ -67,7 +67,7 @@ export function RatingTeaching(props: Props): React.ReactElement<any, any> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function RatingWorkload(props: Props): React.ReactElement<any, any> {
+export function RatingContent(props: Props): React.ReactElement<any, any> {
   const StyledRatingWorkload = styled(Rating)(() => ({
     "& .MuiRating-iconFilled": {
       color: "#ff6d75",
@@ -87,4 +87,9 @@ export function RatingWorkload(props: Props): React.ReactElement<any, any> {
       readOnly
     />
   );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function RatingWorkload(props: Props): React.ReactElement<any, any> {
+  return <Rating name="simple-controlled" value={props.value} readOnly />;
 }
