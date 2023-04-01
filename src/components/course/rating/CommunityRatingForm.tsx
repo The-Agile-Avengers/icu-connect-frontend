@@ -4,7 +4,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
-import { RatingTeaching, RatingContent, RatingWorkload } from "../ratingIcons";
+import HoverRating from "./HoverRating";
 
 type RatingForm = {
   content: number;
@@ -17,37 +17,38 @@ interface CommunityRatingFormProps {
   courseId: string;
 }
 
+const defaultRatings = {
+  content: 0,
+  teaching: 0,
+  workload: 0,
+  text: "",
+};
+
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   courseId,
 }: CommunityRatingFormProps) => {
-  const [ratingContent, setRatingContent] = React.useState<number>(3);
-  const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
-  const [ratingWorkload, setRatingWorkload] = React.useState<number>(3);
-  const [textRating, setTextRating] = React.useState<string>("");
+  const [ratings, setRatings] = React.useState(defaultRatings);
 
-  const ratingObj: RatingForm = {
-    content: ratingContent,
-    teaching: ratingTeaching,
-    workload: ratingWorkload,
-    text: textRating,
+  const setValueContent = (e: number | null) => {
+    setRatings((prev) => ({ ...prev, content: e ? e : 0 }));
+  };
+  const setValueTeaching = (e: number | null) => {
+    setRatings((prev) => ({ ...prev, teaching: e ? e : 0 }));
+  };
+  const setValueWorkload = (e: number | null) => {
+    setRatings((prev) => ({ ...prev, workload: e ? e : 0 }));
   };
 
   const { register, handleSubmit, reset } = useForm<RatingForm>();
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const onSubmit: SubmitHandler<RatingForm> = (formData) => {
-    ratingObj.text = formData.text;
-    //reviewObj = { content: 5, teaching: 4, workload: 4, text: "adlv" };
-    console.log(typeof ratingObj);
+    ratings.text = formData.text;
 
     api
-      .post(`/communities/${courseId}/ratings`, ratingObj)
+      .post(`/communities/${courseId}/ratings`, ratings)
       .then((response) => {
         console.log(response.data);
-        setRatingContent(3);
-        setRatingTeaching(3);
-        setRatingWorkload(3);
-        setTextRating("");
       })
       .catch((error) => {
         console.log(error);
@@ -64,28 +65,22 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Legend label="Course Content" />
-        <RatingContent
-          value={ratingContent}
-          onChange={(event, newValue) => {
-            newValue = newValue ? newValue : 0;
-            setRatingContent(newValue);
-          }}
+        <HoverRating
+          value={ratings.content}
+          setValue={setValueContent}
+          type="CONTENT"
         />
         <Legend label="Teaching" />
-        <RatingTeaching
-          value={ratingTeaching}
-          onChange={(event, newValue) => {
-            newValue = newValue ? newValue : 0;
-            setRatingTeaching(newValue);
-          }}
+        <HoverRating
+          value={ratings.teaching}
+          setValue={setValueTeaching}
+          type="TEACHING"
         />
         <Legend label="Workload" />
-        <RatingWorkload
-          value={ratingWorkload}
-          onChange={(event, newValue) => {
-            newValue = newValue ? newValue : 0;
-            setRatingWorkload(newValue);
-          }}
+        <HoverRating
+          value={ratings.workload}
+          setValue={setValueWorkload}
+          type="WORKLOAD"
         />
         <TextField
           {...register("text", { required: false })}

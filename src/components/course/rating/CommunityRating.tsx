@@ -1,7 +1,6 @@
 import React from "react";
-import { Avatar, Grid, Paper } from "@mui/material";
+import { Avatar, Grid, Paper, Rating } from "@mui/material";
 import { UserModel } from "../../../Models/UserModel";
-import { RatingContent, RatingTeaching, RatingWorkload } from "../ratingIcons";
 import { Legend } from "../../../design/typography";
 
 export interface RatingValues {
@@ -31,15 +30,15 @@ export default function CommunityRating({
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "block" }}>
               <Legend label="Course Content" />
-              <RatingContent value={ratingContent} />
+              <Rating value={ratingContent} readOnly />
             </div>
             <div style={{ display: "block" }}>
               <Legend label="Teaching" />
-              <RatingTeaching value={ratingTeaching} />
+              <Rating value={ratingTeaching} readOnly />
             </div>
             <div style={{ display: "block" }}>
               <Legend label="Workload" />
-              <RatingWorkload value={ratingWorkload} />
+              <Rating value={ratingWorkload} readOnly />
             </div>
           </div>
           <p style={{ textAlign: "left" }}>{textRating}</p>

@@ -4,8 +4,8 @@ import Rating from "@mui/material/Rating";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { api } from "../../utils/api";
-import { RatingTeaching, RatingContent, RatingWorkload } from "./ratingIcons";
 import { Legend } from "../../design/typography";
+import HoverRating from "./rating/HoverRating";
 
 type GetInfoResponse = {
   content: Content[];
@@ -49,8 +49,15 @@ const DefaultContent = {
   },
 };
 
+const defaultRatings = {
+  content: 0,
+  teaching: 0,
+  workload: 0,
+};
+
 export default function CommunityInfo() {
   const [content, setContent] = useState<Content>(DefaultContent);
+  const [ratings, setRatings] = useState(defaultRatings);
 
   async function getInfo() {
     try {
@@ -62,6 +69,14 @@ export default function CommunityInfo() {
       console.log(JSON.stringify(data.content[0], null, 4));
 
       setContent(data.content[0]);
+
+      const ratings = data.content[0].rating;
+      setRatings((prev) => ({
+        ...prev,
+        content: ratings.content ? ratings.content : 0,
+        teaching: ratings.teaching ? ratings.teaching : 0,
+        workload: ratings.workload ? ratings.workload : 0,
+      }));
 
       // 👇️ "response status is: 200"
       console.log("response status is: ", status);
@@ -92,17 +107,11 @@ export default function CommunityInfo() {
       <Legend label="Module ID: " value={content.moduleId} />
       <Legend label="Teacher: " value={content.instructor.name} />
       <Legend label="Course Content" />
-      <RatingContent
-        value={content.rating.workload === null ? 1 : content.rating.workload}
-      />
+      <HoverRating value={ratings.content} type="CONTENT" />
       <Legend label="Teaching" />
-      <RatingTeaching
-        value={content.rating.teaching === null ? 1 : content.rating.teaching}
-      />
+      <HoverRating value={ratings.teaching} type="TEACHING" />
       <Legend label="Workload" />
-      <RatingWorkload
-        value={content.rating.workload === null ? 1 : content.rating.workload}
-      />
+      <HoverRating value={ratings.workload} type="WORKLOAD" />
     </Box>
   );
 }
