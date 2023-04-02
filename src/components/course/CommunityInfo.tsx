@@ -1,11 +1,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { api } from "../../utils/api";
-import { RatingTeaching, RatingWorkload } from "./ratingIcons";
+import { Legend } from "../../design/typography";
+import HoverRating from "./rating/HoverRating";
 
 type GetInfoResponse = {
   content: Content[];
@@ -49,8 +49,15 @@ const DefaultContent = {
   },
 };
 
-export default function CourseInfo() {
+const defaultRatings = {
+  content: 0,
+  teaching: 0,
+  workload: 0,
+};
+
+export default function CommunityInfo() {
   const [content, setContent] = useState<Content>(DefaultContent);
+  const [ratings, setRatings] = useState(defaultRatings);
 
   async function getInfo() {
     try {
@@ -62,6 +69,14 @@ export default function CourseInfo() {
       console.log(JSON.stringify(data.content[0], null, 4));
 
       setContent(data.content[0]);
+
+      const ratings = data.content[0].rating;
+      setRatings((prev) => ({
+        ...prev,
+        content: ratings.content ? ratings.content : 0,
+        teaching: ratings.teaching ? ratings.teaching : 0,
+        workload: ratings.workload ? ratings.workload : 0,
+      }));
 
       // 👇️ "response status is: 200"
       console.log("response status is: ", status);
@@ -87,42 +102,16 @@ export default function CourseInfo() {
   useEffect(() => {}, [content]);
 
   return (
-    <Box
-      sx={{
-        "& > legend": { mt: 2 },
-        color: "#000000",
-      }}
-    >
-      <Typography component="legend">
-        <b>Course Name: </b>
-        {content.name}
-      </Typography>
-      <Typography component="legend">
-        <b>Number: </b> {content.moduleId}
-      </Typography>
-      <Typography component="legend">
-        <b>Teacher: </b> {content.instructor.name}
-      </Typography>
-      <Typography component="legend">
-        <b>Course Content</b>
-      </Typography>
-      <RatingWorkload
-        value={content.rating.workload === null ? 1 : content.rating.workload}
-      />
-      <Typography component="legend">
-        <b>Teaching</b>
-      </Typography>
-      <RatingTeaching
-        value={content.rating.teaching === null ? 1 : content.rating.teaching}
-      />
-      <Typography component="legend">
-        <b>Workload</b>
-      </Typography>
-      <Rating
-        name="simple-controlled"
-        value={content.rating.workload === null ? 1 : content.rating.workload}
-        readOnly
-      />
+    <Box>
+      <Legend label="Course Name: " value={content.name} />
+      <Legend label="Module ID: " value={content.moduleId} />
+      <Legend label="Teacher: " value={content.instructor.name} />
+      <Legend label="Course Content" />
+      <HoverRating value={ratings.content} type="CONTENT" />
+      <Legend label="Teaching" />
+      <HoverRating value={ratings.teaching} type="TEACHING" />
+      <Legend label="Workload" />
+      <HoverRating value={ratings.workload} type="WORKLOAD" />
     </Box>
   );
 }

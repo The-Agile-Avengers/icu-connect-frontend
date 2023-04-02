@@ -21,13 +21,13 @@ export const mainNavbarItems: mainNavbarItemsType = [
   {
     id: 1,
     icon: <PeopleIcon />,
-    label: "Courses",
+    label: "Communities",
     route: "/",
   },
   {
     id: 2,
     icon: <QuestionMarkIcon />,
-    label: "Course Page",
-    route: "/course",
+    label: "Community 1",
+    route: "/community/1", //TODO - remove hardcoded value later
   },
 ];

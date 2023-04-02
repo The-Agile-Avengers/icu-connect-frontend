@@ -13,10 +13,10 @@ import { BoxTitle } from "../../design/typography";
     text: string;
   };*/
 
-export default function CourseForm() {
+export default function CommunityForm() {
   const navigate = useNavigate();
   function handleClick() {
-    navigate("/coursePage/");
+    navigate("/communities/");
   }
   /*const [ratingContent, setRatingContent] = React.useState<number>(3);
   const [ratingTeaching, setRatingTeaching] = React.useState<number>(3);
@@ -60,7 +60,7 @@ export default function CourseForm() {
       <IconButton aria-label="delete" onClick={handleClick}>
         <ArrowBackIosIcon />
       </IconButton>
-      <BoxTitle title=" New Review" />
+      <BoxTitle title=" New Rating" />
       <div style={{ padding: 14 }}>
         <Paper style={{ padding: " 20px" }}>
           <Grid container wrap="nowrap" spacing={2}>

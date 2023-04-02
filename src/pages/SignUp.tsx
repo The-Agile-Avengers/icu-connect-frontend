@@ -24,7 +24,7 @@ type SignUpForm = {
   terms: boolean;
 };
 
-const SignUpPage: React.FC = () => {
+const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const { register, handleSubmit, setError, formState } = useForm<SignUpForm>({
@@ -164,4 +164,4 @@ const SignUpPage: React.FC = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;
