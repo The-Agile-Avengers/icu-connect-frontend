@@ -6,10 +6,7 @@ import axios from "axios";
 import { api } from "../../utils/api";
 import { Legend } from "../../design/typography";
 import HoverRating from "./rating/HoverRating";
-
-type GetInfoResponse = {
-  content: Content[];
-};
+import { useLocation } from "react-router-dom";
 
 type Content = {
   id: number;
@@ -58,37 +55,40 @@ const defaultRatings = {
 export default function CommunityInfo() {
   const [content, setContent] = useState<Content>(DefaultContent);
   const [ratings, setRatings] = useState(defaultRatings);
+  const courseId = useLocation().pathname.split("/")[2];
 
   async function getInfo() {
-    try {
-      // 👇️ const data: GetInfoResponse
-      const { data, status } = await api.get<GetInfoResponse>(
-        "/communities?page=0&size=5" //TODO - get data via module_id from url when implemented in BE
-      );
+    if (courseId) {
+      try {
+        // 👇️ const data: GetInfoResponse
+        const { data, status } = await api.get<Content>(
+          "/communities/" + courseId
+        );
 
-      console.log(JSON.stringify(data.content[0], null, 4));
+        console.log(JSON.stringify(data, null, 4));
 
-      setContent(data.content[0]);
+        setContent(data);
 
-      const ratings = data.content[0].rating;
-      setRatings((prev) => ({
-        ...prev,
-        content: ratings.content ? ratings.content : 0,
-        teaching: ratings.teaching ? ratings.teaching : 0,
-        workload: ratings.workload ? ratings.workload : 0,
-      }));
+        const ratings = data.rating;
+        setRatings((prev) => ({
+          ...prev,
+          content: ratings.content ? ratings.content : 0,
+          teaching: ratings.teaching ? ratings.teaching : 0,
+          workload: ratings.workload ? ratings.workload : 0,
+        }));
 
-      // 👇️ "response status is: 200"
-      console.log("response status is: ", status);
+        // 👇️ "response status is: 200"
+        console.log("response status is: ", status);
 
-      return data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log("error message: ", error.message);
-        return error.message;
-      } else {
-        console.log("unexpected error: ", error);
-        return "An unexpected error occurred";
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
       }
     }
   }
@@ -96,10 +96,7 @@ export default function CommunityInfo() {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getInfo();
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  useEffect(() => {}, [content]);
+  }, [courseId]);
 
   return (
     <Box>

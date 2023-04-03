@@ -22,7 +22,7 @@ const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 const userExample: UserModel = {
-  id: 1,
+  id: "UZH123",
   name: "Test User",
   email: "testUser@uzh.ch",
   avatar: imgLink,

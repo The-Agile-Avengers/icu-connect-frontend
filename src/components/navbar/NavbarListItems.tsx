@@ -27,7 +27,7 @@ export const mainNavbarItems: mainNavbarItemsType = [
   {
     id: 2,
     icon: <QuestionMarkIcon />,
-    label: "Community 1",
-    route: "/community/1", //TODO - remove hardcoded value later
+    label: "Community Ex.",
+    route: "/community/UZH123", //TODO - remove hardcoded value later
   },
 ];
