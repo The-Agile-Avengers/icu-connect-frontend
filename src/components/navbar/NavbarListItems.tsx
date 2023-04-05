@@ -15,13 +15,13 @@ export const mainNavbarItems: mainNavbarItemsType = [
   {
     id: 0,
     icon: <SearchIcon />,
-    label: "Search",
-    route: "/search",
+    label: "Communities",
+    route: "/communities",
   },
   {
     id: 1,
     icon: <PeopleIcon />,
-    label: "Communities",
+    label: "My Communities",
     route: "/",
   },
   {

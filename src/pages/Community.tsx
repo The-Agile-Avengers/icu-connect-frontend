@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
 import CommunityInfo from "../components/course/CommunityInfo";
@@ -16,16 +16,37 @@ import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityForm from "../components/course/CommunityForm";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
+import { CommunityModel, parser } from "../Models/CommunityModel";
+import { api } from "../utils/api";
+import axios from "axios";
+import { setServers } from "dns";
 
 /* ToDo: Delete Mockup Data */
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 const userExample: UserModel = {
-  id: "UZH123",
+  id: 1,
   name: "Test User",
   email: "testUser@uzh.ch",
   avatar: imgLink,
+};
+
+const DefaultCommunity = {
+  moduleId: "",
+  name: "",
+  instructor: {
+    id: 0,
+    name: "",
+  },
+  subscribersCount: 0,
+  rating: {
+    id: 0,
+    teaching: 1,
+    content: 1,
+    workload: 1,
+  },
+  joined: false,
 };
 
 type CommunityPageParams = {
@@ -34,8 +55,39 @@ type CommunityPageParams = {
 
 const Community: React.FC = () => {
   const { id } = useParams<CommunityPageParams>();
+  const [error, setError] = useState<number>(1);
+  const [data, setData] = useState<CommunityModel>(DefaultCommunity);
 
-  return id ? (
+  async function getCommunity() {
+    if (id) {
+      try {
+        const { data } = await api.get<CommunityModel>("/communities/" + id);
+
+        console.log(JSON.stringify(data, null, 4));
+        setData(parser(data));
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getCommunity();
+  }, [id]);
+
+  return error === 0 ? (
     <Layout>
       <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
         <AccordionSummary
@@ -44,11 +96,11 @@ const Community: React.FC = () => {
           id="panel1a-header"
         >
           <Typography variant="h1" sx={{ mb: 0 }}>
-            Advanced Software Engineering (L+E)
+            {data ? data.name : "loading"}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CommunityInfo />
+          <CommunityInfo community={data} />
         </AccordionDetails>
       </Accordion>
 
@@ -91,14 +143,16 @@ const Community: React.FC = () => {
                 time="22.3.2023"
               />
             ))}
-          <CommunityRatingForm courseId={id} />
+          <CommunityRatingForm id={id ? id : "loading..."} />
         </Box>
       </Box>
     </Layout>
-  ) : (
+  ) : error === 404 ? (
     <Layout>
-      <CommunityForm />
+      <CommunityForm /> {/*TODO - redirect to create new course*/}
     </Layout>
+  ) : (
+    <p> {"loading..."} </p>
   );
 };
 

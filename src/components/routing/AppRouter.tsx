@@ -15,7 +15,7 @@ const AppRouter = () => (
         <>
           <Route index path="/" element={<MyCommunities />} />
           <Route index path="/community/:id?" element={<Community />} />
-          <Route index path="/search" element={<Search />} />
+          <Route index path="/communities" element={<Search />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>
