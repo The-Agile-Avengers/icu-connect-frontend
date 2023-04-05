@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { api } from "../../../utils/api";
 
 
@@ -14,8 +14,9 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
     courseId,
   }: CommunityPostFormProps) => {
 
-    const { register,formState: { errors }, handleSubmit, setError, reset } = useForm();
-  
+    const { register,formState: { errors }, handleSubmit, reset } = useForm();
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSubmit = (formData: any) => {
       console.log(formData)
       api
