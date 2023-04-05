@@ -19,7 +19,6 @@ import CommunityRatingForm from "../components/course/rating/CommunityRatingForm
 import { CommunityModel, parser } from "../Models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
-import { setServers } from "dns";
 
 /* ToDo: Delete Mockup Data */
 const imgLink =
@@ -54,14 +53,14 @@ type CommunityPageParams = {
 };
 
 const Community: React.FC = () => {
-  const { id } = useParams<CommunityPageParams>();
+  const { id } = useParams<CommunityPageParams>() || "";
   const [error, setError] = useState<number>(1);
   const [data, setData] = useState<CommunityModel>(DefaultCommunity);
 
   async function getCommunity() {
     if (id) {
       try {
-        const { data } = await api.get<CommunityModel>("/communities/" + id);
+        const { data } = await api.get<CommunityModel>(`/communities/${id}`);
 
         console.log(JSON.stringify(data, null, 4));
         setData(parser(data));
@@ -87,7 +86,7 @@ const Community: React.FC = () => {
     getCommunity();
   }, [id]);
 
-  return error === 0 ? (
+  return error === 0 && id ? (
     <Layout>
       <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
         <AccordionSummary
@@ -124,7 +123,7 @@ const Community: React.FC = () => {
                 time="6 minutes"
               />
             ))}
-          <CommunityPostForm courseId={id}/>
+          <CommunityPostForm courseId={id || ""} />
         </Box>
         <Box
           title="Ratings"
@@ -152,7 +151,7 @@ const Community: React.FC = () => {
       <CommunityForm /> {/*TODO - redirect to create new course*/}
     </Layout>
   ) : (
-    <p> {"loading..."} </p>
+    <Layout> {"loading..."} </Layout>
   );
 };
 
