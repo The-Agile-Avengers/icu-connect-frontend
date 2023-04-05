@@ -4,10 +4,6 @@ import Button from "@mui/material/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { api } from "../../../utils/api";
 
-type PostForm = {
-  title: string;
-  text: string;
-};
 
 interface CommunityPostFormProps {
   courseId: string;
