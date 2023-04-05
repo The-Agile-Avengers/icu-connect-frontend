@@ -72,7 +72,7 @@ const Community: React.FC = () => {
                 time="6 minutes"
               />
             ))}
-          <CommunityPostForm />
+          <CommunityPostForm courseId={id}/>
         </Box>
         <Box
           title="Ratings"
