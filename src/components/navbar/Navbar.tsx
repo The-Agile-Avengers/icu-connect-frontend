@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { mainNavbarItems } from "./NavbarListItems";
+import { mainNavbarItems } from "./navbarListItems";
 import Avatar from "@mui/material/Avatar";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";

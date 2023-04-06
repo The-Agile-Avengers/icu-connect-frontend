@@ -23,6 +23,7 @@ type Rating = {
   workload: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parser(object: any): CommunityModel {
   return {
     moduleId: object.moduleId,
@@ -33,7 +34,3 @@ export function parser(object: any): CommunityModel {
     joined: object.joined,
   };
 }
-
-/*function collectionParser(object: any): CommunityModel[] {
-  return object.map((member: any) => parser(member));
-}*/

@@ -13,14 +13,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { UserModel } from "../Models/UserModel";
 import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
-import CommunityForm from "../components/course/CommunityForm";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
 import { CommunityModel, parser } from "../Models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
+import CommunityCreate from "../components/course/CommunityCreate";
 
-/* ToDo: Delete Mockup Data */
+/* TODO - Delete Mockup Data */
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
@@ -148,7 +148,7 @@ const Community: React.FC = () => {
     </Layout>
   ) : error === 404 ? (
     <Layout>
-      <CommunityForm /> {/*TODO - redirect to create new course*/}
+      <CommunityCreate />
     </Layout>
   ) : (
     <Layout> {"loading..."} </Layout>
