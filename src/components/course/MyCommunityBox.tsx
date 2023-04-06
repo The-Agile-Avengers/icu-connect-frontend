@@ -12,6 +12,8 @@ const MyCommunityBox: React.FC<Props> = ({ community }: Props) => (
     sx={{
       bgcolor: "secondary.main",
       p: 3,
+      m: 3,
+      borderRadius: "16px",
     }}
   >
     <p>ModuleId: {community.moduleId}</p>

@@ -3,8 +3,9 @@ import { useState } from "react";
 import Layout from "../components/shared/Layout";
 import axios from "axios";
 import { api } from "../utils/api";
-import { CommunityModel, parser } from "../Models/CommunityModel";
+import { CommunityModel } from "../Models/CommunityModel";
 import MyCommunityBox from "../components/course/MyCommunityBox";
+import Box from "@mui/material/Box/Box";
 
 type ApiResponse = {
   content: CommunityModel;
@@ -29,17 +30,18 @@ const CommunityExample: CommunityModel = {
 };
 
 const MyCommunities: React.FC = () => {
-  const [content, setContent] = useState<CommunityModel>();
+  const [communities, setCommunities] = useState<CommunityModel[]>([]);
 
   async function getJoinedCommunities() {
     try {
-      const { data, status } = await api.get<ApiResponse>(
-        "/communities?page=0&size=5" //TODO - change to users/communities
+      const { data, status } = await api.get<CommunityModel[]>(
+        "users/communities"
       );
 
-      console.log(JSON.stringify(data.content, null, 4));
+      console.log("My Communities");
+      console.log(JSON.stringify(data, null, 4));
 
-      setContent(parser(data.content));
+      setCommunities(data);
 
       return data;
     } catch (error) {
@@ -59,10 +61,12 @@ const MyCommunities: React.FC = () => {
   }, []);
 
   return (
-    <Layout title="Future My Course Communities">
-      <MyCommunityBox community={CommunityExample} />
-      <MyCommunityBox community={CommunityExample} />
-      <MyCommunityBox community={CommunityExample} />
+    <Layout title="My Communities">
+      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        {communities.map((community, i: number) => (
+          <MyCommunityBox key={`B${i * Math.random()}`} community={community} />
+        ))}
+      </Box>
     </Layout>
   );
 };
