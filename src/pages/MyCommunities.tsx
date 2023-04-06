@@ -7,38 +7,14 @@ import { CommunityModel } from "../Models/CommunityModel";
 import MyCommunityBox from "../components/course/MyCommunityBox";
 import Box from "@mui/material/Box/Box";
 
-type ApiResponse = {
-  content: CommunityModel;
-  status: number;
-};
-
-const CommunityExample: CommunityModel = {
-  moduleId: "UZH123",
-  name: "Lecture 1",
-  instructor: {
-    id: 1,
-    name: "Anna King",
-  },
-  subscribersCount: 0,
-  rating: {
-    id: 1,
-    teaching: 4,
-    content: 4,
-    workload: 3.090909090909091,
-  },
-  joined: false,
-};
-
 const MyCommunities: React.FC = () => {
   const [communities, setCommunities] = useState<CommunityModel[]>([]);
 
   async function getJoinedCommunities() {
     try {
-      const { data, status } = await api.get<CommunityModel[]>(
-        "users/communities"
-      );
+      const { data } = await api.get<CommunityModel[]>("users/communities");
 
-      console.log("My Communities");
+      console.log("My Communities"); //TODO - delete console logs
       console.log(JSON.stringify(data, null, 4));
 
       setCommunities(data);
@@ -67,6 +43,9 @@ const MyCommunities: React.FC = () => {
           <MyCommunityBox key={`B${i * Math.random()}`} community={community} />
         ))}
       </Box>
+      {communities.length === 0
+        ? "You haven't joined any communites yet..."
+        : ""}
     </Layout>
   );
 };
