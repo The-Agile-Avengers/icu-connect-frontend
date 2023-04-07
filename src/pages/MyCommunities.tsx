@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/shared/Layout";
 import axios from "axios";
 import { api } from "../utils/api";
