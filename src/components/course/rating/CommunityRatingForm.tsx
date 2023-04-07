@@ -14,7 +14,7 @@ type RatingForm = {
 };
 
 interface CommunityRatingFormProps {
-  courseId: string;
+  id: string;
 }
 
 const defaultRatings = {
@@ -25,7 +25,7 @@ const defaultRatings = {
 };
 
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
-  courseId,
+  id,
 }: CommunityRatingFormProps) => {
   const [ratings, setRatings] = React.useState(defaultRatings);
 
@@ -46,7 +46,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
     ratings.text = formData.text;
 
     api
-      .post(`/communities/${courseId}/ratings`, ratings)
+      .post(`/communities/${id}/ratings`, ratings)
       .then((response) => {
         console.log(response.data);
       })
