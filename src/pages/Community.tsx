@@ -142,7 +142,7 @@ const Community: React.FC = () => {
                 time="22.3.2023"
               />
             ))}
-          <CommunityRatingForm id={id ? id : "loading..."} />
+          <CommunityRatingForm id={id ? id : ""} />
         </Box>
       </Box>
     </Layout>
