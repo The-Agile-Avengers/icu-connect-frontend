@@ -22,7 +22,7 @@ const MyCommunityBox: React.FC<Props> = ({ community }: Props) => {
           cursor: "pointer",
         },
       }}
-      onClick={() => navigate("community/" + community.moduleId)}
+      onClick={() => navigate(`community/${community.moduleId}`)}
     >
       <p>ModuleId: {community.moduleId}</p>
       <p>Instructor: {community.instructor.name}</p>
