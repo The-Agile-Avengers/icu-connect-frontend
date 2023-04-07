@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/shared/Layout";
 import axios from "axios";
 import { api } from "../utils/api";
-import { CommunityModel } from "../models/CommunityModel";
+import { CommunityModel } from "../Models/CommunityModel";
 import MyCommunityBox from "../components/course/MyCommunityBox";
 import Box from "@mui/material/Box/Box";
 

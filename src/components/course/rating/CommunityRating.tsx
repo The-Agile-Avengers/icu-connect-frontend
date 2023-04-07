@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Grid, Paper, Rating } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { UserModel } from "../../../Models/UserModel";
 import { Legend } from "../../../design/typography";
 
 export interface RatingValues {

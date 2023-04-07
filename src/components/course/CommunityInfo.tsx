@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { Legend } from "../../design/typography";
 import HoverRating from "./rating/HoverRating";
-import { CommunityModel } from "../../models/CommunityModel";
+import { CommunityModel } from "../../Models/CommunityModel";
 
 type Props = {
   community: CommunityModel;

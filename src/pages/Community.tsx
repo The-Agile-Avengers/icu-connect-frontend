@@ -10,12 +10,12 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { UserModel } from "../models/UserModel";
+import { UserModel } from "../Models/UserModel";
 import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../models/CommunityModel";
+import { CommunityModel } from "../Models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
 import CommunityCreate from "../components/course/CommunityCreate";
