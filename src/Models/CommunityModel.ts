@@ -7,12 +7,12 @@ export type CommunityModel = {
   joined: boolean;
 };
 
-type Instructor = {
+export type Instructor = {
   id: number;
   name: string;
 };
 
-type Rating = {
+export type Rating = {
   id: number;
   teaching: number;
   content: number;
