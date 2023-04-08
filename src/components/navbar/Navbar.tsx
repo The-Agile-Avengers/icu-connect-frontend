@@ -37,7 +37,19 @@ const Profile = () => (
     <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>S</Avatar>
     <div style={{ margin: "auto" }}>
       <p style={{ margin: "0" }}>Profile</p>
-      <small style={{ margin: "0" }}>username</small>
+      <small
+        style={{
+          margin: "0",
+          cursor: "pointer",
+          textDecorationLine: "underline",
+        }}
+        onClick={() => {
+          localStorage.removeItem("AuthToken");
+          window.location.reload();
+        }}
+      >
+        logout
+      </small>
     </div>
   </Box>
 );
