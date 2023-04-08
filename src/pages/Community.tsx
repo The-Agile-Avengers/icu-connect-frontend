@@ -88,7 +88,13 @@ const Community: React.FC = () => {
 
   return error === 0 && id ? (
     <Layout>
-      <Accordion sx={{ bgcolor: "secondary.main", p: 3, mb: 3 }}>
+      <Accordion
+        sx={{
+          bgcolor: "secondary.main",
+          p: 3,
+          mb: 3,
+        }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
