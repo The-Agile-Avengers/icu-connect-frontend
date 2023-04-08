@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useEffect, useState } from "react";
 import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
@@ -19,6 +20,7 @@ import { CommunityModel } from "../models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
 import CommunityCreate from "../components/course/CommunityCreate";
+import { Rating } from "../utils/types";
 
 /* TODO - Delete Mockup Data */
 const imgLink =
@@ -31,7 +33,7 @@ const userExample: UserModel = {
   avatar: imgLink,
 };
 
-const DefaultCommunity = {
+const defaultCommunity = {
   moduleId: "",
   name: "",
   instructor: {
@@ -52,18 +54,51 @@ type CommunityPageParams = {
   id: string;
 };
 
+interface RatingsResponse {
+  content: Rating[];
+}
+
 const Community: React.FC = () => {
   const { id } = useParams<CommunityPageParams>() || "";
   const [error, setError] = useState<number>(1);
-  const [data, setData] = useState<CommunityModel>(DefaultCommunity);
+  const [communityInfo, setCommunityInfo] =
+    useState<CommunityModel>(defaultCommunity);
+  const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
+
+  const addCommunityRating = (rating: Rating) => {
+    setCommunityRatings([...communityRatings, rating]);
+  };
+
+  async function getCommunityRatings() {
+    if (id) {
+      try {
+        const { data } = await api.get<RatingsResponse>(
+          `/communities/${id}/ratings?page=0&size=100`
+        );
+
+        setCommunityRatings(data.content);
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
 
   async function getCommunity() {
     if (id) {
       try {
         const { data } = await api.get<CommunityModel>(`/communities/${id}`);
-
-        console.log(JSON.stringify(data, null, 4));
-        setData(data);
+        setCommunityInfo(data);
         setError(0);
         return data;
       } catch (error) {
@@ -82,8 +117,8 @@ const Community: React.FC = () => {
   }
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getCommunity();
+    getCommunityRatings();
   }, [id]);
 
   return error === 0 && id ? (
@@ -95,11 +130,11 @@ const Community: React.FC = () => {
           id="panel1a-header"
         >
           <Typography variant="h1" sx={{ mb: 0 }}>
-            {data ? data.name : "loading"}
+            {communityInfo ? communityInfo.name : "loading"}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CommunityInfo community={data} />
+          <CommunityInfo community={communityInfo} />
         </AccordionDetails>
       </Accordion>
 
@@ -129,20 +164,26 @@ const Community: React.FC = () => {
           title="Ratings"
           sx={{ bgcolor: "secondary.main", p: 3, flex: "1 0 500px" }}
         >
-          {Array(3)
-            .fill(1)
-            .map((i: number) => (
-              <CommunityRating
-                key={`B${i * Math.random()}`}
-                account={userExample}
-                ratingContent={5}
-                ratingTeaching={2}
-                ratingWorkload={4}
-                textRating="I did like the course, but it was a difficult course."
-                time="22.3.2023"
-              />
-            ))}
-          <CommunityRatingForm id={id ? id : ""} />
+          {communityRatings.map((rating: Rating) => (
+            <CommunityRating
+              key={rating.id}
+              user={{
+                id: 123,
+                name: "WaitingForBackend",
+                email: "ToDo@waitingforbackend.ch",
+                avatar: imgLink,
+              }}
+              ratingContent={rating.content}
+              ratingTeaching={rating.teaching}
+              ratingWorkload={rating.workload}
+              textRating={rating.text}
+              time="22.3.2023"
+            />
+          ))}
+          <CommunityRatingForm
+            id={id}
+            addCommunityRating={addCommunityRating}
+          />
         </Box>
       </Box>
     </Layout>

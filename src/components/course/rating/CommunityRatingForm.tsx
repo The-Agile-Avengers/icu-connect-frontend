@@ -7,16 +7,11 @@ import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
 import HoverRating from "./HoverRating";
 import { AxiosResponse } from "axios";
-
-interface RatingForm {
-  content: number;
-  teaching: number;
-  workload: number;
-  text: string | null;
-}
+import { Rating, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
+  addCommunityRating: (rating: Rating) => void;
 }
 
 const defaultRating = {
@@ -28,6 +23,7 @@ const defaultRating = {
 
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   id,
+  addCommunityRating,
 }: CommunityRatingFormProps) => {
   const [readOnly, setReadOnly] = React.useState(false);
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
@@ -62,13 +58,30 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
 
     api
       .post(`/communities/${id}/ratings`, rating)
-      .then((response: AxiosResponse<RatingForm>) => {
+      .then((response: AxiosResponse<Rating>) => {
         // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
         setRating({
           content: response.data.content,
           teaching: response.data.teaching,
           workload: response.data.workload,
           text: response.data.text,
+        });
+
+        addCommunityRating({
+          id: response.data.id,
+          content: response.data.content,
+          teaching: response.data.teaching,
+          workload: response.data.workload,
+          text: response.data.text,
+          thumbsUp: response.data.thumbsUp,
+          user: {
+            id: 123,
+            name: "WaitingForBackend",
+            email: "ToDo@waitingforbackend.ch",
+            avatar:
+              "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+          },
+          timestamp: "01.01.2000",
         });
 
         setReadOnly(true);
