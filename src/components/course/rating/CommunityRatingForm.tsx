@@ -11,6 +11,7 @@ import { Rating, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
+  // eslint-disable-next-line no-unused-vars
   addCommunityRating: (rating: Rating) => void;
 }
 
