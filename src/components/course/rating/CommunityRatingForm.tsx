@@ -50,8 +50,6 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
     };
 
     void getRating();
-
-    console.log(defaultRating, "def");
   }, [id]);
 
   const onSubmit: SubmitHandler<RatingForm> = (formData) => {
