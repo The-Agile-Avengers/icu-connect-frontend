@@ -29,6 +29,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   const [readOnly, setReadOnly] = React.useState(false);
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const { register, handleSubmit } = useForm<RatingForm>();
+  const [isEnabled, setIsEnabled] = React.useState(false);
 
   useEffect(() => {
     const getRating = async () => {
@@ -51,6 +52,13 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
 
     void getRating();
   }, [id]);
+
+  useEffect(() => {
+    const allValuesPresent = Object.values(rating).every(
+      (value) => value !== 0
+    );
+    setIsEnabled(allValuesPresent);
+  }, [rating]);
 
   const onSubmit: SubmitHandler<RatingForm> = (formData) => {
     rating.text = formData.text;
@@ -143,7 +151,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           defaultValue={rating.text}
         />
         {!readOnly && (
-          <Button variant="contained" type="submit">
+          <Button disabled={!isEnabled} variant="contained" type="submit">
             SUBMIT
           </Button>
         )}
