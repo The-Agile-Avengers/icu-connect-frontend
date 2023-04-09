@@ -4,16 +4,16 @@ import { UserModel } from "../../../models/UserModel";
 import { Legend } from "../../../design/typography";
 
 export interface RatingValues {
-  account: UserModel;
+  user: UserModel;
   ratingContent: number;
   ratingTeaching: number;
   ratingWorkload: number;
-  textRating: string;
+  textRating: string | null;
   time: string;
 }
 
 export default function CommunityRating({
-  account,
+  user,
   ratingContent,
   ratingTeaching,
   ratingWorkload,
@@ -24,7 +24,7 @@ export default function CommunityRating({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={account.avatar} />
+          <Avatar alt="Remy Sharp" src={user.avatar} />
         </Grid>
         <Grid justifyContent="left" item xs zeroMinWidth>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
