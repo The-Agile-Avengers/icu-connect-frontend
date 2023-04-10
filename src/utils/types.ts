@@ -19,3 +19,16 @@ export interface Rating extends RatingForm {
   timestamp: string;
   thumbsUp: number;
 }
+
+export type PostForm = {
+  title: string;
+  text: string;
+};
+
+export interface Post extends PostForm {
+  id: number;
+  user: UserModel;
+  creation: string;
+  thumbsUp: number;
+  comments: string[];
+}

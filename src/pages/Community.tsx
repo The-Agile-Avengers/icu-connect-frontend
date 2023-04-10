@@ -14,7 +14,6 @@ import {
   Tab,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { UserModel } from "../models/UserModel";
 import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
@@ -22,19 +21,12 @@ import CommunityRatingForm from "../components/course/rating/CommunityRatingForm
 import { CommunityModel } from "../models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
-import { Rating } from "../utils/types";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
+import { Rating, Post } from "../utils/types";
 
 /* TODO - Delete Mockup Data */
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
-
-const userExample: UserModel = {
-  id: 1,
-  name: "Test User",
-  email: "testUser@uzh.ch",
-  avatar: imgLink,
-};
 
 const defaultCommunity = {
   moduleId: "",
@@ -60,6 +52,9 @@ type CommunityPageParams = {
 interface RatingsResponse {
   content: Rating[];
 }
+interface PostsResponse {
+  content: Post[];
+}
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -73,9 +68,13 @@ const Community: React.FC = () => {
   const [communityInfo, setCommunityInfo] =
     useState<CommunityModel>(defaultCommunity);
   const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
+  const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
 
   const addCommunityRating = (rating: Rating) => {
     setCommunityRatings([...communityRatings, rating]);
+  };
+  const addCommunityPost = (post: Post) => {
+    setCommunityPosts([post, ...communityPosts]);
   };
 
   /* Tab Navigation Logic */
@@ -127,8 +126,31 @@ const Community: React.FC = () => {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100`
         );
-
+        console.log("ratings", data.content)  
         setCommunityRatings(data.content);
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+  async function getCommunityPosts() {
+    if (id) {
+      try {
+        const { data } = await api.get<PostsResponse>(
+          `/communities/${id}/posts?page=0&size=100`
+        );
+        setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
       } catch (error) {
@@ -173,7 +195,17 @@ const Community: React.FC = () => {
   useEffect(() => {
     getCommunity();
     getCommunityRatings();
+    getCommunityPosts();
   }, [id]);
+
+  function getDate(creation: string): string {
+    const date= new Date(creation)
+    const day = date.getDate().toString();
+    const month = (date.getMonth()+1).toString()
+    const year= date.getFullYear().toString();
+    const dateString= day + "." + month + "." + year;
+    return dateString;
+  }
 
   return error === 0 && id ? (
     <Layout>
@@ -233,18 +265,24 @@ const Community: React.FC = () => {
 
         <TabPanel value={activeTab} index={0}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
-            {Array(3)
-              .fill(1)
-              .map((i: number) => (
+            {communityPosts.map((post: Post) => (
                 <CommunityPost
-                  key={`A${i * Math.random()}`}
-                  account={userExample}
-                  title="I have a question"
-                  postText="This is my question"
-                  time="6 minutes"
+                  key={post.id}
+                  user={{
+                    id: 123,
+                    name: "WaitingForBackend",
+                    email: "ToDo@waitingforbackend.ch",
+                    avatar: imgLink,
+                  }}
+                  title={post.title}
+                  postText={post.text}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                  time={getDate(post.creation)}
                 />
               ))}
-            <CommunityPostForm courseId={id || ""} />
+            <CommunityPostForm 
+              id={id}
+              addCommunityPost={addCommunityPost} />
           </Box>
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
@@ -262,6 +300,7 @@ const Community: React.FC = () => {
                 ratingTeaching={rating.teaching}
                 ratingWorkload={rating.workload}
                 textRating={rating.text}
+                //TODO adjust time variable to the timestemp
                 time="22.3.2023"
               />
             ))}
