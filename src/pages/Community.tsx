@@ -126,7 +126,7 @@ const Community: React.FC = () => {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100`
         );
-        console.log("ratings", data.content)  
+        console.log("ratings", data.content);
         setCommunityRatings(data.content);
         setError(0);
         return data;
@@ -199,11 +199,11 @@ const Community: React.FC = () => {
   }, [id]);
 
   function getDate(creation: string): string {
-    const date= new Date(creation)
+    const date = new Date(creation);
     const day = date.getDate().toString();
-    const month = (date.getMonth()+1).toString()
-    const year= date.getFullYear().toString();
-    const dateString= day + "." + month + "." + year;
+    const month = (date.getMonth() + 1).toString();
+    const year = date.getFullYear().toString();
+    const dateString = day + "." + month + "." + year;
     return dateString;
   }
 
@@ -266,23 +266,21 @@ const Community: React.FC = () => {
         <TabPanel value={activeTab} index={0}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             {communityPosts.map((post: Post) => (
-                <CommunityPost
-                  key={post.id}
-                  user={{
-                    id: 123,
-                    name: "WaitingForBackend",
-                    email: "ToDo@waitingforbackend.ch",
-                    avatar: imgLink,
-                  }}
-                  title={post.title}
-                  postText={post.text}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                  time={getDate(post.creation)}
-                />
-              ))}
-            <CommunityPostForm 
-              id={id}
-              addCommunityPost={addCommunityPost} />
+              <CommunityPost
+                key={post.id}
+                user={{
+                  id: 123,
+                  name: "WaitingForBackend",
+                  email: "ToDo@waitingforbackend.ch",
+                  avatar: imgLink,
+                }}
+                title={post.title}
+                postText={post.text}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                time={getDate(post.creation)}
+              />
+            ))}
+            <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
           </Box>
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
@@ -314,7 +312,7 @@ const Community: React.FC = () => {
     </Layout>
   ) : error === 404 ? (
     <Layout title="Create a new Course">
-        <CreateCommunityForm/>
+      <CreateCommunityForm />
     </Layout>
   ) : (
     <Layout> {"loading..."} </Layout>
