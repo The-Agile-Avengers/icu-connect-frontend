@@ -4,12 +4,12 @@ import SearchBar from "../components/SearchBar";
 import { CommunityModel } from "../models/CommunityModel";
 import axios from "axios";
 import { api } from "../utils/api";
-import CommunityBox from "../components/course/MyCommunityBox";
+import CommunityBox from "../components/course/CommunityBox";
 import Box from "@mui/material/Box/Box";
 
-const Search: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+const Communities: React.FC = () => {
   const [communities, setCommunities] = useState<CommunityModel[]>([]);
+  const boxWidthPercentage = 29;
 
   type ApiResponse = {
     content: CommunityModel[];
@@ -35,35 +35,35 @@ const Search: React.FC = () => {
     }
   }
 
-  const handleClick = () => {
-    void getCommunities(searchQuery);
-  };
-
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getCommunities();
+    void getCommunities();
   }, []);
 
   return (
-    <Layout title="Search">
+    <Layout title="Communities">
       {" "}
-      <SearchBar //TODO - abstract into own component?
+      <SearchBar
         placeholder="Search by moduleId, insturctor or module name"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setSearchQuery(event.target.value)
+          void getCommunities(event.target.value)
         }
-        onClick={handleClick}
+        width={
+          Math.floor(100 / boxWidthPercentage) * boxWidthPercentage +
+          (Math.floor(100 / boxWidthPercentage) - 1) * 4
+        }
       />
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: "3em", mt: "2em" }}>
         {communities.map((community, i: number) => (
-          <CommunityBox key={`B${i * Math.random()}`} community={community} />
+          <CommunityBox
+            key={`B${i * Math.random()}`}
+            community={community}
+            boxWidth={boxWidthPercentage}
+          />
         ))}
       </Box>
-      {communities.length === 0
-        ? "You haven't joined any communites yet..."
-        : ""}
+      {communities.length === 0 ? "No communities found..." : ""}
     </Layout>
   );
 };
 
-export default Search;
+export default Communities;

@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   community: CommunityModel;
+  boxWidth: number;
 };
 
-const MyCommunityBox: React.FC<Props> = ({ community }: Props) => {
+const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -16,11 +17,11 @@ const MyCommunityBox: React.FC<Props> = ({ community }: Props) => {
       sx={{
         bgcolor: "secondary.main",
         p: 3,
-        m: 3,
         borderRadius: "16px",
         "&:hover": {
           cursor: "pointer",
         },
+        flex: `0 0 ${boxWidth}%`,
       }}
       onClick={() => navigate(`community/${community.moduleId}`)}
     >

@@ -8,10 +8,10 @@ type Props = {
   placeholder: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onClick: () => void;
+  width: number;
 };
 
-const SearchBar = ({ placeholder, onChange, onClick }: Props) => (
+const SearchBar = ({ placeholder, onChange, width }: Props) => (
   <Box
     sx={{
       display: "flex",
@@ -20,6 +20,7 @@ const SearchBar = ({ placeholder, onChange, onClick }: Props) => (
       borderColor: "primary.main",
       borderRadius: 18,
       p: 2,
+      width: `${width}%`,
     }}
   >
     <SearchIcon sx={{ marginRight: "10px" }} />
@@ -34,9 +35,6 @@ const SearchBar = ({ placeholder, onChange, onClick }: Props) => (
       }}
       disableUnderline
     />
-    <Button variant="contained" type="submit" onClick={onClick}>
-      SEARCH
-    </Button>
   </Box>
 );
 

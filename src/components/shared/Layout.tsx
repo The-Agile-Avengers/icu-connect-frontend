@@ -18,7 +18,7 @@ const Layout: React.FC<IProps> = ({ children, title }: IProps) => (
       <Navbar />
       <CssBaseline />
       <Box
-        sx={{ display: "flex", flexDirection: "column", p: 3, width: "100%" }}
+        sx={{ display: "flex", flexDirection: "column", p: 6, width: "100%" }}
       >
         {title && <PageTitle title={title} />}
         <Box
