@@ -11,6 +11,7 @@ type Props = {
 const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
   const navigate = useNavigate();
 
+  //TODO - add join/leave button
   return (
     <Box
       title={community.name}
@@ -23,7 +24,7 @@ const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
         },
         flex: `0 0 ${boxWidth}%`,
       }}
-      onClick={() => navigate(`community/${community.moduleId}`)}
+      onClick={() => navigate(`/community/${community.moduleId}`)}
     >
       <p>ModuleId: {community.moduleId}</p>
       <p>Instructor: {community.instructor.name}</p>
