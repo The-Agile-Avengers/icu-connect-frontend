@@ -8,16 +8,19 @@ import CommunityBox from "../components/course/MyCommunityBox";
 import Box from "@mui/material/Box/Box";
 
 const Search: React.FC = () => {
-  const [input, setInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [communities, setCommunities] = useState<CommunityModel[]>([]);
 
   type ApiResponse = {
     content: CommunityModel[];
   };
 
-  async function getCommunities() {
+  async function getCommunities(search?: string) {
     try {
-      const { data } = await api.get<ApiResponse>("communities?page=0&size=20");
+      const searchParam: string = search ? "&search=" + search : "";
+      const { data } = await api.get<ApiResponse>(
+        "communities?page=0&size=20" + searchParam
+      );
       setCommunities(data.content);
 
       return data;
@@ -33,7 +36,7 @@ const Search: React.FC = () => {
   }
 
   const handleClick = () => {
-    console.log("get API request for " + input); //TODO - implement
+    void getCommunities(searchQuery);
   };
 
   useEffect(() => {
@@ -44,10 +47,10 @@ const Search: React.FC = () => {
   return (
     <Layout title="Search">
       {" "}
-      <SearchBar
+      <SearchBar //TODO - abstract into own component?
         placeholder="Search by moduleId, insturctor or module name"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setInput(event.target.value)
+          setSearchQuery(event.target.value)
         }
         onClick={handleClick}
       />
