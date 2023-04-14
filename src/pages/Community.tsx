@@ -22,8 +22,8 @@ import CommunityRatingForm from "../components/course/rating/CommunityRatingForm
 import { CommunityModel } from "../models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
-import CommunityCreate from "../components/course/CommunityCreate";
 import { Rating } from "../utils/types";
+import CreateCommunityForm from "../components/course/CreateCommunityForm";
 
 /* TODO - Delete Mockup Data */
 const imgLink =
@@ -274,8 +274,8 @@ const Community: React.FC = () => {
       </Box>
     </Layout>
   ) : error === 404 ? (
-    <Layout>
-      <CommunityCreate />
+    <Layout title="Create a new Course">
+        <CreateCommunityForm/>
     </Layout>
   ) : (
     <Layout> {"loading..."} </Layout>
