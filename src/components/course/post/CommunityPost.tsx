@@ -6,22 +6,29 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Divider from '@mui/material/Divider';
 import CommentsSection from "./CommentsSection";
+import { SingleComment } from "utils/types";
 
 
 export interface PostValues {
+  communityId: string,
+  postId: number;
   user: UserModel;
   title: string;
   postText: string;
+  commentList: SingleComment[];
   time: string;
 }
 
 export default function CommunityPost({
+  communityId,
+  postId,
   user,
   title,
   postText,
+  commentList,
   time,
 }: PostValues) {
-  const [commentsVisible, setCommentsVisible] = useState(true);
+  const [commentsVisible, setCommentsVisible] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   const handleCommentButtonClick = () => {
@@ -51,11 +58,10 @@ export default function CommunityPost({
           </div>
           <Divider style={{marginTop:"50px"}}/>
           {commentsVisible && 
-          <CommentsSection 
-          comments={[
-            {id:1, user: user , timestamp:"2.3.23", thumbsUp:5, text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor " },
-            { id:2, user: user , timestamp:"2.3.23", thumbsUp:5,text: 'Second comment' },
-          ]}/>
+          <CommentsSection
+          communityId={communityId}
+          postId={postId} 
+          commentList={commentList}/>
         }
         </Grid>
       </Grid>

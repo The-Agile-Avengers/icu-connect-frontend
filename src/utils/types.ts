@@ -31,17 +31,16 @@ export interface Post extends PostForm {
   user: UserModel;
   creation: string;
   thumbsUp: number;
-  comments: string[];
+  commentList: SingleComment[];
 }
 
 export type CommentForm = {
   text: string | null;
 };
 
-export interface Comment extends CommentForm {
+export interface SingleComment extends CommentForm {
   id: number;
-  user: UserModel;
-  timestamp: string;
-  thumbsUp: number;
+  creator: UserModel;
+  creation: string;
 
 }
