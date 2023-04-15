@@ -44,8 +44,11 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
           },
-          creation: "01.01.2000",
+          creation: response.data.creation,
         });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 

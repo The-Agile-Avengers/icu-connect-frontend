@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import { Avatar, Grid, Paper } from "@mui/material";
 import { UserModel } from "../../../models/UserModel";
 import CommentIcon from "@mui/icons-material/Comment";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import Divider from '@mui/material/Divider';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Divider from "@mui/material/Divider";
 import CommentsSection from "./CommentsSection";
 import { SingleComment } from "utils/types";
 
-
 export interface PostValues {
-  communityId: string,
+  communityId: string;
   postId: number;
   user: UserModel;
   title: string;
@@ -49,20 +48,26 @@ export default function CommunityPost({
           <h4 style={{ margin: 0, textAlign: "left" }}>{title}</h4>
           <p style={{ textAlign: "left" }}>{postText}</p>
           <p style={{ textAlign: "left", color: "gray" }}>posted on {time}</p>
-          <div style={{ float: "right", marginRight:"2em" }}>
-            <CommentIcon color={commentsVisible? "success": "action"} onClick={handleCommentButtonClick}/>
-            
+          <div style={{ float: "right", marginRight: "2em" }}>
+            <CommentIcon
+              color={commentsVisible ? "success" : "action"}
+              onClick={handleCommentButtonClick}
+            />
           </div>
-          <div style={{ float: "left" , marginLeft:"2em"}}>
-            <ThumbUpIcon color={isLiked? "success": "action"} onClick={handleLikeButtonClick}/>
+          <div style={{ float: "left", marginLeft: "2em" }}>
+            <ThumbUpIcon
+              color={isLiked ? "success" : "action"}
+              onClick={handleLikeButtonClick}
+            />
           </div>
-          <Divider style={{marginTop:"50px"}}/>
-          {commentsVisible && 
-          <CommentsSection
-          communityId={communityId}
-          postId={postId} 
-          commentList={commentList}/>
-        }
+          <Divider style={{ marginTop: "50px" }} />
+          {commentsVisible && (
+            <CommentsSection
+              communityId={communityId}
+              postId={postId}
+              commentList={commentList}
+            />
+          )}
         </Grid>
       </Grid>
     </Paper>
