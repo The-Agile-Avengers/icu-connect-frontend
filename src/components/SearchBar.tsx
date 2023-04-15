@@ -2,7 +2,6 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/material/Input";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 
 type Props = {
   placeholder: string;
