@@ -3,7 +3,7 @@ export type CommunityModel = {
   name: string;
   instructor: Instructor;
   subscribersCount: number;
-  rating: Rating;
+  rating: RatingSummary;
   joined: boolean;
 };
 
@@ -12,7 +12,7 @@ export type Instructor = {
   name: string;
 };
 
-export type Rating = {
+export type RatingSummary = {
   id: number;
   teaching: number;
   content: number;

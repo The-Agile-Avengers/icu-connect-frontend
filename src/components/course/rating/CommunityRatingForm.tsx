@@ -1,54 +1,97 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Paper, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
 import HoverRating from "./HoverRating";
-
-type RatingForm = {
-  content: number;
-  teaching: number;
-  workload: number;
-  text: string;
-};
+import { AxiosResponse } from "axios";
+import { Rating, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
+  // eslint-disable-next-line no-unused-vars
+  addCommunityRating: (rating: Rating) => void;
 }
 
-const defaultRatings = {
+const defaultRating = {
   content: 0,
   teaching: 0,
   workload: 0,
-  text: "",
+  text: null,
 };
 
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   id,
+  addCommunityRating,
 }: CommunityRatingFormProps) => {
-  const [ratings, setRatings] = React.useState(defaultRatings);
+  const [readOnly, setReadOnly] = React.useState(false);
+  const [rating, setRating] = React.useState<RatingForm>(defaultRating);
+  const { register, handleSubmit } = useForm<RatingForm>();
+  const [isEnabled, setIsEnabled] = React.useState(false);
 
-  const setValueContent = (e: number | null) => {
-    setRatings((prev) => ({ ...prev, content: e ? e : 0 }));
-  };
-  const setValueTeaching = (e: number | null) => {
-    setRatings((prev) => ({ ...prev, teaching: e ? e : 0 }));
-  };
-  const setValueWorkload = (e: number | null) => {
-    setRatings((prev) => ({ ...prev, workload: e ? e : 0 }));
-  };
+  useEffect(() => {
+    const getRating = async () => {
+      const { data } = await api.get<RatingForm>(
+        `/users/communities/${id}/ratings`
+      );
 
-  const { register, handleSubmit, reset } = useForm<RatingForm>();
+      if (data) {
+        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
+        setRating({
+          content: data.content,
+          teaching: data.teaching,
+          workload: data.workload,
+          text: data.text,
+        });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        setReadOnly(true);
+      }
+    };
+
+    void getRating();
+  }, [id]);
+
+  useEffect(() => {
+    const allValuesPresent = Object.values(rating).every(
+      (value) => value !== 0
+    );
+    setIsEnabled(allValuesPresent);
+  }, [rating]);
+
   const onSubmit: SubmitHandler<RatingForm> = (formData) => {
-    ratings.text = formData.text;
+    rating.text = formData.text;
 
     api
-      .post(`/communities/${id}/ratings`, ratings)
-      .then((response) => {
-        console.log(response.data);
+      .post(`/communities/${id}/ratings`, rating)
+      .then((response: AxiosResponse<Rating>) => {
+        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
+        setRating({
+          content: response.data.content,
+          teaching: response.data.teaching,
+          workload: response.data.workload,
+          text: response.data.text,
+        });
+
+        addCommunityRating({
+          id: response.data.id,
+          content: response.data.content,
+          teaching: response.data.teaching,
+          workload: response.data.workload,
+          text: response.data.text,
+          thumbsUp: response.data.thumbsUp,
+          user: {
+            id: 123,
+            name: "WaitingForBackend",
+            email: "ToDo@waitingforbackend.ch",
+            avatar:
+              "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+          },
+          timestamp: "01.01.2000",
+        });
+
+        setReadOnly(true);
       })
       .catch((error) => {
         console.log(error);
@@ -58,51 +101,60 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   return (
     <Paper style={{ padding: "20px" }}>
       <Typography variant="h5" sx={{ mb: 2 }}>
-        Rate Course
+        {readOnly ? "Your Rating" : "Rate Course"}
       </Typography>
-      <form
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Legend label="Course Content" />
         <HoverRating
-          value={ratings.content}
-          setValue={setValueContent}
+          value={rating.content}
+          setValue={(value) =>
+            setRating({
+              ...rating,
+              content: value ?? rating.content,
+            })
+          }
+          readonly={readOnly}
           type="CONTENT"
         />
         <Legend label="Teaching" />
         <HoverRating
-          value={ratings.teaching}
-          setValue={setValueTeaching}
+          value={rating.teaching}
+          setValue={(value) =>
+            setRating({
+              ...rating,
+              teaching: value ?? rating.teaching,
+            })
+          }
+          readonly={readOnly}
           type="TEACHING"
         />
         <Legend label="Workload" />
         <HoverRating
-          value={ratings.workload}
-          setValue={setValueWorkload}
+          value={rating.workload}
+          setValue={(value) =>
+            setRating({
+              ...rating,
+              workload: value ?? rating.workload,
+            })
+          }
+          readonly={readOnly}
           type="WORKLOAD"
         />
         <TextField
           {...register("text", { required: false })}
           margin="normal"
           id="textRating"
-          label="Rating
-           Text"
+          label={rating.text ?? "Rating Text"}
           multiline
           sx={{ width: "100%", mb: 2 }}
+          disabled={readOnly}
+          defaultValue={rating.text}
         />
-        <Button
-          variant="contained"
-          type="submit"
-          onClick={() => {
-            reset((formValues) => ({
-              ...formValues,
-              text: "",
-            }));
-          }}
-        >
-          SUBMIT
-        </Button>
+        {!readOnly && (
+          <Button disabled={!isEnabled} variant="contained" type="submit">
+            SUBMIT
+          </Button>
+        )}
       </form>
     </Paper>
   );

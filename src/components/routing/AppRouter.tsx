@@ -6,7 +6,7 @@ import MyCommunities from "../../pages/MyCommunities";
 import Communities from "../../pages/Communities";
 import SignUp from "../../pages/SignUp";
 import { isLoggedIn } from "../../utils/utils";
-import CommunityCreate from "../course/CommunityCreate";
+import CreateCommunity from "pages/CreateCommunity";
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -16,8 +16,8 @@ const AppRouter = () => (
         <>
           <Route index path="/" element={<MyCommunities />} />
           <Route index path="/community/:id?" element={<Community />} />
-          <Route index path="/community/create" element={<CommunityCreate />} />
-          <Route index path="/communities" element={<Communities />} />
+          <Route index path="/community/create" element={<CreateCommunity />} />
+          <Route index path="/communities" element={<Search />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>
