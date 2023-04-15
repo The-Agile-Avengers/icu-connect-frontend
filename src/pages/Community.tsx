@@ -23,6 +23,7 @@ import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
 import { Rating, Post } from "../utils/types";
+import { getDate } from "utils/utils";
 
 /* TODO - Delete Mockup Data */
 const imgLink =
@@ -126,7 +127,6 @@ const Community: React.FC = () => {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100`
         );
-        console.log("ratings", data.content)  
         setCommunityRatings(data.content);
         setError(0);
         return data;
@@ -198,15 +198,6 @@ const Community: React.FC = () => {
     getCommunityPosts();
   }, [id]);
 
-  function getDate(creation: string): string {
-    const date= new Date(creation)
-    const day = date.getDate().toString();
-    const month = (date.getMonth()+1).toString()
-    const year= date.getFullYear().toString();
-    const dateString= day + "." + month + "." + year;
-    return dateString;
-  }
-
   return error === 0 && id ? (
     <Layout>
       <Accordion
@@ -265,28 +256,33 @@ const Community: React.FC = () => {
 
         <TabPanel value={activeTab} index={0}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
+            <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
             {communityPosts.map((post: Post) => (
-                <CommunityPost
-                  key={post.id}
-                  user={{
-                    id: 123,
-                    name: "WaitingForBackend",
-                    email: "ToDo@waitingforbackend.ch",
-                    avatar: imgLink,
-                  }}
-                  title={post.title}
-                  postText={post.text}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                  time={getDate(post.creation)}
-                />
-              ))}
-            <CommunityPostForm 
-              id={id}
-              addCommunityPost={addCommunityPost} />
+              <CommunityPost
+                key={post.id}
+                communityId={id}
+                postId={post.id}
+                user={{
+                  id: 123,
+                  name: "WaitingForBackend",
+                  email: "ToDo@waitingforbackend.ch",
+                  avatar: imgLink,
+                }}
+                title={post.title}
+                postText={post.text}
+                commentList={post.commentList}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                time={getDate(post.creation)}
+              />
+            ))}
           </Box>
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
+            <CommunityRatingForm
+              id={id}
+              addCommunityRating={addCommunityRating}
+            />
             {communityRatings.map((rating: Rating) => (
               <CommunityRating
                 key={rating.id}
@@ -304,17 +300,13 @@ const Community: React.FC = () => {
                 time="22.3.2023"
               />
             ))}
-            <CommunityRatingForm
-              id={id}
-              addCommunityRating={addCommunityRating}
-            />
           </Box>
         </TabPanel>
       </Box>
     </Layout>
   ) : error === 404 ? (
     <Layout title="Create a new Course">
-        <CreateCommunityForm/>
+      <CreateCommunityForm />
     </Layout>
   ) : (
     <Layout> {"loading..."} </Layout>

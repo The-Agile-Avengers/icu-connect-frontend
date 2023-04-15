@@ -20,6 +20,7 @@ export interface Rating extends RatingForm {
   thumbsUp: number;
 }
 
+
 export type PostForm = {
   title: string;
   text: string;
@@ -30,5 +31,16 @@ export interface Post extends PostForm {
   user: UserModel;
   creation: string;
   thumbsUp: number;
-  comments: string[];
+  commentList: SingleComment[];
+}
+
+export type CommentForm = {
+  text: string | null;
+};
+
+export interface SingleComment extends CommentForm {
+  id: number;
+  creator: UserModel;
+  creation: string;
+
 }

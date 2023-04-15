@@ -12,17 +12,6 @@ interface CommunityPostFormProps {
   addCommunityPost: (post: Post) => void;
 }
 
-function getDate(): string {
-  const date = new Date();
-  console.log(date);
-  const day = date.getDate().toString();
-  const month = (date.getMonth() + 1).toString();
-  const year = date.getFullYear().toString();
-  const dateString = month + "." + day + "." + year;
-  console.log(dateString);
-  return dateString;
-}
-
 const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
   id,
   addCommunityPost,
@@ -33,13 +22,11 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
     formState: { errors },
     handleSubmit,
   } = useForm<PostForm>();
-
   // Check if all required fields are filled out
   const isAllFieldsFilled = watch("title") && watch("text"); // Update with your field names
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (formData: any) => {
-    console.log(formData);
     api
       .post(`/communities/${id}/posts`, formData)
       .then((response: AxiosResponse<Post>) => {
@@ -49,7 +36,7 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
           title: response.data.title,
           text: response.data.text,
           thumbsUp: response.data.thumbsUp,
-          comments: response.data.comments,
+          commentList: response.data.commentList,
           user: {
             id: 123,
             name: "WaitingForBackend",
@@ -57,7 +44,7 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
           },
-          creation: getDate(),
+          creation: response.data.creation,
         });
       })
       .catch((error) => {
