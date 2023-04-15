@@ -32,7 +32,7 @@ const theme = createTheme({
       fontSize: "3em",
       fontWeight: 600,
       color: "#000000",
-      marginBottom: "0.5em",
+      marginBottom: "0.75em",
     },
     h2: {
       fontSize: "2em",

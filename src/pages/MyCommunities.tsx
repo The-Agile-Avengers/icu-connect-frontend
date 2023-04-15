@@ -3,7 +3,7 @@ import Layout from "../components/shared/Layout";
 import axios from "axios";
 import { api } from "../utils/api";
 import { CommunityModel } from "../models/CommunityModel";
-import MyCommunityBox from "../components/course/MyCommunityBox";
+import CommunityBox from "../components/course/CommunityBox";
 import Box from "@mui/material/Box/Box";
 
 const MyCommunities: React.FC = () => {
@@ -12,9 +12,6 @@ const MyCommunities: React.FC = () => {
   async function getJoinedCommunities() {
     try {
       const { data } = await api.get<CommunityModel[]>("users/communities");
-
-      console.log("My Communities"); //TODO - delete console logs
-      console.log(JSON.stringify(data, null, 4));
 
       setCommunities(data);
 
@@ -37,9 +34,13 @@ const MyCommunities: React.FC = () => {
 
   return (
     <Layout title="My Communities">
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: "3em" }}>
         {communities.map((community, i: number) => (
-          <MyCommunityBox key={`B${i * Math.random()}`} community={community} />
+          <CommunityBox
+            key={`B${i * Math.random()}`}
+            community={community}
+            boxWidth={29}
+          />
         ))}
       </Box>
       {communities.length === 0
