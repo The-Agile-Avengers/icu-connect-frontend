@@ -5,14 +5,14 @@ import { UserModel } from "../../../models/UserModel";
 import CommentIcon from "@mui/icons-material/Comment";
 
 export interface PostValues {
-  account: UserModel;
+  user: UserModel;
   title: string;
   postText: string;
   time: string;
 }
 
 export default function CommunityPost({
-  account,
+  user,
   title,
   postText,
   time,
@@ -21,12 +21,12 @@ export default function CommunityPost({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={account.avatar} />
+          <Avatar alt="Remy Sharp" src={user.avatar} />
         </Grid>
         <Grid justifyContent="left" item xs zeroMinWidth>
           <h4 style={{ margin: 0, textAlign: "left" }}>{title}</h4>
           <p style={{ textAlign: "left" }}>{postText}</p>
-          <p style={{ textAlign: "left", color: "gray" }}>posted {time} ago</p>
+          <p style={{ textAlign: "left", color: "gray" }}>posted on {time}</p>
           <div style={{ float: "right" }}>
             <CommentIcon />
           </div>
