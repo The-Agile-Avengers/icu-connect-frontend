@@ -6,10 +6,13 @@ import axios from "axios";
 import { api } from "../utils/api";
 import CommunityBox from "../components/course/CommunityBox";
 import Box from "@mui/material/Box/Box";
+import { Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Communities: React.FC = () => {
   const [communities, setCommunities] = useState<CommunityModel[]>([]);
   const boxWidthPercentage = 29;
+  const navigate = useNavigate();
 
   type ApiResponse = {
     content: CommunityModel[];
@@ -39,6 +42,10 @@ const Communities: React.FC = () => {
     void getCommunities();
   }, []);
 
+  function goToCreateCommunity(): void {
+    navigate(`/community/create`);
+  }
+
   return (
     <Layout title="Communities">
       {" "}
@@ -61,7 +68,14 @@ const Communities: React.FC = () => {
           />
         ))}
       </Box>
-      {communities.length === 0 ? "No communities found..." : ""}
+      {communities.length === 0 && (
+        <Typography>
+          No communities found. Do you want to create a new one?{" "}
+          <Button variant="contained" onClick={goToCreateCommunity}>
+            Create
+          </Button>
+        </Typography>
+      )}
     </Layout>
   );
 };
