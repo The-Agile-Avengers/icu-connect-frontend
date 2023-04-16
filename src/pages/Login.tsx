@@ -25,7 +25,7 @@ type LoginFormResponseData = {
   };
 };
 
-const LoginPage: React.FC = () => {
+const Login: React.FC = () => {
   const { register, handleSubmit, setError, formState } = useForm<LoginForm>({
     mode: "onChange",
   });
@@ -121,4 +121,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

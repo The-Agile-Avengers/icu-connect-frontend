@@ -15,19 +15,19 @@ export const mainNavbarItems: mainNavbarItemsType = [
   {
     id: 0,
     icon: <SearchIcon />,
-    label: "Search",
-    route: "/search",
+    label: "Communities",
+    route: "/communities",
   },
   {
     id: 1,
     icon: <PeopleIcon />,
-    label: "Courses",
+    label: "My Communities",
     route: "/",
   },
   {
     id: 2,
     icon: <QuestionMarkIcon />,
-    label: "Course Page",
-    route: "/course",
+    label: "Community Ex.",
+    route: "/community/UZH123", //TODO - remove hardcoded value later
   },
 ];
