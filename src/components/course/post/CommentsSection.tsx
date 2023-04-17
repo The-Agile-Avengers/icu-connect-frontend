@@ -76,7 +76,11 @@ export default function CommentsSection({
             sx={{ flexGrow: 1, p: 1 }}
             placeholder="Write a comment..."
           />
-          <Button type="submit" sx={{ mx: 1 }}>
+          <Button
+            type="submit"
+            disabled={commentText == "" ? true : false}
+            sx={{ mx: 1 }}
+          >
             <SendIcon />
           </Button>
         </Box>
