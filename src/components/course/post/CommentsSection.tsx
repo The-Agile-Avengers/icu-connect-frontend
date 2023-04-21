@@ -43,7 +43,7 @@ export default function CommentsSection({
         addNewComment({
           id: response.data.id,
           text: response.data.text,
-          creator: response.data.creator,
+          user: response.data.user,
           creation: getDate(response.data.creation),
         });
         setCommentText("");
@@ -56,11 +56,7 @@ export default function CommentsSection({
   return (
     <>
       {commentsList.map((comment: SingleComment) => (
-        <PostComment
-          key={comment.id}
-          user={comment.creator}
-          text={comment.text}
-        />
+        <PostComment key={comment.id} user={comment.user} text={comment.text} />
       ))}
 
       <form // eslint-disable-next-line @typescript-eslint/no-misused-promises

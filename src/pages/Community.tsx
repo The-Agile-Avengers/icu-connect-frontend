@@ -78,6 +78,15 @@ const Community: React.FC = () => {
     setCommunityPosts([post, ...communityPosts]);
   };
 
+  const deleteCommunityPost = (postId: number) => {
+    const postIndex = communityPosts.findIndex((post) => post.id === postId);
+    if (postIndex > -1) {
+      const updatedList = [...communityPosts];
+      updatedList.splice(postIndex, 1);
+      setCommunityPosts(updatedList);
+    }
+  };
+
   /* Tab Navigation Logic */
   const [activeTab, setActiveTab] = React.useState(0);
   const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
@@ -150,6 +159,7 @@ const Community: React.FC = () => {
         const { data } = await api.get<PostsResponse>(
           `/communities/${id}/posts?page=0&size=100`
         );
+        console.log("data", data.content);
         setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
@@ -264,8 +274,8 @@ const Community: React.FC = () => {
                 postId={post.id}
                 user={{
                   id: 123,
-                  name: "WaitingForBackend",
-                  email: "ToDo@waitingforbackend.ch",
+                  username: post.user.username,
+                  email: "",
                   avatar: imgLink,
                 }}
                 title={post.title}
@@ -273,6 +283,7 @@ const Community: React.FC = () => {
                 commentList={post.commentList}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 time={getDate(post.creation)}
+                deleteCommunityPost={deleteCommunityPost}
               />
             ))}
           </Box>
@@ -288,7 +299,7 @@ const Community: React.FC = () => {
                 key={rating.id}
                 user={{
                   id: 123,
-                  name: "WaitingForBackend",
+                  username: "WaitingForBackend",
                   email: "ToDo@waitingforbackend.ch",
                   avatar: imgLink,
                 }}

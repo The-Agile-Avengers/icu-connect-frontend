@@ -39,6 +39,6 @@ export type CommentForm = {
 
 export interface SingleComment extends CommentForm {
   id: number;
-  creator: UserModel;
+  user: UserModel;
   creation: string;
 }

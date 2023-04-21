@@ -38,9 +38,9 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
           thumbsUp: response.data.thumbsUp,
           commentList: response.data.commentList,
           user: {
-            id: 123,
-            name: "WaitingForBackend",
-            email: "ToDo@waitingforbackend.ch",
+            id: response.data.user.id,
+            username: response.data.user.username,
+            email: " ",
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
           },
