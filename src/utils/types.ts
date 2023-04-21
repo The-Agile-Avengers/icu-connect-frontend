@@ -27,7 +27,7 @@ export type PostForm = {
 
 export interface Post extends PostForm {
   id: number;
-  user: UserModel;
+  creator: UserModel;
   creation: string;
   thumbsUp: number;
   commentList: SingleComment[];

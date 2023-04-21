@@ -274,7 +274,7 @@ const Community: React.FC = () => {
                 postId={post.id}
                 user={{
                   id: 123,
-                  username: post.user.username,
+                  username: post.creator.username,
                   email: "",
                   avatar: imgLink,
                 }}
