@@ -34,10 +34,12 @@ const Profile = () => (
       bottom: "0",
     }}
   >
-    <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>S</Avatar>
+    <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>
+      {localStorage.getItem("Username")?.charAt(0).toUpperCase()}
+    </Avatar>
     <div style={{ margin: "auto" }}>
       <p style={{ margin: "0" }}>Profile</p>
-      <small style={{ margin: "0" }}>username</small>
+      <small style={{ margin: "0" }}>{localStorage.getItem("Username")}</small>
     </div>
   </Box>
 );

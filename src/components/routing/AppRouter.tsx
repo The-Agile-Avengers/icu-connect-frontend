@@ -7,6 +7,7 @@ import Communities from "../../pages/Communities";
 import SignUp from "../../pages/SignUp";
 import { isLoggedIn } from "../../utils/utils";
 import CreateCommunity from "../../pages/CreateCommunity";
+import Settings from "pages/Settings";
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -18,6 +19,7 @@ const AppRouter = () => (
           <Route index path="/community/:id?" element={<Community />} />
           <Route index path="/community/create" element={<CreateCommunity />} />
           <Route index path="/communities" element={<Communities />} />
+          <Route index path="/settings" element={<Settings />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/signup" element={<Navigate to="/" replace />} />
         </>
