@@ -8,7 +8,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { mainNavbarItems } from "./NavbarListItems";
 import Avatar from "@mui/material/Avatar";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
@@ -49,13 +49,20 @@ const Profile = () => (
 );
 
 const Navbar = () => {
-  const drawerWidth = 350;
+  const drawerWidth = 340;
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState<boolean>(
+    !useMediaQuery("(min-width:750px)")
+  );
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  React.useEffect(() => {
+    //this is needed that the navbar component reloads on navigate and the min-widht size is recalculated
+  }, []);
 
   const NavDrawer = (
     <Drawer
+      className="Drawer"
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -99,7 +106,7 @@ const Navbar = () => {
 
       <Toolbar />
       <Divider />
-      <List>
+      <List sx={{ ml: 1 }}>
         {mainNavbarItems.map((item) => (
           <ListItem
             key={item.id}
