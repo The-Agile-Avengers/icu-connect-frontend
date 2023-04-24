@@ -1,5 +1,4 @@
 import * as React from "react";
-import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -12,9 +11,14 @@ import Avatar from "@mui/material/Avatar";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Drawer from "@mui/material/Drawer";
+import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Logo = () => (
-  <Typography variant="h1" sx={{ color: "white", p: 4, paddingTop: 5.2 }}>
+  <Typography variant="h1" sx={{ color: "white", m: 0 }}>
     ICU
     <span style={{ color: "#21B34B", fontSize: "0.6em" }}> connect</span>
   </Typography>
@@ -45,10 +49,12 @@ const Profile = () => (
 );
 
 const Navbar = () => {
-  const drawerWidth = 250;
+  const drawerWidth = 350;
   const navigate = useNavigate();
 
-  return (
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const NavDrawer = (
     <Drawer
       sx={{
         width: drawerWidth,
@@ -63,7 +69,34 @@ const Navbar = () => {
       variant="permanent"
       anchor="left"
     >
-      <Logo />
+      <Box
+        sx={{
+          m: 3,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Logo />
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{
+            mr: 2,
+            alignSelf: "flex-end",
+            "&:hover": {
+              color: "black",
+              backgroundColor: "white",
+            },
+          }}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
       <Toolbar />
       <Divider />
       <List>
@@ -82,6 +115,29 @@ const Navbar = () => {
       </List>
       <Profile />
     </Drawer>
+  );
+
+  return isOpen ? (
+    <Box sx={{ m: 3 }}>
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        sx={{
+          mr: 2,
+          "&:hover": {
+            color: "white",
+            backgroundColor: "rgba(17, 8, 47, 1)",
+          },
+        }}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <MenuIcon />
+      </IconButton>
+    </Box>
+  ) : (
+    NavDrawer
   );
 };
 
