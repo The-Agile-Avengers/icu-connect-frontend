@@ -1,68 +1,86 @@
-import { Paper, TextField } from "@mui/material";
+import { Autocomplete, Paper, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import { api } from "../../utils/api";
+import { Instructor } from "models/CommunityModel";
 
 type formValues = {
   moduleId: string;
   name: string;
   instructor: {
-        name: string;
-  },
-  description:string;
-  ects:number;
+    name: string;
+  };
+  description: string;
+  ects: number;
 };
 
 type FormFormResponseData = {
   data: {
-  moduleId: string,
-  name: string,
-  instructor: {
-      id: number,
-      name: string
-  },
-  subscribersCount: number,
-  ects: number,
-  rating: {
-      id: number,
-      teaching: number,
-      content: number,
-      workload: number
-  },
-  joined: boolean
-}
-}
-
+    moduleId: string;
+    name: string;
+    instructor: {
+      id: number;
+      name: string;
+    };
+    subscribersCount: number;
+    ects: number;
+    rating: {
+      id: number;
+      teaching: number;
+      content: number;
+      workload: number;
+    };
+    joined: boolean;
+  };
+};
 
 export default function CommunityCreate() {
   const navigate = useNavigate();
+  const [instructorList, setInstructorList] = useState<string[]>([]);
 
-
-  const { register, handleSubmit , formState} = useForm<formValues>({
-    mode: "onChange"
+  const { register, handleSubmit, formState } = useForm<formValues>({
+    mode: "onChange",
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (formData: any) => {
     api
-    .post(`/communities`, formData)
+      .post(`/communities`, formData)
       .then((response: FormFormResponseData) => {
         console.log(response.data);
-        const moduleId: string = response.data.moduleId
+        const moduleId: string = response.data.moduleId;
         navigate(`/community/${moduleId}`);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  
+
+  const getTeachers = async () => {
+    try {
+      const { data } = await api.get<Instructor[]>("/instructors");
+      const teachers: string[] = data.map(
+        (teacher: Instructor) => teacher.name
+      );
+      setInstructorList(teachers);
+    } catch (error) {
+      console.error("Failed to fetch teachers:", error);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getTeachers();
+  }, []);
+
   return (
-    <Paper style={{ padding: "20px"}}>
+    <Paper style={{ padding: "20px" }}>
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Grid
           container
           direction="column"
@@ -70,80 +88,100 @@ export default function CommunityCreate() {
           alignItems="center"
           spacing={4}
           sx={{
-            width: "100%",}}
-          >
-            <Grid 
-              item 
-              sx={{
+            width: "100%",
+          }}
+        >
+          <Grid
+            item
+            sx={{
               minWidth: "80%",
-            }}>
-              <TextField
-                  {...register("name", { required: true })}
-                  id="standard-basic"
-                  label="Course Name"
-                  variant="standard" 
-                  fullWidth
-                  />
-            </Grid>
-            <Grid 
-              item
-              sx={{
-                minWidth:"80%"
-            }}>
-              <TextField
-                {...register("moduleId", { required: true })}
-                id="standard-basic"
-                label="Course Number"
-                variant="standard" 
-                sx={{width: "100%"}}
-                fullWidth/>
-            </Grid>
-            <Grid 
-              item
-              sx={{
-                minWidth:"80%"
-              }}>
-              <TextField
-                  {...register("ects", { required: true, valueAsNumber: true, validate: (value) => value > 0,})}
-                  id="standard-basic"
-                  label="ECTS"
-                  type="number"
-                  variant="standard"
-                  sx={{width: "100%"}} />
-            </Grid>
-            <Grid 
-              item
-              sx={{
-                minWidth:"80%"
-            }}>
-              <TextField
+            }}
+          >
+            <TextField
+              {...register("name", { required: true })}
+              id="standard-basic"
+              label="Course Name"
+              variant="standard"
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              minWidth: "80%",
+            }}
+          >
+            <TextField
+              {...register("moduleId", { required: true })}
+              id="standard-basic"
+              label="Course Number"
+              variant="standard"
+              sx={{ width: "100%" }}
+              fullWidth
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              minWidth: "80%",
+            }}
+          >
+            <TextField
+              {...register("ects", {
+                required: true,
+                valueAsNumber: true,
+                validate: (value) => value > 0,
+              })}
+              id="standard-basic"
+              label="ECTS"
+              variant="standard"
+              sx={{ width: "100%" }}
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              minWidth: "80%",
+            }}
+          >
+            <Autocomplete
+              freeSolo
+              id="combo-box-demo"
+              options={instructorList}
+              sx={{ width: "100%" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
                   {...register("instructor.name", { required: true })}
-                  id="standard-basic"
                   label="Teacher"
-                  variant="standard"
-                  sx={{width: "100%"}} />
-            </Grid>
-            <Grid 
-              item
-              sx={{
-                minWidth:"80%"
-            }}>
-              <TextField
-                  {...register("description", { required: true })}
-                  id="outlined-multiline-static"
-                  label="Course Description"
-                  sx={{width: "100%"}}
-                  multiline
-                  rows={4} />
-            </Grid>
-            <Grid item>
-              <Button
-                    variant="contained"
-                    type="submit"
-                    disabled={!formState.isValid}
-                
-                >SUBMIT</Button>
-            </Grid> 
+                />
+              )}
+            />
+          </Grid>
+          <Grid
+            item
+            sx={{
+              minWidth: "80%",
+            }}
+          >
+            <TextField
+              {...register("description", { required: false })}
+              id="outlined-multiline-static"
+              label="Course Description"
+              sx={{ width: "100%" }}
+              multiline
+              rows={4}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={!formState.isValid}
+            >
+              SUBMIT
+            </Button>
+          </Grid>
         </Grid>
       </form>
     </Paper>
