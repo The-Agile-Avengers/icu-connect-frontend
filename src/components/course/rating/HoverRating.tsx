@@ -5,28 +5,18 @@ import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
 
 const labels: { [index: string]: string } = {
-  0.5: "Useless",
-  1: "Useless+",
-  1.5: "Poor",
-  2: "Poor+",
-  2.5: "Ok",
-  3: "Ok+",
-  3.5: "Good",
-  4: "Good+",
-  4.5: "Excellent",
-  5: "Excellent+",
+  1: "Useless",
+  2: "Poor",
+  3: "Ok",
+  4: "Good",
+  5: "Excellent",
 };
 
 const labelsWorkload: { [index: string]: string } = {
-  0.5: "low",
-  1: "low+",
-  1.5: "low",
-  2: "moderate",
-  2.5: "moderate",
+  1: "low",
+  2: "medium",
   3: "moderate",
-  3.5: "moderate-high",
-  4: "high+",
-  4.5: "very high",
+  4: "high",
   5: "very high",
 };
 
@@ -53,7 +43,7 @@ export default function HoverRating({
   return (
     <Box
       sx={{
-        width: 200,
+        width: "100%",
         display: "flex",
         alignItems: "center",
       }}
@@ -61,7 +51,7 @@ export default function HoverRating({
       <Rating
         name="hover-feedback"
         value={value}
-        precision={0.5}
+        precision={1}
         getLabelText={getLabelText}
         readOnly={readonly}
         onChange={(event, newHover) => {
@@ -73,7 +63,7 @@ export default function HoverRating({
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
       {value !== null && (
-        <Box sx={{ ml: 2 }}>
+        <Box sx={{ ml: 2, width: "20%" }}>
           {type === "WORKLOAD"
             ? labelsWorkload[hover !== -1 ? hover : value]
             : labels[hover !== -1 ? hover : value]}
