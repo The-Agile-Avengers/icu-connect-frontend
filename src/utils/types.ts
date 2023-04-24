@@ -16,7 +16,7 @@ export type RatingForm = {
 export interface Rating extends RatingForm {
   id: number;
   user: UserModel;
-  timestamp: string;
+  creation: string;
   thumbsUp: number;
 }
 
@@ -27,7 +27,7 @@ export type PostForm = {
 
 export interface Post extends PostForm {
   id: number;
-  creator: UserModel;
+  user: UserModel;
   creation: string;
   thumbsUp: number;
   commentList: SingleComment[];

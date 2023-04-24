@@ -82,13 +82,16 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           text: response.data.text,
           thumbsUp: response.data.thumbsUp,
           user: {
-            id: 123,
-            username: "WaitingForBackend",
-            email: "ToDo@waitingforbackend.ch",
+            id: response.data.user.id,
+            username: response.data.user.username,
+            email: response.data.user.email,
+            //TODO
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+            //TODO
+            studyArea: " ",
           },
-          timestamp: "01.01.2000",
+          creation: response.data.creation,
         });
 
         setReadOnly(true);

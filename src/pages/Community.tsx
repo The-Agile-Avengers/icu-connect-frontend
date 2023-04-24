@@ -273,10 +273,13 @@ const Community: React.FC = () => {
                 communityId={id}
                 postId={post.id}
                 user={{
-                  id: 123,
-                  username: post.creator.username,
-                  email: "",
+                  id: post.user.id,
+                  username: post.user.username,
+                  email: post.user.email,
+                  // TODO
                   avatar: imgLink,
+                  // TODO
+                  studyArea: "wait for backend",
                 }}
                 title={post.title}
                 postText={post.text}
@@ -298,17 +301,19 @@ const Community: React.FC = () => {
               <CommunityRating
                 key={rating.id}
                 user={{
-                  id: 123,
-                  username: "WaitingForBackend",
-                  email: "ToDo@waitingforbackend.ch",
+                  id: rating.user.id,
+                  username: rating.user.username,
+                  email: rating.user.email,
+                  // TODO
                   avatar: imgLink,
+                  // TODO
+                  studyArea: "wait for backend",
                 }}
                 ratingContent={rating.content}
                 ratingTeaching={rating.teaching}
                 ratingWorkload={rating.workload}
                 textRating={rating.text}
-                //TODO adjust time variable to the timestemp
-                time="22.3.2023"
+                time={getDate(rating.creation)}
               />
             ))}
           </Box>

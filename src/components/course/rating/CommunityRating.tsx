@@ -42,7 +42,7 @@ export default function CommunityRating({
             </div>
           </div>
           <p style={{ textAlign: "left" }}>{textRating}</p>
-          <p style={{ textAlign: "left", color: "gray" }}>Review: {time}</p>
+          <p style={{ textAlign: "left", color: "gray" }}>Created: {time}</p>
         </Grid>
       </Grid>
     </Paper>

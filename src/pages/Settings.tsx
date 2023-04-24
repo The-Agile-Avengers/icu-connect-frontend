@@ -5,8 +5,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  Paper,
+  TextField,
   Typography,
 } from "@mui/material";
 import Layout from "components/shared/Layout";
@@ -21,7 +20,8 @@ import avatar7 from "images/Avatars/avatar7.png";
 import avatar8 from "images/Avatars/avatar8.png";
 import avatar9 from "images/Avatars/avatar9.png";
 import avatar10 from "images/Avatars/avatar10.png";
-import { Edit } from "@mui/icons-material";
+import { Edit, Save } from "@mui/icons-material";
+import { UserModel } from "models/UserModel";
 
 function getAvatar(index: number): string {
   const avatarList = [
@@ -38,8 +38,61 @@ function getAvatar(index: number): string {
   ];
   return avatarList[index - 1];
 }
+const data: UserModel = {
+  id: 1,
+  username: "HansPeter123",
+  email: "this is a mail",
+  studyArea: "Info",
+  avatar: "",
+};
 
 export default function Settings() {
+  const [editName, setEditName] = React.useState(true);
+  const [editEmail, setEditEmail] = React.useState(true);
+  const [editStudyArea, setEditStudyArea] = React.useState(true);
+  const [userSettings] = React.useState<UserModel>(data);
+
+  const handleEditName = () => {
+    setEditName(!editName);
+  };
+
+  const handleEditEmail = () => {
+    setEditEmail(!editEmail);
+  };
+
+  const handleEditStudyArea = () => {
+    setEditStudyArea(!editStudyArea);
+  };
+
+  /*function getUserSettings() {
+    try {
+      
+      const { data } = await api.get<UserModel>(`/users/`);
+      const data: UserModel = {
+        id: 1,
+        username: "HansPeter123",
+        email: "this is a mail",
+        studyArea: "Info",
+        avatar: "",
+      };
+      console.log("data", data);
+      setUserSettings(data);
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return error.message;
+      } else {
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred";
+      }
+    }
+  }
+
+  useEffect(() => {
+    getUserSettings;
+  }, []);*/
+
   return (
     <Layout title="My Settings">
       <Grid
@@ -58,11 +111,25 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Name: </Typography>
               </ListItem>
-              <ListItem>
-                <Typography variant="h6"> Marinja </Typography>
-              </ListItem>
+              {editName ? (
+                <ListItem>
+                  <Typography variant="h6">{userSettings?.username}</Typography>
+                </ListItem>
+              ) : (
+                <ListItem>
+                  <TextField
+                    id="filled-basic"
+                    variant="filled"
+                    value={userSettings?.username}
+                  />
+                </ListItem>
+              )}
               <ListItemIcon>
-                <Edit />
+                {editName ? (
+                  <Edit onClick={handleEditName} />
+                ) : (
+                  <Save onClick={handleEditName} />
+                )}
               </ListItemIcon>
             </ListItem>
             <Divider />
@@ -70,11 +137,25 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Email: </Typography>
               </ListItem>
-              <ListItem>
-                <Typography variant="h6"> Marinja </Typography>
-              </ListItem>
+              {editEmail ? (
+                <ListItem>
+                  <Typography variant="h6"> {userSettings?.email} </Typography>
+                </ListItem>
+              ) : (
+                <ListItem>
+                  <TextField
+                    id="filled-basic"
+                    variant="filled"
+                    value={userSettings?.email}
+                  />
+                </ListItem>
+              )}
               <ListItemIcon>
-                <Edit />
+                {editEmail ? (
+                  <Edit onClick={handleEditEmail} />
+                ) : (
+                  <Save onClick={handleEditEmail} />
+                )}
               </ListItemIcon>
             </ListItem>
             <Divider />
@@ -82,11 +163,27 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Study Area </Typography>
               </ListItem>
-              <ListItem>
-                <Typography variant="h6"> Marinja </Typography>
-              </ListItem>
+              {editStudyArea ? (
+                <ListItem>
+                  <Typography variant="h6">
+                    {userSettings?.studyArea}
+                  </Typography>
+                </ListItem>
+              ) : (
+                <ListItem>
+                  <TextField
+                    id="filled-basic"
+                    variant="filled"
+                    value={userSettings?.studyArea}
+                  />
+                </ListItem>
+              )}
               <ListItemIcon>
-                <Edit />
+                {editStudyArea ? (
+                  <Edit onClick={handleEditStudyArea} />
+                ) : (
+                  <Save onClick={handleEditStudyArea} />
+                )}
               </ListItemIcon>
             </ListItem>
           </List>
