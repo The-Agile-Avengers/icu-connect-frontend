@@ -83,7 +83,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           thumbsUp: response.data.thumbsUp,
           user: {
             id: 123,
-            name: "WaitingForBackend",
+            username: "WaitingForBackend",
             email: "ToDo@waitingforbackend.ch",
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
