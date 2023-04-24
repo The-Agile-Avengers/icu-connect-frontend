@@ -149,6 +149,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           sx={{ width: "100%", mb: 2 }}
           disabled={readOnly}
           defaultValue={rating.text}
+          inputProps={{ maxLength: 200 }}
         />
         {!readOnly && (
           <Button disabled={!isEnabled} variant="contained" type="submit">

@@ -274,6 +274,8 @@ const Community: React.FC = () => {
                 postId={post.id}
                 user={{
                   id: 123,
+                  //TODO - fix eslint
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   username: post.user.username,
                   email: "",
                   avatar: imgLink,

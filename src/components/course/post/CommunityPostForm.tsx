@@ -39,6 +39,8 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
           commentList: response.data.commentList,
           user: {
             id: response.data.user.id,
+            //TODO - fix eslint error
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             username: response.data.user.username,
             email: " ",
             avatar:
@@ -67,6 +69,7 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
             id="standard-basic"
             label="Post Title"
             variant="standard"
+            inputProps={{ maxLength: 90 }}
           />
           <TextField
             {...register("text", { required: true })}
@@ -75,6 +78,7 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
             id="outlined-multiline-static"
             label="Post Text"
             multiline
+            inputProps={{ maxLength: 250 }}
           />
         </div>
         <Button type="submit" variant="contained" disabled={!isAllFieldsFilled}>
