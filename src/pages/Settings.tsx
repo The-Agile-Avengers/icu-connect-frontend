@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Layout from "components/shared/Layout";
-import React from "react";
+import React, { useEffect } from "react";
 import avatar1 from "images/Avatars/avatar1.png";
 import avatar2 from "images/Avatars/avatar2.png";
 import avatar3 from "images/Avatars/avatar3.png";
@@ -22,6 +22,8 @@ import avatar9 from "images/Avatars/avatar9.png";
 import avatar10 from "images/Avatars/avatar10.png";
 import { Edit, Save } from "@mui/icons-material";
 import { UserModel } from "models/UserModel";
+import { api } from "utils/api";
+import axios, { AxiosResponse } from "axios";
 
 function getAvatar(index: number): string {
   const avatarList = [
@@ -38,7 +40,8 @@ function getAvatar(index: number): string {
   ];
   return avatarList[index - 1];
 }
-const data: UserModel = {
+// TODO delete
+const dummy: UserModel = {
   id: 1,
   username: "HansPeter123",
   email: "this is a mail",
@@ -47,34 +50,87 @@ const data: UserModel = {
 };
 
 export default function Settings() {
-  const [editName, setEditName] = React.useState(true);
-  const [editEmail, setEditEmail] = React.useState(true);
-  const [editStudyArea, setEditStudyArea] = React.useState(true);
-  const [userSettings] = React.useState<UserModel>(data);
+  const [editName] = React.useState(false);
+  const [editEmail, setEditEmail] = React.useState(false);
+  const [editStudyArea, setEditStudyArea] = React.useState(false);
+  const [userSettings, setUserSettings] = React.useState<UserModel>(dummy);
 
-  const handleEditName = () => {
+  // TODO enable as soon as backend has solved issue with JWT token, when changing name
+  /*const handleEditName = () => {
     setEditName(!editName);
-  };
+  };*/
+
+  function validateEmail() {
+    const email = userSettings.email;
+    // eslint-disable-next-line no-useless-escape
+    if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      return true;
+    }
+    alert("Please enter a valide email");
+    return false;
+  }
 
   const handleEditEmail = () => {
-    setEditEmail(!editEmail);
+    console.log("edit", editEmail);
+    if (editEmail == false) {
+      setEditEmail(true);
+      return;
+    }
+    if (validateEmail()) {
+      setEditEmail(!editEmail);
+      api
+        .put(`/users`, {
+          email: userSettings.email,
+        })
+        .then((response: AxiosResponse<UserModel>) => {
+          setUserSettings((userSettings) => ({
+            ...userSettings,
+            email: response.data.email,
+          }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
+  function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const newEmail = event.target.value;
+    setUserSettings((userSettings) => ({
+      ...userSettings,
+      email: newEmail,
+    }));
+  }
   const handleEditStudyArea = () => {
     setEditStudyArea(!editStudyArea);
+    if (editStudyArea == false) {
+      api
+        .put(`/users`, {
+          studyArea: userSettings.studyArea,
+        })
+        .then((response: AxiosResponse<UserModel>) => {
+          setUserSettings((userSettings) => ({
+            ...userSettings,
+            studyArea: response.data.studyArea,
+          }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
-  /*function getUserSettings() {
+  function handleStudyAreaChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const newStudyArea = event.target.value;
+    setUserSettings((userSettings) => ({
+      ...userSettings,
+      studyArea: newStudyArea,
+    }));
+  }
+
+  async function getUserSettings() {
     try {
-      
-      const { data } = await api.get<UserModel>(`/users/`);
-      const data: UserModel = {
-        id: 1,
-        username: "HansPeter123",
-        email: "this is a mail",
-        studyArea: "Info",
-        avatar: "",
-      };
+      const { data } = await api.get<UserModel>(`/users`);
       console.log("data", data);
       setUserSettings(data);
       return data;
@@ -90,8 +146,9 @@ export default function Settings() {
   }
 
   useEffect(() => {
-    getUserSettings;
-  }, []);*/
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getUserSettings();
+  }, []);
 
   return (
     <Layout title="My Settings">
@@ -111,25 +168,29 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Name: </Typography>
               </ListItem>
-              {editName ? (
+              {!editName ? (
                 <ListItem>
                   <Typography variant="h6">{userSettings?.username}</Typography>
                 </ListItem>
               ) : (
                 <ListItem>
                   <TextField
-                    id="filled-basic"
+                    required
                     variant="filled"
                     value={userSettings?.username}
+                    onChange={handleEmailChange}
                   />
                 </ListItem>
               )}
               <ListItemIcon>
-                {editName ? (
+                {
+                  // TODO enable as soon as backend has solved issue with JWT token, when changing name
+                  /*editName ? (
                   <Edit onClick={handleEditName} />
                 ) : (
                   <Save onClick={handleEditName} />
-                )}
+                )*/
+                }
               </ListItemIcon>
             </ListItem>
             <Divider />
@@ -137,21 +198,22 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Email: </Typography>
               </ListItem>
-              {editEmail ? (
+              {!editEmail ? (
                 <ListItem>
                   <Typography variant="h6"> {userSettings?.email} </Typography>
                 </ListItem>
               ) : (
                 <ListItem>
                   <TextField
-                    id="filled-basic"
+                    required
                     variant="filled"
                     value={userSettings?.email}
+                    onChange={handleEmailChange}
                   />
                 </ListItem>
               )}
               <ListItemIcon>
-                {editEmail ? (
+                {!editEmail ? (
                   <Edit onClick={handleEditEmail} />
                 ) : (
                   <Save onClick={handleEditEmail} />
@@ -163,7 +225,7 @@ export default function Settings() {
               <ListItem>
                 <Typography variant="h6"> Study Area </Typography>
               </ListItem>
-              {editStudyArea ? (
+              {!editStudyArea ? (
                 <ListItem>
                   <Typography variant="h6">
                     {userSettings?.studyArea}
@@ -172,14 +234,15 @@ export default function Settings() {
               ) : (
                 <ListItem>
                   <TextField
-                    id="filled-basic"
                     variant="filled"
                     value={userSettings?.studyArea}
+                    onChange={handleStudyAreaChange}
+                    inputProps={{ maxLength: 30 }}
                   />
                 </ListItem>
               )}
               <ListItemIcon>
-                {editStudyArea ? (
+                {!editStudyArea ? (
                   <Edit onClick={handleEditStudyArea} />
                 ) : (
                   <Save onClick={handleEditStudyArea} />
