@@ -1,8 +1,8 @@
 import React from "react";
 import PeopleIcon from "@mui/icons-material/People";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import SearchIcon from "@mui/icons-material/Search";
 import { SvgIconProps } from "@mui/material";
+import { Settings } from "@mui/icons-material";
 
 type mainNavbarItemsType = Array<{
   id: number;
@@ -24,10 +24,11 @@ export const mainNavbarItems: mainNavbarItemsType = [
     label: "My Communities",
     route: "/",
   },
+
   {
     id: 2,
-    icon: <QuestionMarkIcon />,
-    label: "Community Ex.",
-    route: "/community/UZH123", //TODO - remove hardcoded value later
+    icon: <Settings />,
+    label: "My Settings",
+    route: "/settings",
   },
 ];

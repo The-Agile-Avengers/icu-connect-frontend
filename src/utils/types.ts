@@ -14,9 +14,9 @@ export type RatingForm = {
 };
 
 export interface Rating extends RatingForm {
-  id: number;
+  id: number | undefined;
   user: UserModel;
-  timestamp: string;
+  creation: string;
   thumbsUp: number;
 }
 

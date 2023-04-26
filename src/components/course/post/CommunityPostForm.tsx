@@ -40,9 +40,11 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
           user: {
             id: response.data.user.id,
             username: response.data.user.username,
-            email: " ",
+            email: response.data.user.email,
             avatar:
               "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+            // TODO:
+            studyArea: "wait",
           },
           creation: response.data.creation,
         });
