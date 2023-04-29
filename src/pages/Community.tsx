@@ -313,6 +313,7 @@ const Community: React.FC = () => {
                 ratingTeaching={rating.teaching}
                 ratingWorkload={rating.workload}
                 textRating={rating.text}
+                //eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 time={getDate(rating.creation)}
               />
             ))}
