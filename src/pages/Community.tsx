@@ -312,6 +312,7 @@ const Community: React.FC = () => {
                   // TODO
                   studyArea: "wait for backend",
                 }}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 getRatings={getCommunityRatings}
               />
             ))}
