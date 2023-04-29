@@ -12,12 +12,14 @@ export interface RatingValues {
   user: UserModel;
   moduleId: string;
   rating: RatingModel;
+  getRatings: () => void;
 }
 
 export default function CommunityRating({
   user,
   moduleId,
   rating,
+  getRatings,
 }: RatingValues) {
   async function like() {
     try {
@@ -27,6 +29,7 @@ export default function CommunityRating({
           //TODO - tell backend to turn into PUT instead of POST with empty request body
           {}
         );
+        getRatings();
       }
     } catch (error) {
       console.error("Failed to fetch teachers:", error);
@@ -70,7 +73,9 @@ export default function CommunityRating({
               startIcon={<ThumbUpIcon />}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={like}
-            />
+            >
+              {rating.thumbsUp}
+            </Button>
           </div>
         </Grid>
       </Grid>

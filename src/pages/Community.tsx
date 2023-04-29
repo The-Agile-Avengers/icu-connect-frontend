@@ -312,6 +312,7 @@ const Community: React.FC = () => {
                   // TODO
                   studyArea: "wait for backend",
                 }}
+                getRatings={getCommunityRatings}
               />
             ))}
           </Box>
