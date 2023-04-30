@@ -136,6 +136,7 @@ const Community: React.FC = () => {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100`
         );
+        console.log("Ratings, ", data);
         setCommunityRatings(data.content);
         setError(0);
         return data;
@@ -299,7 +300,9 @@ const Community: React.FC = () => {
             />
             {communityRatings.map((rating: Rating) => (
               <CommunityRating
+                rating={rating}
                 key={rating.id}
+                moduleId={id}
                 user={{
                   id: rating.user.id,
                   username: rating.user.username,
@@ -309,12 +312,8 @@ const Community: React.FC = () => {
                   // TODO
                   studyArea: "wait for backend",
                 }}
-                ratingContent={rating.content}
-                ratingTeaching={rating.teaching}
-                ratingWorkload={rating.workload}
-                textRating={rating.text}
-                //eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                time={getDate(rating.creation)}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                getRatings={getCommunityRatings}
               />
             ))}
           </Box>
