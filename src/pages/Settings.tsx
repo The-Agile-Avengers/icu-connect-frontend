@@ -152,11 +152,13 @@ export default function Settings() {
     if (editStudyArea == true) {
       api
         .put(`/users`, {
+          //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           studyArea: userSettings.studyArea,
         })
         .then((response: AxiosResponse<UserModel>) => {
           setUserSettings((userSettings) => ({
             ...userSettings,
+            //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             studyArea: response.data.studyArea,
           }));
         })
@@ -346,6 +348,7 @@ export default function Settings() {
                 <ListItem>
                   <TextField
                     variant="filled"
+                    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     value={userSettings?.studyArea}
                     onChange={handleStudyAreaChange}
                     inputProps={{ maxLength: 30 }}

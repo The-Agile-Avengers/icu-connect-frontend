@@ -103,6 +103,7 @@ export default function CommunityCreate() {
               label="Course Name"
               variant="standard"
               fullWidth
+              inputProps={{ maxLength: 40 }}
             />
           </Grid>
           <Grid
@@ -118,6 +119,7 @@ export default function CommunityCreate() {
               variant="standard"
               sx={{ width: "100%" }}
               fullWidth
+              inputProps={{ maxLength: 15 }}
             />
           </Grid>
           <Grid
@@ -136,6 +138,7 @@ export default function CommunityCreate() {
               label="ECTS"
               variant="standard"
               sx={{ width: "100%" }}
+              inputProps={{ maxLength: 2 }}
             />
           </Grid>
           <Grid
@@ -171,6 +174,7 @@ export default function CommunityCreate() {
               sx={{ width: "100%" }}
               multiline
               rows={4}
+              inputProps={{ maxLength: 350 }}
             />
           </Grid>
           <Grid item>
