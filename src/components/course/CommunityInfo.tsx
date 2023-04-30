@@ -21,16 +21,19 @@ export default function CommunityInfo({ community }: Props) {
       <HoverRating
         value={community ? community.rating.content : 0}
         type="CONTENT"
+        readonly
       />
       <Legend label="Teaching" />
       <HoverRating
         value={community ? community.rating.teaching : 0}
         type="TEACHING"
+        readonly
       />
       <Legend label="Workload" />
       <HoverRating
         value={community ? community.rating.workload : 0}
         type="WORKLOAD"
+        readonly
       />
     </Box>
   );

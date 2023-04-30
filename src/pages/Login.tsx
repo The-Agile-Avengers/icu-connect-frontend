@@ -36,6 +36,7 @@ const Login: React.FC = () => {
       .post("/login", formData)
       .then((response: LoginFormResponseData) => {
         localStorage.setItem("AuthToken", response.data.jwt);
+        localStorage.setItem("Username", formData.username);
         window.location.reload();
       })
       .catch((error) => {

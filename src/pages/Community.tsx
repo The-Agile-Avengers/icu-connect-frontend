@@ -78,6 +78,15 @@ const Community: React.FC = () => {
     setCommunityPosts([post, ...communityPosts]);
   };
 
+  const deleteCommunityPost = (postId: number) => {
+    const postIndex = communityPosts.findIndex((post) => post.id === postId);
+    if (postIndex > -1) {
+      const updatedList = [...communityPosts];
+      updatedList.splice(postIndex, 1);
+      setCommunityPosts(updatedList);
+    }
+  };
+
   /* Tab Navigation Logic */
   const [activeTab, setActiveTab] = React.useState(0);
   const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
@@ -127,6 +136,7 @@ const Community: React.FC = () => {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100`
         );
+        console.log("Ratings, ", data);
         setCommunityRatings(data.content);
         setError(0);
         return data;
@@ -150,6 +160,7 @@ const Community: React.FC = () => {
         const { data } = await api.get<PostsResponse>(
           `/communities/${id}/posts?page=0&size=100`
         );
+        console.log("data", data.content);
         setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
@@ -263,16 +274,20 @@ const Community: React.FC = () => {
                 communityId={id}
                 postId={post.id}
                 user={{
-                  id: 123,
-                  name: "WaitingForBackend",
-                  email: "ToDo@waitingforbackend.ch",
+                  id: post.user.id,
+                  username: post.user.username,
+                  email: post.user.email,
+                  // TODO
                   avatar: imgLink,
+                  // TODO
+                  studyArea: "wait for backend",
                 }}
                 title={post.title}
                 postText={post.text}
                 commentList={post.commentList}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 time={getDate(post.creation)}
+                deleteCommunityPost={deleteCommunityPost}
               />
             ))}
           </Box>
@@ -285,19 +300,20 @@ const Community: React.FC = () => {
             />
             {communityRatings.map((rating: Rating) => (
               <CommunityRating
+                rating={rating}
                 key={rating.id}
+                moduleId={id}
                 user={{
-                  id: 123,
-                  name: "WaitingForBackend",
-                  email: "ToDo@waitingforbackend.ch",
+                  id: rating.user.id,
+                  username: rating.user.username,
+                  email: rating.user.email,
+                  // TODO
                   avatar: imgLink,
+                  // TODO
+                  studyArea: "wait for backend",
                 }}
-                ratingContent={rating.content}
-                ratingTeaching={rating.teaching}
-                ratingWorkload={rating.workload}
-                textRating={rating.text}
-                //TODO adjust time variable to the timestemp
-                time="22.3.2023"
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                getRatings={getCommunityRatings}
               />
             ))}
           </Box>

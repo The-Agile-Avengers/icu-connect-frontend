@@ -14,12 +14,11 @@ export type RatingForm = {
 };
 
 export interface Rating extends RatingForm {
-  id: number;
+  id: number | undefined;
   user: UserModel;
-  timestamp: string;
+  creation: string;
   thumbsUp: number;
 }
-
 
 export type PostForm = {
   title: string;
@@ -35,12 +34,11 @@ export interface Post extends PostForm {
 }
 
 export type CommentForm = {
-  text: string | null;
+  text: string;
 };
 
 export interface SingleComment extends CommentForm {
   id: number;
-  creator: UserModel;
+  user: UserModel;
   creation: string;
-
 }
