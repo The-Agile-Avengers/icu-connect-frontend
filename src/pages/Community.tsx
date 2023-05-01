@@ -12,6 +12,8 @@ import {
   Button,
   Tabs,
   Tab,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommunityPost from "../components/course/post/CommunityPost";
@@ -70,6 +72,18 @@ const Community: React.FC = () => {
     useState<CommunityModel>(defaultCommunity);
   const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
+  const [alignment, setAlignment] = React.useState("most recent");
+
+  const handleToggleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
+  };
+
+  useEffect(() => {
+    getCommunityRatings();
+  }, [alignment]);
 
   const addCommunityRating = (rating: Rating) => {
     setCommunityRatings([...communityRatings, rating]);
@@ -134,7 +148,14 @@ const Community: React.FC = () => {
     if (id) {
       try {
         const { data } = await api.get<RatingsResponse>(
-          `/communities/${id}/ratings?page=0&size=100`
+          `/communities/${id}/ratings?page=0&size=100&sortByMostLiked=${
+            alignment === "most liked" ? "true" : "false"
+          }`
+        );
+        console.log("Alignment: ", alignment);
+        console.log(
+          "alignment === most liked: ",
+          alignment === "most liked" ? "true" : "false"
         );
         console.log("Ratings, ", data);
         setCommunityRatings(data.content);
@@ -205,8 +226,12 @@ const Community: React.FC = () => {
 
   useEffect(() => {
     getCommunity();
-    getCommunityRatings();
-    getCommunityPosts();
+    if (communityRatings.length === 0) {
+      getCommunityRatings();
+    }
+    if (communityPosts.length === 0) {
+      getCommunityPosts();
+    }
   }, [id]);
 
   return error === 0 && id ? (
@@ -265,6 +290,7 @@ const Community: React.FC = () => {
           </Tabs>
         </Box>
 
+        {/* SECTION - POSTS */}
         <TabPanel value={activeTab} index={0}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
@@ -292,12 +318,24 @@ const Community: React.FC = () => {
             ))}
           </Box>
         </TabPanel>
+        {/* SECTION - Ratings */}
         <TabPanel value={activeTab} index={1}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             <CommunityRatingForm
               id={id}
               addCommunityRating={addCommunityRating}
             />
+            <ToggleButtonGroup
+              color="primary"
+              value={alignment}
+              exclusive
+              onChange={handleToggleChange}
+              aria-label="Platform"
+              sx={{ mt: "2em" }}
+            >
+              <ToggleButton value="most recent">most recent</ToggleButton>
+              <ToggleButton value="most liked">most liked</ToggleButton>
+            </ToggleButtonGroup>
             {communityRatings.map((rating: Rating) => (
               <CommunityRating
                 rating={rating}
