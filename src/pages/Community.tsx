@@ -18,11 +18,11 @@ import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../models/CommunityModel";
+import { CommunityModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Rating, Post } from "../utils/types";
+import { RatingModel, Post } from "../utils/types";
 import { getDate } from "utils/utils";
 
 /* TODO - Delete Mockup Data */
@@ -51,7 +51,7 @@ type CommunityPageParams = {
 };
 
 interface RatingsResponse {
-  content: Rating[];
+  content: RatingModel[];
 }
 interface PostsResponse {
   content: Post[];
@@ -68,10 +68,10 @@ const Community: React.FC = () => {
   const [error, setError] = useState<number>(1);
   const [communityInfo, setCommunityInfo] =
     useState<CommunityModel>(defaultCommunity);
-  const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
+  const [communityRatings, setCommunityRatings] = useState<RatingModel[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
 
-  const addCommunityRating = (rating: Rating) => {
+  const addCommunityRating = (rating: RatingModel) => {
     setCommunityRatings([...communityRatings, rating]);
   };
   const addCommunityPost = (post: Post) => {
@@ -298,7 +298,7 @@ const Community: React.FC = () => {
               id={id}
               addCommunityRating={addCommunityRating}
             />
-            {communityRatings.map((rating: Rating) => (
+            {communityRatings.map((rating: RatingModel) => (
               <CommunityRating
                 rating={rating}
                 key={rating.id}
@@ -306,6 +306,7 @@ const Community: React.FC = () => {
                 user={{
                   id: rating.user.id,
                   username: rating.user.username,
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   email: rating.user.email,
                   // TODO
                   avatar: imgLink,
