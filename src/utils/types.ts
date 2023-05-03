@@ -35,7 +35,7 @@ export interface RatingModel extends RatingForm {
   user: UserModel;
   creation: string;
   thumbsUp: number;
-  //hasliked: boolean;
+  hasliked: boolean;
 }
 
 export type RatingSummary = {

@@ -81,9 +81,11 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           workload: response.data.workload,
           text: response.data.text,
           thumbsUp: response.data.thumbsUp,
+          hasliked: false,
           user: {
             id: response.data.user.id,
             username: response.data.user.username,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             email: response.data.user.email,
             //TODO
             avatar:
