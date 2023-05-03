@@ -1,12 +1,12 @@
 import React from "react";
-import { Avatar, Button, Grid, Paper, Rating } from "@mui/material";
+import { Avatar, Button, Grid, Paper, Rating, Tooltip } from "@mui/material";
 import { UserModel } from "../../../utils/types";
 import { Legend } from "../../../design/typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { CommunityModel } from "../../../utils/types";
 import { api } from "utils/api";
+import { getAvatar, getDate } from "utils/utils";
 import { RatingModel } from "../../../utils/types";
-import { getDate } from "utils/utils";
 
 export interface RatingValues {
   user: UserModel;
@@ -40,7 +40,9 @@ export default function CommunityRating({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={user.avatar} />
+          <Tooltip title={user.username}>
+            <Avatar alt={user.username} src={getAvatar(user.avatar)} />
+          </Tooltip>
         </Grid>
         <Grid
           justifyContent="left"

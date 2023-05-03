@@ -25,10 +25,6 @@ import CreateCommunityForm from "../components/course/CreateCommunityForm";
 import { RatingModel, Post } from "../utils/types";
 import { getDate } from "utils/utils";
 
-/* TODO - Delete Mockup Data */
-const imgLink =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
-
 const defaultCommunity = {
   moduleId: "",
   name: "",
@@ -277,10 +273,8 @@ const Community: React.FC = () => {
                   id: post.user.id,
                   username: post.user.username,
                   email: post.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: post.user.avatar,
+                  studyArea: " ",
                 }}
                 title={post.title}
                 postText={post.text}
@@ -308,10 +302,8 @@ const Community: React.FC = () => {
                   username: rating.user.username,
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   email: rating.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: rating.user.avatar,
+                  studyArea: " ",
                 }}
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 getRatings={getCommunityRatings}
