@@ -51,6 +51,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
     };
 
     void getRating();
+
   }, [id]);
 
   useEffect(() => {
