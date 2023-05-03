@@ -50,9 +50,8 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
       }
     };
 
-    if (rating !== defaultRating) {
-      void getRating();
-    }
+    void getRating();
+    console.log("get Rating in useEffect");
   }, [id]);
 
   useEffect(() => {
