@@ -14,6 +14,8 @@ import {
   Tab,
   ToggleButtonGroup,
   ToggleButton,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommunityPost from "../components/course/post/CommunityPost";
@@ -78,6 +80,13 @@ const Community: React.FC = () => {
   const [alignment, setAlignment] = React.useState("most recent");
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const [readOnly, setReadOnly] = React.useState(false);
+  const [allCommunityPosts, setAllCommunityPosts] = useState<Post[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>();
+  const years = Array.from(
+    new Set(
+      allCommunityPosts.map((post) => new Date(post.creation).getFullYear())
+    )
+  );
 
   const handleToggleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -153,7 +162,6 @@ const Community: React.FC = () => {
             alignment === "most liked" ? "true" : "false"
           }`
         );
-        console.log("Ratings, ", data);
         setCommunityRatings(data.content);
         setError(0);
         return data;
@@ -171,13 +179,44 @@ const Community: React.FC = () => {
       }
     }
   }
-  async function getCommunityPosts() {
+  async function getCommunityPosts(year = "") {
+    if (id) {
+      try {
+        let requestQuery = "";
+        if (year !== "" && +year !== 0) {
+          setSelectedYear(+year);
+          requestQuery = `&year=${year}`;
+        } else if (+year == 0) {
+          setSelectedYear(+year);
+        }
+        const { data } = await api.get<PostsResponse>(
+          `/communities/${id}/posts?page=0&size=100${requestQuery}`
+        );
+        setCommunityPosts(data.content.reverse());
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+
+  async function getAllCommunityPosts() {
     if (id) {
       try {
         const { data } = await api.get<PostsResponse>(
           `/communities/${id}/posts?page=0&size=100`
         );
-        console.log("data", data.content);
+        setAllCommunityPosts(data.content.reverse());
         setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
@@ -244,11 +283,13 @@ const Community: React.FC = () => {
   useEffect(() => {
     getCommunity();
     if (communityRatings.length === 0) {
-      getCommunityRatings();
+      void getCommunityRatings();
     }
     if (communityPosts.length === 0) {
-      getCommunityPosts();
+      void getCommunityPosts();
+      void getAllCommunityPosts();
     }
+    
   }, [id]);
 
   return error === 0 && id ? (
@@ -309,7 +350,25 @@ const Community: React.FC = () => {
 
         {/* SECTION - POSTS */}
         <TabPanel value={activeTab} index={0}>
-          <Box sx={{ width: "100%", alignItems: "stretch" }}>
+          <Box sx={{ float: "right" }}>
+            <Select
+              value={selectedYear ? selectedYear : 0}
+              displayEmpty
+              inputProps={{ "aria-label": "Select year" }}
+              onChange={(event) => {
+                const selectedYear = event.target.value.toString();
+                void getCommunityPosts(selectedYear);
+              }}
+            >
+              <MenuItem value={0}>All Years</MenuItem>
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+          <Box sx={{ width: "100%", alignItems: "stretch", marginTop: "80px" }}>
             <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
             {communityPosts.map((post: Post) => (
               <CommunityPost
