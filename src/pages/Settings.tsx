@@ -31,7 +31,7 @@ import avatar8 from "images/Avatars/avatar8.png";
 import avatar9 from "images/Avatars/avatar9.png";
 import avatar10 from "images/Avatars/avatar10.png";
 import { CameraAlt, Edit, Save } from "@mui/icons-material";
-import { UserModel } from "models/UserModel";
+import { UserModel } from "utils/types";
 import { api } from "utils/api";
 import axios, { AxiosResponse } from "axios";
 

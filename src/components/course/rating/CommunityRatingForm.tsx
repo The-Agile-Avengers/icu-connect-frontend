@@ -7,12 +7,12 @@ import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
 import HoverRating from "./HoverRating";
 import { AxiosResponse } from "axios";
-import { Rating, RatingForm } from "../../../utils/types";
+import { RatingModel, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
   // eslint-disable-next-line no-unused-vars
-  addCommunityRating: (rating: Rating) => void;
+  addCommunityRating: (rating: RatingModel) => void;
 }
 
 const defaultRating = {
@@ -65,7 +65,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
 
     api
       .post(`/communities/${id}/ratings`, rating)
-      .then((response: AxiosResponse<Rating>) => {
+      .then((response: AxiosResponse<RatingModel>) => {
         // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
         setRating({
           content: response.data.content,

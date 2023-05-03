@@ -11,7 +11,7 @@ import {
   Grid,
   Paper,
 } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { UserModel } from "../../../utils/types";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import CommentsSection from "./CommentsSection";

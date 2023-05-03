@@ -1,11 +1,11 @@
 import React from "react";
 import { Avatar, Button, Grid, Paper, Rating } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { UserModel } from "../../../utils/types";
 import { Legend } from "../../../design/typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { CommunityModel } from "models/CommunityModel";
+import { CommunityModel } from "../../../utils/types";
 import { api } from "utils/api";
-import { RatingModel } from "models/RatingModel";
+import { RatingModel } from "../../../utils/types";
 import { getDate } from "utils/utils";
 
 export interface RatingValues {
