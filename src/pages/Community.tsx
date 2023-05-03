@@ -86,7 +86,7 @@ const Community: React.FC = () => {
   }, [alignment]);
 
   const addCommunityRating = (rating: Rating) => {
-    setCommunityRatings([...communityRatings, rating]);
+    setCommunityRatings([rating, ...communityRatings]);
   };
   const addCommunityPost = (post: Post) => {
     setCommunityPosts([post, ...communityPosts]);
@@ -151,11 +151,6 @@ const Community: React.FC = () => {
           `/communities/${id}/ratings?page=0&size=100&sortByMostLiked=${
             alignment === "most liked" ? "true" : "false"
           }`
-        );
-        console.log("Alignment: ", alignment);
-        console.log(
-          "alignment === most liked: ",
-          alignment === "most liked" ? "true" : "false"
         );
         console.log("Ratings, ", data);
         setCommunityRatings(data.content);
