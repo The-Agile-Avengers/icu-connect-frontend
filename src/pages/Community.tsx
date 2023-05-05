@@ -24,7 +24,7 @@ import { CommunityModel } from "../models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Rating, Post } from "../utils/types";
+import { Rating, Post, RatingForm } from "../utils/types";
 import { getDate } from "utils/utils";
 
 /* TODO - Delete Mockup Data */
@@ -46,6 +46,13 @@ const defaultCommunity = {
     workload: 1,
   },
   joined: false,
+};
+
+const defaultRating = {
+  content: 0,
+  teaching: 0,
+  workload: 0,
+  text: null,
 };
 
 type CommunityPageParams = {
@@ -73,6 +80,8 @@ const Community: React.FC = () => {
   const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
   const [alignment, setAlignment] = React.useState("most recent");
+  const [rating, setRating] = React.useState<RatingForm>(defaultRating);
+  const [readOnly, setReadOnly] = React.useState(false);
 
   const handleToggleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -81,9 +90,9 @@ const Community: React.FC = () => {
     setAlignment(newAlignment);
   };
 
-  useEffect(() => {
-    getCommunityRatings();
-  }, [alignment]);
+  // useEffect(() => {
+  //   getCommunityRatings();
+  // }, [alignment]);
 
   const addCommunityRating = (rating: Rating) => {
     setCommunityRatings([rating, ...communityRatings]);
@@ -202,6 +211,27 @@ const Community: React.FC = () => {
         setCommunityInfo(data);
         setExpandCommunityInfo(!data.joined);
         setActiveTab(data.joined ? 0 : 1);
+
+        /* get course rating of user */
+        const getRating = async () => {
+          const { data } = await api.get<RatingForm>(
+            `/users/communities/${id}/ratings`
+          );
+          if (data) {
+            // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
+            setRating({
+              content: data.content,
+              teaching: data.teaching,
+              workload: data.workload,
+              text: data.text,
+            });
+
+            setReadOnly(true);
+          }
+        };
+
+        void getRating();
+
         setError(0);
         return data;
       } catch (error) {
@@ -318,6 +348,10 @@ const Community: React.FC = () => {
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             <CommunityRatingForm
               id={id}
+              rating={rating}
+              setRating={setRating}
+              setReadOnly={setReadOnly}
+              readOnly={readOnly}
               addCommunityRating={addCommunityRating}
             />
             <ToggleButtonGroup
