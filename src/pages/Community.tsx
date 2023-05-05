@@ -20,16 +20,12 @@ import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../models/CommunityModel";
+import { CommunityModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Rating, Post, RatingForm } from "../utils/types";
+import { Rating, Post, RatingForm, RatingModel } from "../utils/types";
 import { getDate } from "utils/utils";
-
-/* TODO - Delete Mockup Data */
-const imgLink =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 
 const defaultCommunity = {
   moduleId: "",
@@ -60,7 +56,7 @@ type CommunityPageParams = {
 };
 
 interface RatingsResponse {
-  content: Rating[];
+  content: RatingModel[];
 }
 interface PostsResponse {
   content: Post[];
@@ -77,7 +73,7 @@ const Community: React.FC = () => {
   const [error, setError] = useState<number>(1);
   const [communityInfo, setCommunityInfo] =
     useState<CommunityModel>(defaultCommunity);
-  const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
+  const [communityRatings, setCommunityRatings] = useState<RatingModel[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
   const [alignment, setAlignment] = React.useState("most recent");
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
@@ -89,10 +85,6 @@ const Community: React.FC = () => {
   ) => {
     setAlignment(newAlignment);
   };
-
-  // useEffect(() => {
-  //   getCommunityRatings();
-  // }, [alignment]);
 
   const addCommunityRating = (rating: Rating) => {
     setCommunityRatings([rating, ...communityRatings]);
@@ -328,10 +320,8 @@ const Community: React.FC = () => {
                   id: post.user.id,
                   username: post.user.username,
                   email: post.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: post.user.avatar,
+                  studyArea: " ",
                 }}
                 title={post.title}
                 postText={post.text}
@@ -373,11 +363,10 @@ const Community: React.FC = () => {
                 user={{
                   id: rating.user.id,
                   username: rating.user.username,
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   email: rating.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: rating.user.avatar,
+                  studyArea: " ",
                 }}
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 getRatings={getCommunityRatings}

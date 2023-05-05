@@ -1,5 +1,5 @@
 import React from "react";
-import { CommunityModel } from "../../models/CommunityModel";
+import { CommunityModel } from "../../utils/types";
 import Box from "../shared/Box";
 import { useNavigate } from "react-router-dom";
 

@@ -10,14 +10,16 @@ import {
   DialogTitle,
   Grid,
   Paper,
+  Tooltip,
 } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { UserModel } from "../../../utils/types";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import CommentsSection from "./CommentsSection";
 import { SingleComment } from "utils/types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { api } from "utils/api";
+import { getAvatar } from "utils/utils";
 
 export interface PostValues {
   communityId: string;
@@ -79,7 +81,9 @@ export default function CommunityPost({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={user.avatar} />
+          <Tooltip title={user.username}>
+            <Avatar alt={user.username} src={getAvatar(user.avatar)} />
+          </Tooltip>
         </Grid>
 
         <Grid justifyContent="left" item xs zeroMinWidth>

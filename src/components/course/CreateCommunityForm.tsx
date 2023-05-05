@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import { api } from "../../utils/api";
-import { Instructor } from "models/CommunityModel";
+import { Instructor } from "utils/types";
 
 type formValues = {
   moduleId: string;

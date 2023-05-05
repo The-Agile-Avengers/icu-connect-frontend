@@ -1,11 +1,28 @@
-import { UserModel } from "models/UserModel";
-
-interface IProps {
-  children: React.ReactNode;
+//ANCHOR - USER
+export interface UserModel {
+  id: number;
+  username: string;
+  email: string;
+  avatar: string;
+  studyArea: string;
 }
 
-export type { IProps };
+//ANCHOR - COMMUNITY
+export type CommunityModel = {
+  moduleId: string;
+  name: string;
+  instructor: Instructor;
+  subscribersCount: number;
+  rating: RatingSummary;
+  joined: boolean;
+};
 
+export type Instructor = {
+  id: number;
+  name: string;
+};
+
+//ANCHOR - RATING
 export type RatingForm = {
   content: number;
   teaching: number;
@@ -13,13 +30,22 @@ export type RatingForm = {
   text: string | null;
 };
 
-export interface Rating extends RatingForm {
+export interface RatingModel extends RatingForm {
   id: number | undefined;
   user: UserModel;
   creation: string;
   thumbsUp: number;
+  hasliked: boolean;
 }
 
+export type RatingSummary = {
+  id: number;
+  teaching: number;
+  content: number;
+  workload: number;
+};
+
+//ANCHOR - POST
 export type PostForm = {
   title: string;
   text: string;
@@ -42,3 +68,10 @@ export interface SingleComment extends CommentForm {
   user: UserModel;
   creation: string;
 }
+
+//ANCHOR - OTHER
+interface IProps {
+  children: React.ReactNode;
+}
+
+export type { IProps };
