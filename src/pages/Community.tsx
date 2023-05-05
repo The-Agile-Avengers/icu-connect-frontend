@@ -24,7 +24,7 @@ import { CommunityModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Rating, Post, RatingForm, RatingModel } from "../utils/types";
+import { Post, RatingForm, RatingModel } from "../utils/types";
 import { getDate } from "utils/utils";
 
 const defaultCommunity = {
@@ -86,7 +86,7 @@ const Community: React.FC = () => {
     setAlignment(newAlignment);
   };
 
-  const addCommunityRating = (rating: Rating) => {
+  const addCommunityRating = (rating: RatingModel) => {
     setCommunityRatings([rating, ...communityRatings]);
   };
   const addCommunityPost = (post: Post) => {
@@ -355,7 +355,7 @@ const Community: React.FC = () => {
               <ToggleButton value="most recent">most recent</ToggleButton>
               <ToggleButton value="most liked">most liked</ToggleButton>
             </ToggleButtonGroup>
-            {communityRatings.map((rating: Rating) => (
+            {communityRatings.map((rating: RatingModel) => (
               <CommunityRating
                 rating={rating}
                 key={rating.id}
