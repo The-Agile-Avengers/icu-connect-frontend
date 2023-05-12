@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useState } from "react";
 import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
@@ -28,6 +29,8 @@ import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
 import { Post, RatingForm, RatingModel } from "../utils/types";
 import { getDate } from "utils/utils";
+import FileUpload from "components/course/file/FileUpload";
+import CommunityFiles from "components/course/file/CummunityFiles";
 
 const defaultCommunity = {
   moduleId: "",
@@ -62,6 +65,9 @@ interface RatingsResponse {
 }
 interface PostsResponse {
   content: Post[];
+}
+interface FilesResponse {
+  content: FileModel[];
 }
 
 interface TabPanelProps {
@@ -101,6 +107,9 @@ const Community: React.FC = () => {
   const addCommunityPost = (post: Post) => {
     setCommunityPosts([post, ...communityPosts]);
   };
+  const addCommunityFiles = (file: FileModel) => {
+    setCommunityFiles([file, ...communityFiles]);
+  };
 
   const deleteCommunityPost = (postId: number) => {
     const postIndex = communityPosts.findIndex((post) => post.id === postId);
@@ -108,6 +117,15 @@ const Community: React.FC = () => {
       const updatedList = [...communityPosts];
       updatedList.splice(postIndex, 1);
       setCommunityPosts(updatedList);
+    }
+  };
+
+  const deleteCommunityFiles = (fileId: number) => {
+    const fileIndex = communityFiles.findIndex((file) => file.id === fileId);
+    if (fileIndex > -1) {
+      const updatedList = [...communityFiles];
+      updatedList.splice(fileIndex, 1);
+      setCommunityFiles(updatedList);
     }
   };
 
@@ -235,6 +253,31 @@ const Community: React.FC = () => {
     }
   }
 
+  async function getAllCommunityFiles() {
+    if (id) {
+      try {
+        const { data } = await api.get<FilesResponse>(
+          `/communities/${id}/files?page=0&size=100`
+        );
+        console.log(data.content.reverse());
+        setCommunityFiles(data.content.reverse());
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+
   async function getCommunity() {
     if (id) {
       try {
@@ -345,6 +388,7 @@ const Community: React.FC = () => {
           >
             <Tab label="Posts" sx={{ p: 3 }} />
             <Tab label="Ratings" sx={{ p: 3 }} />
+            <Tab label="Files" sx={{ p: 3 }} />
           </Tabs>
         </Box>
 
@@ -431,6 +475,17 @@ const Community: React.FC = () => {
                 getRatings={getCommunityRatings}
               />
             ))}
+          </Box>
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          <Box sx={{ width: "100%", alignItems: "stretch" }}>
+            <FileUpload moduleId={id} addCommunityFiles={addCommunityFiles} />
+
+            <CommunityFiles
+              communityId={id}
+              communityFiles={communityFiles}
+              deleteCommunityFile={deleteCommunityFiles}
+            />
           </Box>
         </TabPanel>
       </Box>
