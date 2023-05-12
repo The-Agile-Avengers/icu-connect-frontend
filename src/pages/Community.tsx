@@ -23,7 +23,7 @@ import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../utils/types";
+import { CommunityModel, FileModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
@@ -83,6 +83,7 @@ const Community: React.FC = () => {
     useState<CommunityModel>(defaultCommunity);
   const [communityRatings, setCommunityRatings] = useState<RatingModel[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
+  const [communityFiles, setCommunityFiles] = useState<FileModel[]>([]);
   const [alignment, setAlignment] = React.useState("most recent");
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const [readOnly, setReadOnly] = React.useState(false);
@@ -332,7 +333,7 @@ const Community: React.FC = () => {
       void getCommunityPosts();
       void getAllCommunityPosts();
     }
-    
+    void getAllCommunityFiles();
   }, [id]);
 
   return error === 0 && id ? (
