@@ -27,7 +27,7 @@ import { CommunityModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Post, RatingForm, RatingModel } from "../utils/types";
+import { Post, RatingForm, RatingModel, FileModel } from "../utils/types";
 import { getDate } from "utils/utils";
 import FileUpload from "components/course/file/FileUpload";
 import CommunityFiles from "components/course/file/CummunityFiles";
@@ -86,6 +86,7 @@ const Community: React.FC = () => {
   const [alignment, setAlignment] = React.useState("most recent");
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const [readOnly, setReadOnly] = React.useState(false);
+  const [communityFiles, setCommunityFiles] = useState<FileModel[]>([]);
   const [allCommunityPosts, setAllCommunityPosts] = useState<Post[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>();
   const years = Array.from(
@@ -333,6 +334,7 @@ const Community: React.FC = () => {
       void getAllCommunityPosts();
     }
     
+    void getAllCommunityFiles();
   }, [id]);
 
   return error === 0 && id ? (
