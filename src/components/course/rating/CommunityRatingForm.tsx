@@ -11,47 +11,26 @@ import { RatingModel, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
+  rating: RatingForm;
+  readOnly: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setReadOnly: (readOnly: boolean) => void;
+  // eslint-disable-next-line no-unused-vars
+  setRating: (rating: RatingForm) => void;
   // eslint-disable-next-line no-unused-vars
   addCommunityRating: (rating: RatingModel) => void;
 }
 
-const defaultRating = {
-  content: 0,
-  teaching: 0,
-  workload: 0,
-  text: null,
-};
-
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   id,
+  rating,
+  readOnly,
+  setReadOnly,
+  setRating,
   addCommunityRating,
 }: CommunityRatingFormProps) => {
-  const [readOnly, setReadOnly] = React.useState(false);
-  const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const { register, handleSubmit } = useForm<RatingForm>();
   const [isEnabled, setIsEnabled] = React.useState(false);
-
-  useEffect(() => {
-    const getRating = async () => {
-      const { data } = await api.get<RatingForm>(
-        `/users/communities/${id}/ratings`
-      );
-
-      if (data) {
-        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
-        setRating({
-          content: data.content,
-          teaching: data.teaching,
-          workload: data.workload,
-          text: data.text,
-        });
-
-        setReadOnly(true);
-      }
-    };
-
-    void getRating();
-  }, [id]);
 
   useEffect(() => {
     const allValuesPresent = Object.values(rating).every(
