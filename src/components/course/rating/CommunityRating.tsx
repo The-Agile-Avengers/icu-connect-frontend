@@ -71,7 +71,7 @@ export default function CommunityRating({
               Created: {getDate(rating.creation)}
             </p>
             <Button
-              variant="text"
+              variant={rating.hasLiked ? "contained" : "text"}
               startIcon={<ThumbUpIcon />}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={like}
