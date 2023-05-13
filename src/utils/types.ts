@@ -75,3 +75,13 @@ interface IProps {
 }
 
 export type { IProps };
+
+//ANCHOR - Files
+export interface FileModel {
+  id: number;
+  creation: string;
+  fileName: string;
+  filePath: string;
+  user: UserModel;
+  hasUploaded: boolean;
+}
