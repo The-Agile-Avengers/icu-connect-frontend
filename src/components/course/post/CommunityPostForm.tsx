@@ -39,12 +39,9 @@ const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
           commentList: response.data.commentList,
           user: {
             id: response.data.user.id,
-            //TODO - fix eslint error
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             username: response.data.user.username,
             email: response.data.user.email,
-            avatar:
-              "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+            avatar: response.data.user.avatar,
             // TODO:
             studyArea: "wait",
           },
