@@ -16,6 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import LogoutButton from "components/LogoutButton";
 
 const Logo = () => (
   <Typography variant="h1" sx={{ color: "white", m: 0 }}>
@@ -41,9 +42,12 @@ const Profile = () => (
     <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>
       {localStorage.getItem("Username")?.charAt(0).toUpperCase()}
     </Avatar>
-    <div style={{ margin: "auto" }}>
+    <div style={{ margin: "auto", marginRight: "6em" }}>
       <p style={{ margin: "0" }}>Profile</p>
       <small style={{ margin: "0" }}>{localStorage.getItem("Username")}</small>
+    </div>
+    <div>
+      <LogoutButton />
     </div>
   </Box>
 );

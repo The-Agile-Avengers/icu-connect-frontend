@@ -85,9 +85,15 @@ const Community: React.FC = () => {
     useState<CommunityModel>(defaultCommunity);
   const [communityRatings, setCommunityRatings] = useState<RatingModel[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
-  const [alignment, setAlignment] = React.useState("most recent");
   const [rating, setRating] = React.useState<RatingForm>(defaultRating);
+  const [toggleSortByMostLiked, setToggleSortByMostLiked] =
+    React.useState(false);
+  let ratingSortByMostLiked = false;
   const [readOnly, setReadOnly] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState(0);
+  const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
+    boolean | null
+  >(null);
   const [communityFiles, setCommunityFiles] = useState<FileModel[]>([]);
   const [allCommunityPosts, setAllCommunityPosts] = useState<Post[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>();
@@ -96,13 +102,6 @@ const Community: React.FC = () => {
       allCommunityPosts.map((post) => new Date(post.creation).getFullYear())
     )
   );
-
-  const handleToggleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    setAlignment(newAlignment);
-  };
 
   const addCommunityRating = (rating: RatingModel) => {
     setCommunityRatings([rating, ...communityRatings]);
@@ -132,11 +131,18 @@ const Community: React.FC = () => {
     }
   };
 
+  function handleSortRating(
+    event: React.MouseEvent<HTMLElement>,
+    value: boolean
+  ) {
+    if (value !== null) {
+      setToggleSortByMostLiked(value);
+      ratingSortByMostLiked = value;
+      void getCommunityRatings();
+    }
+  }
+
   /* Tab Navigation Logic */
-  const [activeTab, setActiveTab] = React.useState(0);
-  const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
-    boolean | null
-  >(null);
 
   const handleChange = (event: React.SyntheticEvent, newTab: number) => {
     setActiveTab(newTab);
@@ -180,7 +186,7 @@ const Community: React.FC = () => {
       try {
         const { data } = await api.get<RatingsResponse>(
           `/communities/${id}/ratings?page=0&size=100&sortByMostLiked=${
-            alignment === "most liked" ? "true" : "false"
+            ratingSortByMostLiked ? "true" : "false"
           }`
         );
         setCommunityRatings(data.content);
@@ -327,15 +333,10 @@ const Community: React.FC = () => {
   }
 
   useEffect(() => {
-    getCommunity();
-    if (communityRatings.length === 0) {
-      void getCommunityRatings();
-    }
-    if (communityPosts.length === 0) {
-      void getCommunityPosts();
-      void getAllCommunityPosts();
-    }
-
+    void getCommunity();
+    void getCommunityRatings();
+    void getCommunityPosts();
+    void getAllCommunityPosts();
     void getAllCommunityFiles();
   }, [id]);
 
@@ -456,14 +457,14 @@ const Community: React.FC = () => {
             />
             <ToggleButtonGroup
               color="primary"
-              value={alignment}
+              value={toggleSortByMostLiked}
               exclusive
-              onChange={handleToggleChange}
+              onChange={handleSortRating}
               aria-label="Platform"
               sx={{ mt: "2em" }}
             >
-              <ToggleButton value="most recent">most recent</ToggleButton>
-              <ToggleButton value="most liked">most liked</ToggleButton>
+              <ToggleButton value={false}>most recent</ToggleButton>
+              <ToggleButton value={true}>most liked</ToggleButton>
             </ToggleButtonGroup>
             {communityRatings.map((rating: RatingModel) => (
               <CommunityRating
@@ -473,13 +474,10 @@ const Community: React.FC = () => {
                 user={{
                   id: rating.user.id,
                   username: rating.user.username,
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   email: rating.user.email,
                   avatar: rating.user.avatar,
                   studyArea: rating.user.studyArea,
                 }}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                getRatings={getCommunityRatings}
               />
             ))}
           </Box>
