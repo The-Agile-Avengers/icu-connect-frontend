@@ -40,15 +40,21 @@ const SignUp: React.FC = () => {
         email: formData.email,
         password: formData.password,
       })
-      .then((response) => {
+      .then(() => {
         // localStorage.setItem("AuthToken", JSON.stringify(response.data));
-        console.log(response.data);
         navigate("/login");
       })
       .catch((error) => {
         setError("username", { type: "focus" });
         setError("email", { type: "focus" });
-        console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (error.response.data.status === 409) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands
+          alert(error + ": \n" + error.response.data.message);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands
+          alert(error + ": \n" + error.response.data.errors);
+        }
       });
   };
 
