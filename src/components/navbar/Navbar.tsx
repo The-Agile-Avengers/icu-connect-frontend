@@ -42,11 +42,15 @@ const Profile = () => (
     <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>
       {localStorage.getItem("Username")?.charAt(0).toUpperCase()}
     </Avatar>
-    <div style={{ margin: "auto", marginRight: "6em" }}>
-      <p style={{ margin: "0" }}>Profile</p>
-      <small style={{ margin: "0" }}>{localStorage.getItem("Username")}</small>
-    </div>
-    <div>
+    <div
+      style={{
+        margin: "auto",
+        marginRight: "6em",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <p style={{ margin: "0" }}>{localStorage.getItem("Username")}</p>
       <LogoutButton />
     </div>
   </Box>
