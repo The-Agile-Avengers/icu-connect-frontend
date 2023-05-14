@@ -191,7 +191,6 @@ const Community: React.FC = () => {
         );
         setCommunityRatings(data.content);
         setError(0);
-        return data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);
@@ -399,10 +398,12 @@ const Community: React.FC = () => {
             <Tab label="Files" sx={{ p: 3 }} />
           </Tabs>
         </Box>
-
         {/* SECTION - POSTS */}
         <TabPanel value={activeTab} index={0}>
-          <Box sx={{ float: "right" }}>
+          <Box sx={{ width: "100%", alignItems: "stretch" }}>
+            <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
+          </Box>
+          <Box sx={{ float: "right", marginTop: "20px" }}>
             <Select
               value={selectedYear ? selectedYear : 0}
               displayEmpty
@@ -420,8 +421,9 @@ const Community: React.FC = () => {
               ))}
             </Select>
           </Box>
-          <Box sx={{ width: "100%", alignItems: "stretch", marginTop: "80px" }}>
-            <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
+          <Box
+            sx={{ width: "100%", alignItems: "stretch", marginTop: "100px" }}
+          >
             {communityPosts.map((post: Post) => (
               <CommunityPost
                 key={post.id}

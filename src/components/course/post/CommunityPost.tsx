@@ -108,7 +108,10 @@ export default function CommunityPost({
         </Grid>
         {checkIfUserIsCreator() && (
           <>
-            <DeleteIcon onClick={handleDeleteButtonClick} />
+            <DeleteIcon
+              onClick={handleDeleteButtonClick}
+              style={{ cursor: "pointer" }}
+            />
             <Dialog
               open={open}
               onClose={handleClose}

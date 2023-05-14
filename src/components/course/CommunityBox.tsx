@@ -11,7 +11,6 @@ type Props = {
 const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
   const navigate = useNavigate();
 
-  //TODO - add join/leave button
   return (
     <Box
       title={community.name}
