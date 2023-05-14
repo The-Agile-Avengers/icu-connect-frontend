@@ -12,15 +12,16 @@ export interface RatingValues {
   user: UserModel;
   moduleId: string;
   rating: RatingModel;
-  getRatings: () => void;
 }
 
 export default function CommunityRating({
   user,
   moduleId,
   rating,
-  getRatings,
 }: RatingValues) {
+  const [thumbsUp, setThumbsUp] = React.useState(rating.hasLiked);
+  const [thumbsUpNumber, setThumbsUpNumber] = React.useState(rating.thumbsUp);
+
   async function like() {
     try {
       if (rating.id) {
@@ -29,7 +30,8 @@ export default function CommunityRating({
           //TODO - tell backend to turn into PUT instead of POST with empty request body
           {}
         );
-        getRatings();
+        setThumbsUp(!thumbsUp);
+        setThumbsUpNumber(!thumbsUp ? thumbsUpNumber + 1 : thumbsUpNumber - 1);
       }
     } catch (error) {
       console.error("Failed to fetch teachers:", error);
@@ -71,12 +73,14 @@ export default function CommunityRating({
               Created: {getDate(rating.creation)}
             </p>
             <Button
-              variant={rating.hasLiked ? "contained" : "text"}
-              startIcon={<ThumbUpIcon />}
+              variant={"text"}
+              startIcon={
+                <ThumbUpIcon color={thumbsUp ? "success" : "action"} />
+              }
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={like}
             >
-              {rating.thumbsUp}
+              {thumbsUpNumber}
             </Button>
           </div>
         </Grid>

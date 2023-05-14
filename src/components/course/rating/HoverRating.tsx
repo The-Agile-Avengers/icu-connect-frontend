@@ -13,11 +13,11 @@ const labels: { [index: string]: string } = {
 };
 
 const labelsWorkload: { [index: string]: string } = {
-  1: "low",
-  2: "medium",
-  3: "moderate",
-  4: "high",
-  5: "very high",
+  1: "Low",
+  2: "Medium",
+  3: "Moderate",
+  4: "High",
+  5: "Very high",
 };
 
 type props = {

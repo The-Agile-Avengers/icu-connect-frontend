@@ -16,6 +16,8 @@ export function isLoggedIn(): boolean {
 
 export function logout(): void {
   localStorage.removeItem("AuthToken");
+  localStorage.removeItem("Username");
+  window.location.href = "/";
 }
 
 export function getJwtToken(): string {
