@@ -42,7 +42,8 @@ const Login: React.FC = () => {
       .catch((error) => {
         setError("username", { type: "focus" });
         setError("password", { type: "focus" });
-        console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands
+        alert(error + ": \n" + error.response.data.detail);
       });
   };
 
