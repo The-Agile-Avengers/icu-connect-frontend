@@ -64,13 +64,9 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           user: {
             id: response.data.user.id,
             username: response.data.user.username,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             email: response.data.user.email,
-            //TODO
-            avatar:
-              "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-            //TODO
-            studyArea: " ",
+            avatar: response.data.user.avatar,
+            studyArea: response.data.user.studyArea,
           },
           creation: response.data.creation,
         });
