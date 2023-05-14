@@ -191,7 +191,6 @@ const Community: React.FC = () => {
         );
         setCommunityRatings(data.content);
         setError(0);
-        return data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);
