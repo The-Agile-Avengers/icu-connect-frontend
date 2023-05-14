@@ -52,7 +52,6 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           workload: response.data.workload,
           text: response.data.text,
         });
-
         addCommunityRating({
           id: response.data.id,
           content: response.data.content,
