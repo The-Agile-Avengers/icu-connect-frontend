@@ -4,7 +4,7 @@ export interface UserModel {
   username: string;
   email: string;
   avatar: string;
-  studyArea: string;
+  studyArea: StudyAreaModel;
 }
 
 //ANCHOR - COMMUNITY
@@ -75,6 +75,11 @@ interface IProps {
 }
 
 export type { IProps };
+
+export type StudyAreaModel = {
+  id: number;
+  name: string;
+};
 
 //ANCHOR - Files
 export interface FileModel {

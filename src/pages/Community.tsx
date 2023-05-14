@@ -17,6 +17,7 @@ import {
   ToggleButton,
   Select,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommunityPost from "../components/course/post/CommunityPost";
@@ -31,6 +32,7 @@ import { Post, RatingForm, RatingModel, FileModel } from "../utils/types";
 import { getDate } from "utils/utils";
 import FileUpload from "components/course/file/FileUpload";
 import CommunityFiles from "components/course/file/CummunityFiles";
+import { ShareButton } from "components/ShareButton";
 
 const defaultCommunity = {
   moduleId: "",
@@ -333,7 +335,7 @@ const Community: React.FC = () => {
       void getCommunityPosts();
       void getAllCommunityPosts();
     }
-    
+
     void getAllCommunityFiles();
   }, [id]);
 
@@ -360,14 +362,17 @@ const Community: React.FC = () => {
             <Typography variant="h1" sx={{ mb: 0 }}>
               {communityInfo.name}
             </Typography>
-            <Button
-              variant={communityInfo.joined ? "outlined" : "contained"}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={joinLeaveCommunity}
-            >
-              {communityInfo.joined ? "Leave" : "Join"}
-            </Button>
+            <Tooltip title={"Join this community"}>
+              <Button
+                variant={communityInfo.joined ? "outlined" : "contained"}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={joinLeaveCommunity}
+              >
+                {communityInfo.joined ? "Leave" : "Join"}
+              </Button>
+            </Tooltip>
           </Box>
+          <ShareButton />
         </AccordionSummary>
         <AccordionDetails>
           <CommunityInfo community={communityInfo} />
@@ -426,7 +431,7 @@ const Community: React.FC = () => {
                   username: post.user.username,
                   email: post.user.email,
                   avatar: post.user.avatar,
-                  studyArea: " ",
+                  studyArea: post.user.studyArea,
                 }}
                 title={post.title}
                 postText={post.text}
@@ -471,7 +476,7 @@ const Community: React.FC = () => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   email: rating.user.email,
                   avatar: rating.user.avatar,
-                  studyArea: " ",
+                  studyArea: rating.user.studyArea,
                 }}
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 getRatings={getCommunityRatings}
@@ -493,7 +498,7 @@ const Community: React.FC = () => {
       </Box>
     </Layout>
   ) : error === 404 ? (
-    <Layout title="Create a new Course">
+    <Layout title="Create a new community">
       <CreateCommunityForm />
     </Layout>
   ) : (
