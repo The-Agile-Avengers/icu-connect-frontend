@@ -1,12 +1,10 @@
 import React from "react";
 import { Avatar, Button, Grid, Paper, Rating, Tooltip } from "@mui/material";
-import { UserModel } from "../../../utils/types";
 import { Legend } from "../../../design/typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { CommunityModel } from "../../../utils/types";
+import { CommunityModel, RatingModel, UserModel } from "../../../utils/types";
 import { api } from "utils/api";
 import { getAvatar, getDate } from "utils/utils";
-import { RatingModel } from "../../../utils/types";
 
 export interface RatingValues {
   user: UserModel;
@@ -27,7 +25,6 @@ export default function CommunityRating({
       if (rating.id) {
         await api.post<CommunityModel>(
           `/communities/${moduleId}/ratings/${rating.id}/thumbsUp`,
-          //TODO - tell backend to turn into PUT instead of POST with empty request body
           {}
         );
         setThumbsUp(!thumbsUp);

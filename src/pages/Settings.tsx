@@ -30,9 +30,9 @@ import { getAvatar } from "utils/utils";
 // Used as dummy for the userModel
 const dummy: UserModel = {
   id: 1,
-  username: "HansPeter123",
-  email: "this is a mail",
-  studyArea: { id: 1, name: "my Area" },
+  username: " ",
+  email: " ",
+  studyArea: { id: 1, name: " " },
   avatar: "",
 };
 
@@ -90,7 +90,6 @@ export default function Settings() {
   }
 
   const handleEditEmail = () => {
-    console.log("edit", editEmail);
     if (editEmail == false) {
       setEditEmail(true);
       return;
@@ -115,7 +114,6 @@ export default function Settings() {
 
   function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
     const newEmail = event.target.value;
-    console.log("my new email", newEmail);
     setUserSettings((userSettings) => ({
       ...userSettings,
       email: newEmail,
@@ -125,8 +123,14 @@ export default function Settings() {
   const handleStudyAreaChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("this is my new value", event.target.value);
     setSelectedStudyArea(event.target.value || "");
+  };
+
+  const handleStudyAreaChange2 = (
+    event: React.SyntheticEvent,
+    value: string | null
+  ) => {
+    setSelectedStudyArea(value || "");
   };
 
   // Study Area Selection
@@ -134,14 +138,12 @@ export default function Settings() {
   const handleEditStudyArea = () => {
     setEditStudyArea(!editStudyArea);
     if (editStudyArea == true) {
-      console.log("change", selectedStudyArea);
       api
         .put(`/users`, {
           //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           studyArea: { name: selectedStudyArea },
         })
         .then((response: AxiosResponse<UserModel>) => {
-          console.log(response.data.studyArea);
           setUserSettings((userSettings) => ({
             ...userSettings,
             //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -157,7 +159,6 @@ export default function Settings() {
   async function getUserSettings() {
     try {
       const { data } = await api.get<UserModel>(`/users`);
-      console.log("data", data);
       setUserSettings(data);
       setSelectedAvatarIndex(+data.avatar - 1);
       return data;
@@ -178,8 +179,6 @@ export default function Settings() {
       const studyAreas: string[] = data.map(
         (studyArea: StudyAreaModel) => studyArea.name
       );
-      console.log("data", data);
-      console.log(studyAreas);
       setStudyAreaList(studyAreas);
     } catch (error) {
       console.error("Failed to fetch study areas:", error);
@@ -339,6 +338,7 @@ export default function Settings() {
                       id="combo-box-demo"
                       options={studyAreaList}
                       sx={{ width: "100%" }}
+                      onChange={handleStudyAreaChange2}
                       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                       value={userSettings?.studyArea?.name}
                       renderInput={(params) => (

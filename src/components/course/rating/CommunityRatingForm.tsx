@@ -45,7 +45,6 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
     api
       .post(`/communities/${id}/ratings`, rating)
       .then((response: AxiosResponse<RatingModel>) => {
-        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
         setRating({
           content: response.data.content,
           teaching: response.data.teaching,
@@ -123,7 +122,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           {...register("text", { required: false })}
           margin="normal"
           id="textRating"
-          label={rating.text ?? "Rating Text"}
+          label="Rating Text"
           multiline
           sx={{ width: "100%", mb: 2 }}
           disabled={readOnly}
