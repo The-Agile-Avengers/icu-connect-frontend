@@ -33,7 +33,6 @@ const SignUp: React.FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<SignUpForm> = (formData) => {
-    console.log(formData);
     api
       .post("/users", {
         username: formData.username,
@@ -142,7 +141,12 @@ const SignUp: React.FC = () => {
                       {...register("terms", { required: true })}
                     />
                   }
-                  label="I accept the Terms and conditions."
+                  label={
+                    <span>
+                      I accept the{" "}
+                      <a href="/terms-and-conditions">terms and conditions</a>..
+                    </span>
+                  }
                 />
               </Grid>
             </Grid>

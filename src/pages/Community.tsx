@@ -24,11 +24,16 @@ import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../utils/types";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Post, RatingForm, RatingModel, FileModel } from "../utils/types";
+import {
+  Post,
+  RatingForm,
+  RatingModel,
+  FileModel,
+  CommunityModel,
+} from "../utils/types";
 import { getDate } from "utils/utils";
 import FileUpload from "components/course/file/FileUpload";
 import CommunityFiles from "components/course/file/CummunityFiles";
@@ -372,7 +377,10 @@ const Community: React.FC = () => {
               </Button>
             </Tooltip>
           </Box>
-          <ShareButton />
+          {Boolean(navigator.clipboard) && (
+            // Render your component when navigator.clipboard is available
+            <ShareButton />
+          )}
         </AccordionSummary>
         <AccordionDetails>
           <CommunityInfo community={communityInfo} />

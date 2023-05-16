@@ -41,7 +41,7 @@ export default function CommunityCreate() {
   const navigate = useNavigate();
   const [instructorList, setInstructorList] = useState<string[]>([]);
 
-  const { register, handleSubmit, formState } = useForm<formValues>({
+  const { register, handleSubmit, formState, setError } = useForm<formValues>({
     mode: "onChange",
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,11 +49,14 @@ export default function CommunityCreate() {
     api
       .post(`/communities`, formData)
       .then((response: FormFormResponseData) => {
-        console.log(response.data);
         const moduleId: string = response.data.moduleId;
         navigate(`/community/${moduleId}`);
       })
       .catch((error) => {
+        setError("moduleId", {
+          type: "manual",
+          message: "Module ID already exists",
+        });
         console.log(error);
       });
   };
@@ -72,7 +75,7 @@ export default function CommunityCreate() {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getTeachers();
+    void getTeachers();
   }, []);
 
   return (
@@ -115,11 +118,13 @@ export default function CommunityCreate() {
             <TextField
               {...register("moduleId", { required: true })}
               id="standard-basic"
-              label="Course Number"
+              label="Course ID"
               variant="standard"
               sx={{ width: "100%" }}
               fullWidth
               inputProps={{ maxLength: 15 }}
+              error={!!formState.errors.moduleId}
+              helperText={formState.errors.moduleId?.message}
             />
           </Grid>
           <Grid

@@ -1,6 +1,5 @@
 import { Button, Snackbar, Tooltip } from "@mui/material";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import LinkIcon from "@mui/icons-material/Link";
 
 export const ShareButton = () => {
@@ -8,7 +7,7 @@ export const ShareButton = () => {
   const handleClick = () => {
     setOpen(true);
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    navigator.clipboard.writeText(window.location.toString());
+    void navigator.clipboard.writeText(window.location.toString());
   };
 
   return (

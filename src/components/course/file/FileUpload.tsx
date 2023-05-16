@@ -42,7 +42,6 @@ const FileUpload: React.FC<Props> = ({
           },
         })
         .then((response: AxiosResponse<FileModel>) => {
-          console.log(response.data);
           addCommunityFiles({
             id: response.data.id,
             creation: response.data.creation,

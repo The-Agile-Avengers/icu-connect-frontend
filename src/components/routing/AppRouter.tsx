@@ -8,6 +8,7 @@ import SignUp from "../../pages/SignUp";
 import { isLoggedIn } from "../../utils/utils";
 import CreateCommunity from "../../pages/CreateCommunity";
 import Settings from "pages/Settings";
+import TermsAndConditions from "components/shared/TermsAndConditions";
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -29,6 +30,10 @@ const AppRouter = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route
+            path="//terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
         </>
       )}
     </Routes>
