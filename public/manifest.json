@@ -1,10 +1,11 @@
 {
-  "short_name": "Your Orders",
-  "name": "Your Orders",
+  "short_name": "ICU connect",
+  "name": "ICU connect",
+  "description": "Social network app of the informatics student association of the university of zurich",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "ICU.ico",
+      "sizes": "any",
       "type": "image/x-icon"
     }
   ],

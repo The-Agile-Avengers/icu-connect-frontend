@@ -47,17 +47,21 @@ const Communities: React.FC = () => {
   }
 
   return (
-    <Layout title="Communities">
+    <Layout
+      title="Communities"
+      button={
+        <Button variant="contained" onClick={goToCreateCommunity}>
+          Create
+        </Button>
+      }
+    >
       {" "}
       <SearchBar
         placeholder="Search by moduleId, insturctor or module name"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           void getCommunities(event.target.value)
         }
-        width={
-          Math.floor(100 / boxWidthPercentage) * boxWidthPercentage +
-          (Math.floor(100 / boxWidthPercentage) - 1) * 4
-        }
+        width={100}
       />
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: "3em", mt: "2em" }}>
         {communities.map((community, i: number) => (

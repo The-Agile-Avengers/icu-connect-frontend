@@ -21,7 +21,7 @@ const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
         "&:hover": {
           cursor: "pointer",
         },
-        flex: `0 0 ${boxWidth}%`,
+        flex: window.innerWidth <= 450 ? "0 0 100%" : `0 0 ${boxWidth}%`,
       }}
       onClick={() => navigate(`/community/${community.moduleId}`)}
     >
