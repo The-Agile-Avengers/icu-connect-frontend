@@ -1,7 +1,7 @@
 {
   "short_name": "ICU connect",
   "name": "ICU connect",
-  "description": "Social network app for the informatics student association of the university of zurich",
+  "description": "Social network app of the informatics student association of the university of zurich",
   "icons": [
     {
       "src": "ICU.ico",
