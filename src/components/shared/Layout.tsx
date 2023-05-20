@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import React, { ReactElement, useEffect, useState } from "react";
 import theme from "../../design/theme";
 import Navbar from "../navbar/Navbar";
