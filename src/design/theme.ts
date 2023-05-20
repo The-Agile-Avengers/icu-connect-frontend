@@ -40,6 +40,12 @@ const theme = createTheme({
       color: "#000000",
       marginBottom: "0.5em",
     },
+    h3: {
+      fontSize: "1.25em",
+      fontWeight: 600,
+      color: "#000000",
+      marginBottom: "0.5em",
+    },
   },
 });
 
