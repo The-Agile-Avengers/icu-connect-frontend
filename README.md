@@ -24,6 +24,9 @@ npm start
 - SonarCloud
 - Github Actions
 
+## Product Documentation and More
+More information, as the product documentation and software architectur, can be found in the our [Wiki](https://github.com/The-Agile-Avengers/icu-connect-frontend/wiki). Additionally, we also cover a process, as well as a user documentation. The frontend Wiki will be used as a main entry point for the ICU Connect application, which is linked with the backend wiki.
+
 ## Contributors
 
 - The Agile Avengers
