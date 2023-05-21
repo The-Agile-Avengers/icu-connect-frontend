@@ -2,9 +2,20 @@
 
 [![Stable Build](https://github.com/The-Agile-Avengers/icu-connect-frontend/actions/workflows/ci_cd_pipeline.yml/badge.svg)](https://github.com/The-Agile-Avengers/icu-connect-frontend/actions/workflows/ci_cd_pipeline.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=The-Agile-Avengers_icu-connect-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=The-Agile-Avengers_icu-connect-frontend)
 
-## How to use
+## How to setup ICU Connect
+
+### With Docker Compose
+In order to use Docker-compose you need to have a running [docker desktop application](https://www.docker.com/products/docker-desktop/)
 
 Install it and run:
+
+```sh
+docker-compose up --build
+```
+This will start frontend container.
+
+### Only Locally
+If you want to run it locally, you can also use:
 
 ```sh
 npm ci --legacy-peer-deps
@@ -24,8 +35,8 @@ npm start
 - SonarCloud
 - Github Actions
 
-## Product Documentation
-More information, as the product documentation or and software architectur, can be found in the our [Wiki](https://github.com/The-Agile-Avengers/icu-connect-frontend/wiki). 
+## Product Documentation and More
+More information, as the product documentation and software architectur, can be found in the our [Wiki](https://github.com/The-Agile-Avengers/icu-connect-frontend/wiki). Additionally, we also cover a process, as well as a user documentation. The frontend Wiki will be used as a main entry point for the ICU Connect application, which is linked with the backend wiki.
 
 ## Contributors
 
