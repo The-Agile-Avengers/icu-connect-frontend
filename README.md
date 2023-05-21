@@ -14,8 +14,8 @@ docker-compose up --build
 ```
 This will start frontend container.
 
-### Only Locally
-If you want to run it locally, you can also use:
+### Local Development
+If you want to develop it locally, you can also use:
 
 ```sh
 npm ci --legacy-peer-deps
