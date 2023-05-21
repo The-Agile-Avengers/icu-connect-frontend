@@ -10,6 +10,7 @@ type Props = {
   addCommunityFiles: (file: FileModel) => void;
 };
 
+// Component handles file upload
 const FileUpload: React.FC<Props> = ({
   moduleId,
   addCommunityFiles,
@@ -31,6 +32,7 @@ const FileUpload: React.FC<Props> = ({
     }
   };
 
+  // request to upload a file
   const handleFileUpload = (file: File) => {
     const formData = new FormData();
     formData.append("file", file);

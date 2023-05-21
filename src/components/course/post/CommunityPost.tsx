@@ -32,7 +32,8 @@ export interface PostValues {
   // eslint-disable-next-line no-unused-vars
   deleteCommunityPost: (id: number) => void;
 }
-
+// visualization of a post component
+// only the delete logic is covered in this component, everything else in the parent component
 export default function CommunityPost({
   communityId,
   postId,

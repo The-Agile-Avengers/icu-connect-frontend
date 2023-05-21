@@ -37,6 +37,7 @@ type FormFormResponseData = {
   };
 };
 
+// Form used to create a new community. Handles the logic by itself.
 export default function CommunityCreate() {
   const navigate = useNavigate();
   const [instructorList, setInstructorList] = useState<string[]>([]);

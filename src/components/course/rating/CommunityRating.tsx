@@ -12,6 +12,8 @@ export interface RatingValues {
   rating: RatingModel;
 }
 
+// visualization of the community ratings
+// only the thumbs up logic of the rating is covered in this component
 export default function CommunityRating({
   user,
   moduleId,

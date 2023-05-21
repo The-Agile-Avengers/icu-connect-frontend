@@ -36,6 +36,7 @@ const dummy: UserModel = {
   avatar: "",
 };
 
+// The Settings pages enables the user to change email, avatar and study area
 export default function Settings() {
   const [editName] = React.useState(false);
   const [editEmail, setEditEmail] = React.useState(false);
@@ -173,6 +174,7 @@ export default function Settings() {
     }
   }
 
+  // get the list of all already existing study areas
   const getStudyArea = async () => {
     try {
       const { data } = await api.get<StudyAreaModel[]>("/studyareas");
@@ -185,11 +187,13 @@ export default function Settings() {
     }
   };
 
+  // Runs when the page is reloaded
   useEffect(() => {
     void getUserSettings();
     void getStudyArea();
   }, []);
 
+  // Runs when the selected study area changes
   useEffect(() => {
     void getStudyArea();
   }, [selectedStudyArea]);

@@ -11,7 +11,8 @@ interface CommunityPostFormProps {
   // eslint-disable-next-line no-unused-vars
   addCommunityPost: (post: Post) => void;
 }
-
+// Component to create a new post
+// The logic is covered by itslef
 const CommunityPostForm: React.FC<CommunityPostFormProps> = ({
   id,
   addCommunityPost,

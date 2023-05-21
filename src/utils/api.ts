@@ -7,6 +7,7 @@ const headers = {
   ...(isLoggedIn() && { Authorization: `Bearer ${getJwtToken()}` }),
 };
 
+// Is always used when making a request
 const api = axios.create({
   baseURL: getDomain(),
   headers: headers,
