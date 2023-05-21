@@ -24,6 +24,7 @@ type SignUpForm = {
   terms: boolean;
 };
 
+// Sign up page when the user does not yet have a login
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
@@ -33,22 +34,27 @@ const SignUp: React.FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit: SubmitHandler<SignUpForm> = (formData) => {
-    console.log(formData);
     api
       .post("/users", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
       })
-      .then((response) => {
-        // localStorage.setItem("AuthToken", JSON.stringify(response.data));
-        console.log(response.data);
+      .then(() => {
+        // when successfully create, redirect to login
         navigate("/login");
       })
       .catch((error) => {
         setError("username", { type: "focus" });
         setError("email", { type: "focus" });
-        console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (error.response.data.status === 409) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands
+          alert(error + ": \n" + error.response.data.message);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands
+          alert(error + ": \n" + error.response.data.errors);
+        }
       });
   };
 
@@ -136,7 +142,12 @@ const SignUp: React.FC = () => {
                       {...register("terms", { required: true })}
                     />
                   }
-                  label="I accept the Terms and conditions."
+                  label={
+                    <span>
+                      I accept the{" "}
+                      <a href="/terms-and-conditions">terms and conditions</a>..
+                    </span>
+                  }
                 />
               </Grid>
             </Grid>

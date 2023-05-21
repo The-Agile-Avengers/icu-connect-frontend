@@ -7,51 +7,32 @@ import { Legend } from "../../../design/typography";
 import { api } from "../../../utils/api";
 import HoverRating from "./HoverRating";
 import { AxiosResponse } from "axios";
-import { Rating, RatingForm } from "../../../utils/types";
+import { RatingModel, RatingForm } from "../../../utils/types";
 
 interface CommunityRatingFormProps {
   id: string;
+  rating: RatingForm;
+  readOnly: boolean;
   // eslint-disable-next-line no-unused-vars
-  addCommunityRating: (rating: Rating) => void;
+  setReadOnly: (readOnly: boolean) => void;
+  // eslint-disable-next-line no-unused-vars
+  setRating: (rating: RatingForm) => void;
+  // eslint-disable-next-line no-unused-vars
+  addCommunityRating: (rating: RatingModel) => void;
 }
 
-const defaultRating = {
-  content: 0,
-  teaching: 0,
-  workload: 0,
-  text: null,
-};
-
+// Component to create a new rating or show your own rating.
+// Handles own logic.
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   id,
+  rating,
+  readOnly,
+  setReadOnly,
+  setRating,
   addCommunityRating,
 }: CommunityRatingFormProps) => {
-  const [readOnly, setReadOnly] = React.useState(false);
-  const [rating, setRating] = React.useState<RatingForm>(defaultRating);
   const { register, handleSubmit } = useForm<RatingForm>();
   const [isEnabled, setIsEnabled] = React.useState(false);
-
-  useEffect(() => {
-    const getRating = async () => {
-      const { data } = await api.get<RatingForm>(
-        `/users/communities/${id}/ratings`
-      );
-
-      if (data) {
-        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
-        setRating({
-          content: data.content,
-          teaching: data.teaching,
-          workload: data.workload,
-          text: data.text,
-        });
-
-        setReadOnly(true);
-      }
-    };
-
-    void getRating();
-  }, [id]);
 
   useEffect(() => {
     const allValuesPresent = Object.values(rating).every(
@@ -65,15 +46,13 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
 
     api
       .post(`/communities/${id}/ratings`, rating)
-      .then((response: AxiosResponse<Rating>) => {
-        // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
+      .then((response: AxiosResponse<RatingModel>) => {
         setRating({
           content: response.data.content,
           teaching: response.data.teaching,
           workload: response.data.workload,
           text: response.data.text,
         });
-
         addCommunityRating({
           id: response.data.id,
           content: response.data.content,
@@ -81,15 +60,13 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           workload: response.data.workload,
           text: response.data.text,
           thumbsUp: response.data.thumbsUp,
+          hasLiked: false,
           user: {
             id: response.data.user.id,
             username: response.data.user.username,
             email: response.data.user.email,
-            //TODO
-            avatar:
-              "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-            //TODO
-            studyArea: " ",
+            avatar: response.data.user.avatar,
+            studyArea: response.data.user.studyArea,
           },
           creation: response.data.creation,
         });
@@ -147,7 +124,7 @@ const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
           {...register("text", { required: false })}
           margin="normal"
           id="textRating"
-          label={rating.text ?? "Rating Text"}
+          label="Rating Text"
           multiline
           sx={{ width: "100%", mb: 2 }}
           disabled={readOnly}

@@ -10,14 +10,16 @@ import {
   DialogTitle,
   Grid,
   Paper,
+  Tooltip,
 } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { UserModel } from "../../../utils/types";
 import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import CommentsSection from "./CommentsSection";
 import { SingleComment } from "utils/types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { api } from "utils/api";
+import { getAvatar } from "utils/utils";
 
 export interface PostValues {
   communityId: string;
@@ -30,7 +32,8 @@ export interface PostValues {
   // eslint-disable-next-line no-unused-vars
   deleteCommunityPost: (id: number) => void;
 }
-
+// visualization of a post component
+// only the delete logic is covered in this component, everything else in the parent component
 export default function CommunityPost({
   communityId,
   postId,
@@ -79,7 +82,9 @@ export default function CommunityPost({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={user.avatar} />
+          <Tooltip title={user.username}>
+            <Avatar alt={user.username} src={getAvatar(user.avatar)} />
+          </Tooltip>
         </Grid>
 
         <Grid justifyContent="left" item xs zeroMinWidth>
@@ -104,7 +109,10 @@ export default function CommunityPost({
         </Grid>
         {checkIfUserIsCreator() && (
           <>
-            <DeleteIcon onClick={handleDeleteButtonClick} />
+            <DeleteIcon
+              onClick={handleDeleteButtonClick}
+              style={{ cursor: "pointer" }}
+            />
             <Dialog
               open={open}
               onClose={handleClose}

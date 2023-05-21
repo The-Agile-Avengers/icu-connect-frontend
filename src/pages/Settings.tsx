@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Avatar,
   Badge,
   Box,
@@ -20,45 +21,22 @@ import {
 } from "@mui/material";
 import Layout from "components/shared/Layout";
 import React, { useEffect } from "react";
-import avatar1 from "images/Avatars/avatar1.png";
-import avatar2 from "images/Avatars/avatar2.png";
-import avatar3 from "images/Avatars/avatar3.png";
-import avatar4 from "images/Avatars/avatar4.png";
-import avatar5 from "images/Avatars/avatar5.png";
-import avatar6 from "images/Avatars/avatar6.png";
-import avatar7 from "images/Avatars/avatar7.png";
-import avatar8 from "images/Avatars/avatar8.png";
-import avatar9 from "images/Avatars/avatar9.png";
-import avatar10 from "images/Avatars/avatar10.png";
 import { CameraAlt, Edit, Save } from "@mui/icons-material";
-import { UserModel } from "models/UserModel";
+import { StudyAreaModel, UserModel } from "utils/types";
 import { api } from "utils/api";
 import axios, { AxiosResponse } from "axios";
+import { getAvatar } from "utils/utils";
 
-function getAvatar(index: string): string {
-  const avatarList = [
-    avatar1,
-    avatar2,
-    avatar3,
-    avatar4,
-    avatar5,
-    avatar6,
-    avatar7,
-    avatar8,
-    avatar9,
-    avatar10,
-  ];
-  return avatarList[+index - 1] ? avatarList[+index - 1] : "This is a problem";
-}
 // Used as dummy for the userModel
 const dummy: UserModel = {
   id: 1,
-  username: "HansPeter123",
-  email: "this is a mail",
-  studyArea: "Info",
+  username: " ",
+  email: " ",
+  studyArea: { id: 1, name: " " },
   avatar: "",
 };
 
+// The Settings pages enables the user to change email, avatar and study area
 export default function Settings() {
   const [editName] = React.useState(false);
   const [editEmail, setEditEmail] = React.useState(false);
@@ -69,6 +47,12 @@ export default function Settings() {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [selectedAvatarIndex, setSelectedAvatarIndex] =
     React.useState<number>(-1);
+
+  const [studyAreaList, setStudyAreaList] = React.useState<string[]>([]);
+  //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const [selectedStudyArea, setSelectedStudyArea] = React.useState(
+    userSettings?.studyArea?.name
+  );
 
   // Avatar Selection
 
@@ -94,13 +78,6 @@ export default function Settings() {
       });
   }
 
-  // Username Selection
-
-  // TODO enable as soon as backend has solved issue with JWT token, when changing name
-  /*const handleEditName = () => {
-    setEditName(!editName);
-  };*/
-
   // Email Selection
 
   function validateEmail() {
@@ -114,7 +91,6 @@ export default function Settings() {
   }
 
   const handleEditEmail = () => {
-    console.log("edit", editEmail);
     if (editEmail == false) {
       setEditEmail(true);
       return;
@@ -145,6 +121,19 @@ export default function Settings() {
     }));
   }
 
+  const handleStudyAreaChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedStudyArea(event.target.value || "");
+  };
+
+  const handleStudyAreaChange2 = (
+    event: React.SyntheticEvent,
+    value: string | null
+  ) => {
+    setSelectedStudyArea(value || "");
+  };
+
   // Study Area Selection
 
   const handleEditStudyArea = () => {
@@ -153,7 +142,7 @@ export default function Settings() {
       api
         .put(`/users`, {
           //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          studyArea: userSettings.studyArea,
+          studyArea: { name: selectedStudyArea },
         })
         .then((response: AxiosResponse<UserModel>) => {
           setUserSettings((userSettings) => ({
@@ -168,18 +157,9 @@ export default function Settings() {
     }
   };
 
-  function handleStudyAreaChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const newStudyArea = event.target.value;
-    setUserSettings((userSettings) => ({
-      ...userSettings,
-      studyArea: newStudyArea,
-    }));
-  }
-
   async function getUserSettings() {
     try {
       const { data } = await api.get<UserModel>(`/users`);
-      console.log("data", data);
       setUserSettings(data);
       setSelectedAvatarIndex(+data.avatar - 1);
       return data;
@@ -194,10 +174,29 @@ export default function Settings() {
     }
   }
 
+  // get the list of all already existing study areas
+  const getStudyArea = async () => {
+    try {
+      const { data } = await api.get<StudyAreaModel[]>("/studyareas");
+      const studyAreas: string[] = data.map(
+        (studyArea: StudyAreaModel) => studyArea.name
+      );
+      setStudyAreaList(studyAreas);
+    } catch (error) {
+      console.error("Failed to fetch study areas:", error);
+    }
+  };
+
+  // Runs when the page is reloaded
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getUserSettings();
+    void getUserSettings();
+    void getStudyArea();
   }, []);
+
+  // Runs when the selected study area changes
+  useEffect(() => {
+    void getStudyArea();
+  }, [selectedStudyArea]);
 
   return (
     <Layout title="My Settings">
@@ -295,16 +294,7 @@ export default function Settings() {
                   />
                 </ListItem>
               )}
-              <ListItemIcon>
-                {
-                  // TODO enable as soon as backend has solved issue with JWT token, when changing name
-                  /*editName ? (
-                  <Edit onClick={handleEditName} />
-                ) : (
-                  <Save onClick={handleEditName} />
-                )*/
-                }
-              </ListItemIcon>
+              <ListItemIcon />
             </ListItem>
             <Divider />
             <ListItem>
@@ -341,19 +331,30 @@ export default function Settings() {
               {!editStudyArea ? (
                 <ListItem>
                   <Typography variant="h6">
-                    {userSettings?.studyArea}
+                    {userSettings?.studyArea?.name}
                   </Typography>
                 </ListItem>
               ) : (
-                <ListItem>
-                  <TextField
-                    variant="filled"
-                    //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    value={userSettings?.studyArea}
-                    onChange={handleStudyAreaChange}
-                    inputProps={{ maxLength: 30 }}
-                  />
-                </ListItem>
+                <>
+                  <ListItem>
+                    <Autocomplete
+                      freeSolo
+                      id="combo-box-demo"
+                      options={studyAreaList}
+                      sx={{ width: "100%" }}
+                      onChange={handleStudyAreaChange2}
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                      value={userSettings?.studyArea?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onChange={handleStudyAreaChange}
+                          label="Study Area"
+                        />
+                      )}
+                    />
+                  </ListItem>
+                </>
               )}
               <ListItemIcon>
                 {!editStudyArea ? (

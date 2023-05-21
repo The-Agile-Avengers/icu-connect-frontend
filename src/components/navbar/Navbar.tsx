@@ -16,37 +16,67 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import LogoutButton from "components/LogoutButton";
 
-const Logo = () => (
-  <Typography variant="h1" sx={{ color: "white", m: 0 }}>
-    ICU
-    <span style={{ color: "#21B34B", fontSize: "0.6em" }}> connect</span>
-  </Typography>
-);
+const Logo = () => {
+  const navigate = useNavigate();
 
-const Profile = () => (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "row",
-      p: 1,
-      m: 4,
-      gap: "1.5em",
-      borderRadius: 1,
-      justifyContent: "left",
-      position: "absolute",
-      bottom: "0",
-    }}
-  >
-    <Avatar sx={{ bgcolor: "secondary.main", color: "#000000" }}>
-      {localStorage.getItem("Username")?.charAt(0).toUpperCase()}
-    </Avatar>
-    <div style={{ margin: "auto" }}>
-      <p style={{ margin: "0" }}>Profile</p>
-      <small style={{ margin: "0" }}>{localStorage.getItem("Username")}</small>
+  const redirectSettings = () => {
+    navigate("/");
+  };
+
+  return (
+    <div onClick={redirectSettings}>
+      <Typography variant="h1" sx={{ color: "white", m: 0 }}>
+        ICU
+        <span style={{ color: "#21B34B", fontSize: "0.6em" }}> connect</span>
+      </Typography>
     </div>
-  </Box>
-);
+  );
+};
+
+const Profile = () => {
+  const navigate = useNavigate();
+
+  const redirectSettings = () => {
+    navigate("/settings");
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        p: 1,
+        m: 4,
+        gap: "1.5em",
+        borderRadius: 1,
+        justifyContent: "left",
+        position: "absolute",
+        bottom: "0",
+      }}
+    >
+      <Avatar
+        sx={{ bgcolor: "secondary.main", color: "#000000" }}
+        onClick={redirectSettings}
+      >
+        {localStorage.getItem("Username")?.charAt(0).toUpperCase()}
+      </Avatar>
+
+      <div
+        style={{
+          margin: "auto",
+          marginRight: "6em",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <p style={{ margin: "0" }}>{localStorage.getItem("Username")}</p>
+        <LogoutButton />
+      </div>
+    </Box>
+  );
+};
 
 const Navbar = () => {
   const drawerWidth = 340;

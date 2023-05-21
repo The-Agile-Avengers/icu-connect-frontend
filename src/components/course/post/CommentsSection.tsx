@@ -13,7 +13,8 @@ export interface CommentSectionValues {
   postId: number;
   commentList: SingleComment[];
 }
-
+// visualisation of all comments, using the comment component
+// This component handles its own logic
 export default function CommentsSection({
   communityId,
   postId,

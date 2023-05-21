@@ -1,35 +1,36 @@
 import React from "react";
-import { Avatar, Button, Grid, Paper, Rating } from "@mui/material";
-import { UserModel } from "../../../models/UserModel";
+import { Avatar, Button, Grid, Paper, Rating, Tooltip } from "@mui/material";
 import { Legend } from "../../../design/typography";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { CommunityModel } from "models/CommunityModel";
+import { CommunityModel, RatingModel, UserModel } from "../../../utils/types";
 import { api } from "utils/api";
-import { RatingModel } from "models/RatingModel";
-import { getDate } from "utils/utils";
+import { getAvatar, getDate } from "utils/utils";
 
 export interface RatingValues {
   user: UserModel;
   moduleId: string;
   rating: RatingModel;
-  getRatings: () => void;
 }
 
+// visualization of the community ratings
+// only the thumbs up logic of the rating is covered in this component
 export default function CommunityRating({
   user,
   moduleId,
   rating,
-  getRatings,
 }: RatingValues) {
+  const [thumbsUp, setThumbsUp] = React.useState(rating.hasLiked);
+  const [thumbsUpNumber, setThumbsUpNumber] = React.useState(rating.thumbsUp);
+
   async function like() {
     try {
       if (rating.id) {
         await api.post<CommunityModel>(
           `/communities/${moduleId}/ratings/${rating.id}/thumbsUp`,
-          //TODO - tell backend to turn into PUT instead of POST with empty request body
           {}
         );
-        getRatings();
+        setThumbsUp(!thumbsUp);
+        setThumbsUpNumber(!thumbsUp ? thumbsUpNumber + 1 : thumbsUpNumber - 1);
       }
     } catch (error) {
       console.error("Failed to fetch teachers:", error);
@@ -40,7 +41,9 @@ export default function CommunityRating({
     <Paper style={{ padding: "20px", margin: "20px 0" }}>
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
-          <Avatar alt="Remy Sharp" src={user.avatar} />
+          <Tooltip title={user.username}>
+            <Avatar alt={user.username} src={getAvatar(user.avatar)} />
+          </Tooltip>
         </Grid>
         <Grid
           justifyContent="left"
@@ -69,12 +72,14 @@ export default function CommunityRating({
               Created: {getDate(rating.creation)}
             </p>
             <Button
-              variant="text"
-              startIcon={<ThumbUpIcon />}
+              variant={"text"}
+              startIcon={
+                <ThumbUpIcon color={thumbsUp ? "success" : "action"} />
+              }
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={like}
             >
-              {rating.thumbsUp}
+              {thumbsUpNumber}
             </Button>
           </div>
         </Grid>

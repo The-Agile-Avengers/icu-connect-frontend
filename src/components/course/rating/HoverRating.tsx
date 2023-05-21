@@ -13,11 +13,11 @@ const labels: { [index: string]: string } = {
 };
 
 const labelsWorkload: { [index: string]: string } = {
-  1: "low",
-  2: "medium",
-  3: "moderate",
-  4: "high",
-  5: "very high",
+  1: "Low",
+  2: "Medium",
+  3: "Moderate",
+  4: "High",
+  5: "Very high",
 };
 
 type props = {
@@ -32,6 +32,7 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
+// Used to show the labels when selecting a specific rating
 export default function HoverRating({
   value,
   setValue,

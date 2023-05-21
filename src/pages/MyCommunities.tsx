@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/shared/Layout";
 import axios from "axios";
 import { api } from "../utils/api";
-import { CommunityModel } from "../models/CommunityModel";
+import { CommunityModel } from "../utils/types";
 import CommunityBox from "../components/course/CommunityBox";
 import Box from "@mui/material/Box/Box";
 
+// In the MY Community page, the user can find all joined communities
 const MyCommunities: React.FC = () => {
   const [communities, setCommunities] = useState<CommunityModel[]>([]);
 
@@ -27,9 +28,9 @@ const MyCommunities: React.FC = () => {
     }
   }
 
+  // Runs if the page is  loaded
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getJoinedCommunities();
+    void getJoinedCommunities();
   }, []);
 
   return (

@@ -10,6 +10,7 @@ type Props = {
   width: number;
 };
 
+// Visualization of a search bar. All logic will be done in the parent component
 const SearchBar = ({ placeholder, onChange, width }: Props) => (
   <Box
     sx={{

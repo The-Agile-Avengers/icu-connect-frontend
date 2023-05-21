@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useState } from "react";
 import Box from "../components/shared/Box";
 import Layout from "../components/shared/Layout";
@@ -12,22 +13,31 @@ import {
   Button,
   Tabs,
   Tab,
+  ToggleButtonGroup,
+  ToggleButton,
+  Select,
+  MenuItem,
+  Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CommunityPost from "../components/course/post/CommunityPost";
 import CommunityRating from "../components/course/rating/CommunityRating";
 import CommunityPostForm from "../components/course/post/CommunityPostForm";
 import CommunityRatingForm from "../components/course/rating/CommunityRatingForm";
-import { CommunityModel } from "../models/CommunityModel";
 import { api } from "../utils/api";
 import axios from "axios";
 import CreateCommunityForm from "../components/course/CreateCommunityForm";
-import { Rating, Post } from "../utils/types";
+import {
+  Post,
+  RatingForm,
+  RatingModel,
+  FileModel,
+  CommunityModel,
+} from "../utils/types";
 import { getDate } from "utils/utils";
-
-/* TODO - Delete Mockup Data */
-const imgLink =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+import FileUpload from "components/course/file/FileUpload";
+import CommunityFiles from "components/course/file/CummunityFiles";
+import { ShareButton } from "components/ShareButton";
 
 const defaultCommunity = {
   moduleId: "",
@@ -46,15 +56,25 @@ const defaultCommunity = {
   joined: false,
 };
 
+const defaultRating = {
+  content: 0,
+  teaching: 0,
+  workload: 0,
+  text: null,
+};
+
 type CommunityPageParams = {
   id: string;
 };
 
 interface RatingsResponse {
-  content: Rating[];
+  content: RatingModel[];
 }
 interface PostsResponse {
   content: Post[];
+}
+interface FilesResponse {
+  content: FileModel[];
 }
 
 interface TabPanelProps {
@@ -63,19 +83,41 @@ interface TabPanelProps {
   value: number;
 }
 
+// Represents the community page, when a community is selected
+// In this page multiple components will be shown as post, retating and the file uload
 const Community: React.FC = () => {
   const { id } = useParams<CommunityPageParams>() || "";
   const [error, setError] = useState<number>(1);
   const [communityInfo, setCommunityInfo] =
     useState<CommunityModel>(defaultCommunity);
-  const [communityRatings, setCommunityRatings] = useState<Rating[]>([]);
+  const [communityRatings, setCommunityRatings] = useState<RatingModel[]>([]);
   const [communityPosts, setCommunityPosts] = useState<Post[]>([]);
+  const [rating, setRating] = React.useState<RatingForm>(defaultRating);
+  const [toggleSortByMostLiked, setToggleSortByMostLiked] =
+    React.useState(false);
+  let ratingSortByMostLiked = false;
+  const [readOnly, setReadOnly] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState(0);
+  const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
+    boolean | null
+  >(null);
+  const [communityFiles, setCommunityFiles] = useState<FileModel[]>([]);
+  const [allCommunityPosts, setAllCommunityPosts] = useState<Post[]>([]);
+  const [selectedYear, setSelectedYear] = useState<number>();
+  const years = Array.from(
+    new Set(
+      allCommunityPosts.map((post) => new Date(post.creation).getFullYear())
+    )
+  );
 
-  const addCommunityRating = (rating: Rating) => {
-    setCommunityRatings([...communityRatings, rating]);
+  const addCommunityRating = (rating: RatingModel) => {
+    setCommunityRatings([rating, ...communityRatings]);
   };
   const addCommunityPost = (post: Post) => {
     setCommunityPosts([post, ...communityPosts]);
+  };
+  const addCommunityFiles = (file: FileModel) => {
+    setCommunityFiles([file, ...communityFiles]);
   };
 
   const deleteCommunityPost = (postId: number) => {
@@ -87,11 +129,27 @@ const Community: React.FC = () => {
     }
   };
 
+  const deleteCommunityFiles = (fileId: number) => {
+    const fileIndex = communityFiles.findIndex((file) => file.id === fileId);
+    if (fileIndex > -1) {
+      const updatedList = [...communityFiles];
+      updatedList.splice(fileIndex, 1);
+      setCommunityFiles(updatedList);
+    }
+  };
+
+  function handleSortRating(
+    event: React.MouseEvent<HTMLElement>,
+    value: boolean
+  ) {
+    if (value !== null) {
+      setToggleSortByMostLiked(value);
+      ratingSortByMostLiked = value;
+      void getCommunityRatings();
+    }
+  }
+
   /* Tab Navigation Logic */
-  const [activeTab, setActiveTab] = React.useState(0);
-  const [expandCommunityInfo, setExpandCommunityInfo] = React.useState<
-    boolean | null
-  >(null);
 
   const handleChange = (event: React.SyntheticEvent, newTab: number) => {
     setActiveTab(newTab);
@@ -120,26 +178,23 @@ const Community: React.FC = () => {
       const { data } = await api.put<CommunityModel>(
         `/users/communities/${id}`
       );
-      /* ToDo: Backend is sending inconsistent responses
-      i.e. if user joins the course, data be a fully loaded CommunityModel
-           if user leaves the course, data will be null instead of fully loaded CommunityModel
-      */
       setCommunityInfo({ ...communityInfo, joined: !communityInfo.joined });
       setActiveTab(communityInfo.joined ? 1 : 0);
       setExpandCommunityInfo(!expandCommunityInfo);
     }
   }
 
+  // Get all ratings to the specific community
   async function getCommunityRatings() {
     if (id) {
       try {
         const { data } = await api.get<RatingsResponse>(
-          `/communities/${id}/ratings?page=0&size=100`
+          `/communities/${id}/ratings?page=0&size=100&sortByMostLiked=${
+            ratingSortByMostLiked ? "true" : "false"
+          }`
         );
-        console.log("Ratings, ", data);
         setCommunityRatings(data.content);
         setError(0);
-        return data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);
@@ -154,13 +209,21 @@ const Community: React.FC = () => {
       }
     }
   }
-  async function getCommunityPosts() {
+
+  // Get all posts from a year to the specific community
+  async function getCommunityPosts(year = "") {
     if (id) {
       try {
+        let requestQuery = "";
+        if (year !== "" && +year !== 0) {
+          setSelectedYear(+year);
+          requestQuery = `&year=${year}`;
+        } else if (+year == 0) {
+          setSelectedYear(+year);
+        }
         const { data } = await api.get<PostsResponse>(
-          `/communities/${id}/posts?page=0&size=100`
+          `/communities/${id}/posts?page=0&size=100${requestQuery}`
         );
-        console.log("data", data.content);
         setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
@@ -179,13 +242,15 @@ const Community: React.FC = () => {
     }
   }
 
-  async function getCommunity() {
+  // Get all posts to the specific community
+  async function getAllCommunityPosts() {
     if (id) {
       try {
-        const { data } = await api.get<CommunityModel>(`/communities/${id}`);
-        setCommunityInfo(data);
-        setExpandCommunityInfo(!data.joined);
-        setActiveTab(data.joined ? 0 : 1);
+        const { data } = await api.get<PostsResponse>(
+          `/communities/${id}/posts?page=0&size=100`
+        );
+        setAllCommunityPosts(data.content.reverse());
+        setCommunityPosts(data.content.reverse());
         setError(0);
         return data;
       } catch (error) {
@@ -203,10 +268,85 @@ const Community: React.FC = () => {
     }
   }
 
+  // Get all files to the specific community
+  async function getAllCommunityFiles() {
+    if (id) {
+      try {
+        const { data } = await api.get<FilesResponse>(
+          `/communities/${id}/files?page=0&size=100`
+        );
+        console.log(data.content.reverse());
+        setCommunityFiles(data.content.reverse());
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+
+  // Get all community information, including rating overview
+  async function getCommunity() {
+    if (id) {
+      try {
+        const { data } = await api.get<CommunityModel>(`/communities/${id}`);
+        setCommunityInfo(data);
+        setExpandCommunityInfo(!data.joined);
+        setActiveTab(data.joined ? 0 : 1);
+
+        /* get course rating of user */
+        const getRating = async () => {
+          const { data } = await api.get<RatingForm>(
+            `/users/communities/${id}/ratings`
+          );
+          if (data) {
+            // ToDo: As long as backend sends more data than expected, we have to manually map it to the type
+            setRating({
+              content: data.content,
+              teaching: data.teaching,
+              workload: data.workload,
+              text: data.text,
+            });
+
+            setReadOnly(true);
+          }
+        };
+
+        void getRating();
+
+        setError(0);
+        return data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("error message: ", error.message);
+          if (error.response?.status === 404) {
+            setError(404);
+          }
+          return error.message;
+        } else {
+          console.log("unexpected error: ", error);
+          return "An unexpected error occurred";
+        }
+      }
+    }
+  }
+
+  //only runs if a id is valid otherwise the user will be redirected to the create page
   useEffect(() => {
-    getCommunity();
-    getCommunityRatings();
-    getCommunityPosts();
+    void getCommunity();
+    void getCommunityRatings();
+    void getCommunityPosts();
+    void getAllCommunityPosts();
+    void getAllCommunityFiles();
   }, [id]);
 
   return error === 0 && id ? (
@@ -232,14 +372,20 @@ const Community: React.FC = () => {
             <Typography variant="h1" sx={{ mb: 0 }}>
               {communityInfo.name}
             </Typography>
-            <Button
-              variant={communityInfo.joined ? "outlined" : "contained"}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onClick={joinLeaveCommunity}
-            >
-              {communityInfo.joined ? "Leave" : "Join"}
-            </Button>
+            <Tooltip title={"Join this community"}>
+              <Button
+                variant={communityInfo.joined ? "outlined" : "contained"}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={joinLeaveCommunity}
+              >
+                {communityInfo.joined ? "Leave" : "Join"}
+              </Button>
+            </Tooltip>
           </Box>
+          {Boolean(navigator.clipboard) && (
+            // Render your component when navigator.clipboard is available
+            <ShareButton />
+          )}
         </AccordionSummary>
         <AccordionDetails>
           <CommunityInfo community={communityInfo} />
@@ -262,12 +408,35 @@ const Community: React.FC = () => {
           >
             <Tab label="Posts" sx={{ p: 3 }} />
             <Tab label="Ratings" sx={{ p: 3 }} />
+            <Tab label="Files" sx={{ p: 3 }} />
           </Tabs>
         </Box>
-
+        {/* SECTION - POSTS */}
         <TabPanel value={activeTab} index={0}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             <CommunityPostForm id={id} addCommunityPost={addCommunityPost} />
+          </Box>
+          <Box sx={{ float: "right", marginTop: "20px" }}>
+            <Select
+              value={selectedYear ? selectedYear : 0}
+              displayEmpty
+              inputProps={{ "aria-label": "Select year" }}
+              onChange={(event) => {
+                const selectedYear = event.target.value.toString();
+                void getCommunityPosts(selectedYear);
+              }}
+            >
+              <MenuItem value={0}>All Years</MenuItem>
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+          <Box
+            sx={{ width: "100%", alignItems: "stretch", marginTop: "100px" }}
+          >
             {communityPosts.map((post: Post) => (
               <CommunityPost
                 key={post.id}
@@ -277,10 +446,8 @@ const Community: React.FC = () => {
                   id: post.user.id,
                   username: post.user.username,
                   email: post.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: post.user.avatar,
+                  studyArea: post.user.studyArea,
                 }}
                 title={post.title}
                 postText={post.text}
@@ -292,13 +459,29 @@ const Community: React.FC = () => {
             ))}
           </Box>
         </TabPanel>
+        {/* SECTION - Ratings */}
         <TabPanel value={activeTab} index={1}>
           <Box sx={{ width: "100%", alignItems: "stretch" }}>
             <CommunityRatingForm
               id={id}
+              rating={rating}
+              setRating={setRating}
+              setReadOnly={setReadOnly}
+              readOnly={readOnly}
               addCommunityRating={addCommunityRating}
             />
-            {communityRatings.map((rating: Rating) => (
+            <ToggleButtonGroup
+              color="primary"
+              value={toggleSortByMostLiked}
+              exclusive
+              onChange={handleSortRating}
+              aria-label="Platform"
+              sx={{ mt: "2em" }}
+            >
+              <ToggleButton value={false}>most recent</ToggleButton>
+              <ToggleButton value={true}>most liked</ToggleButton>
+            </ToggleButtonGroup>
+            {communityRatings.map((rating: RatingModel) => (
               <CommunityRating
                 rating={rating}
                 key={rating.id}
@@ -307,21 +490,28 @@ const Community: React.FC = () => {
                   id: rating.user.id,
                   username: rating.user.username,
                   email: rating.user.email,
-                  // TODO
-                  avatar: imgLink,
-                  // TODO
-                  studyArea: "wait for backend",
+                  avatar: rating.user.avatar,
+                  studyArea: rating.user.studyArea,
                 }}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                getRatings={getCommunityRatings}
               />
             ))}
+          </Box>
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          <Box sx={{ width: "100%", alignItems: "stretch" }}>
+            <FileUpload moduleId={id} addCommunityFiles={addCommunityFiles} />
+
+            <CommunityFiles
+              communityId={id}
+              communityFiles={communityFiles}
+              deleteCommunityFile={deleteCommunityFiles}
+            />
           </Box>
         </TabPanel>
       </Box>
     </Layout>
   ) : error === 404 ? (
-    <Layout title="Create a new Course">
+    <Layout title="Create a new community">
       <CreateCommunityForm />
     </Layout>
   ) : (

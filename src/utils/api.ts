@@ -7,6 +7,7 @@ const headers = {
   ...(isLoggedIn() && { Authorization: `Bearer ${getJwtToken()}` }),
 };
 
+// Is always used when making a request
 const api = axios.create({
   baseURL: getDomain(),
   headers: headers,
@@ -20,7 +21,6 @@ api.interceptors.response.use(
     // If the response is unauthorized (status 401), redirect to the login page.
     if (error.response && error.response.status === 401) {
       logout();
-      window.location.href = "/";
     }
     // If it's another error, throw it so it can be handled by the calling code.
     return Promise.reject(error);

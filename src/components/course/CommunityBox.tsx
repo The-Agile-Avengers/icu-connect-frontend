@@ -1,5 +1,5 @@
 import React from "react";
-import { CommunityModel } from "../../models/CommunityModel";
+import { CommunityModel } from "../../utils/types";
 import Box from "../shared/Box";
 import { useNavigate } from "react-router-dom";
 
@@ -8,10 +8,10 @@ type Props = {
   boxWidth: number;
 };
 
+// Visualization of a community box. Logic is handled by parent.
 const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
   const navigate = useNavigate();
 
-  //TODO - add join/leave button
   return (
     <Box
       title={community.name}
@@ -22,7 +22,7 @@ const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
         "&:hover": {
           cursor: "pointer",
         },
-        flex: `0 0 ${boxWidth}%`,
+        flex: window.innerWidth <= 450 ? "0 0 100%" : `0 0 ${boxWidth}%`,
       }}
       onClick={() => navigate(`/community/${community.moduleId}`)}
     >
