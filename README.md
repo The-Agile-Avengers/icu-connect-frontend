@@ -10,7 +10,7 @@ In order to use Docker-compose you need to have a running [docker desktop applic
 Install it and run:
 
 ```sh
-docker-compose up --build
+REACT_APP_BACKEND_PORT=XXXX docker-compose up --build
 ```
 This will start frontend container.
 
@@ -20,6 +20,10 @@ If you want to run it locally, you can also use:
 ```sh
 npm ci --legacy-peer-deps
 npm start
+```
+You can also specify the backend port dynamically:
+```sh
+REACT_APP_BACKEND_PORT=XXXX npm start
 ```
 
 ## Technologies
