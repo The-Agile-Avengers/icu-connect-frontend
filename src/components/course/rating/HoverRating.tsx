@@ -32,6 +32,7 @@ function getLabelText(value: number) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
+// Used to show the labels when selecting a specific rating
 export default function HoverRating({
   value,
   setValue,

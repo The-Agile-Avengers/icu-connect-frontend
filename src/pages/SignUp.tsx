@@ -24,6 +24,7 @@ type SignUpForm = {
   terms: boolean;
 };
 
+// Sign up page when the user does not yet have a login
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ const SignUp: React.FC = () => {
         password: formData.password,
       })
       .then(() => {
-        // localStorage.setItem("AuthToken", JSON.stringify(response.data));
+        // when successfully create, redirect to login
         navigate("/login");
       })
       .catch((error) => {

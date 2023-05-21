@@ -25,6 +25,9 @@ type LoginFormResponseData = {
   };
 };
 
+// Represents the login page
+// This page is also shown if a user is not logged in or the token expired
+
 const Login: React.FC = () => {
   const { register, handleSubmit, setError, formState } = useForm<LoginForm>({
     mode: "onChange",
@@ -90,10 +93,7 @@ const Login: React.FC = () => {
               id="password"
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+
             <Button
               type="submit"
               fullWidth
@@ -104,11 +104,6 @@ const Login: React.FC = () => {
               Login
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
               <Grid item>
                 <Link component={RouterLink} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}

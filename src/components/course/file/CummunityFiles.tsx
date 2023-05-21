@@ -25,6 +25,7 @@ interface Props {
   deleteCommunityFile: (id: number) => void;
 }
 
+// shows the uploaded files and handles the file download
 export function CommunityFiles({
   communityId,
   communityFiles,
@@ -32,10 +33,12 @@ export function CommunityFiles({
 }: Props) {
   const [openDialog, setOpenDialog] = React.useState(false);
 
+  // Open the delete dialog
   const handleDialogDeleteFile = () => {
     setOpenDialog(true);
   };
 
+  // Close the delete dialog
   const handleClose = () => {
     setOpenDialog(false);
   };
@@ -53,6 +56,7 @@ export function CommunityFiles({
     }
   };
 
+  // request to download a file
   const handleDownload = async (file: FileModel) => {
     try {
       const response = await api.get(`${file.filePath}`, {

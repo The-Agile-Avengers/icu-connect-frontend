@@ -14,6 +14,7 @@ interface IProps {
 
 export type { IProps };
 
+// ICU Connect standard Layout used in all pages
 const Layout: React.FC<IProps> = ({ children, title, button }: IProps) => {
   const [showButton, setShowButton] = useState<boolean>(false);
 

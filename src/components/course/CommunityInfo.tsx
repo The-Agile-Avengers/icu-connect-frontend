@@ -8,6 +8,7 @@ type Props = {
   community: CommunityModel;
 };
 
+// Component to visualize the Community information. Logic is handled by parent.
 export default function CommunityInfo({ community }: Props) {
   return (
     <Box>

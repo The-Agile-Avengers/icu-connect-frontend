@@ -83,6 +83,8 @@ interface TabPanelProps {
   value: number;
 }
 
+// Represents the community page, when a community is selected
+// In this page multiple components will be shown as post, retating and the file uload
 const Community: React.FC = () => {
   const { id } = useParams<CommunityPageParams>() || "";
   const [error, setError] = useState<number>(1);
@@ -176,16 +178,13 @@ const Community: React.FC = () => {
       const { data } = await api.put<CommunityModel>(
         `/users/communities/${id}`
       );
-      /* ToDo: Backend is sending inconsistent responses
-      i.e. if user joins the course, data be a fully loaded CommunityModel
-           if user leaves the course, data will be null instead of fully loaded CommunityModel
-      */
       setCommunityInfo({ ...communityInfo, joined: !communityInfo.joined });
       setActiveTab(communityInfo.joined ? 1 : 0);
       setExpandCommunityInfo(!expandCommunityInfo);
     }
   }
 
+  // Get all ratings to the specific community
   async function getCommunityRatings() {
     if (id) {
       try {
@@ -210,6 +209,8 @@ const Community: React.FC = () => {
       }
     }
   }
+
+  // Get all posts from a year to the specific community
   async function getCommunityPosts(year = "") {
     if (id) {
       try {
@@ -241,6 +242,7 @@ const Community: React.FC = () => {
     }
   }
 
+  // Get all posts to the specific community
   async function getAllCommunityPosts() {
     if (id) {
       try {
@@ -266,6 +268,7 @@ const Community: React.FC = () => {
     }
   }
 
+  // Get all files to the specific community
   async function getAllCommunityFiles() {
     if (id) {
       try {
@@ -291,6 +294,7 @@ const Community: React.FC = () => {
     }
   }
 
+  // Get all community information, including rating overview
   async function getCommunity() {
     if (id) {
       try {
@@ -336,6 +340,7 @@ const Community: React.FC = () => {
     }
   }
 
+  //only runs if a id is valid otherwise the user will be redirected to the create page
   useEffect(() => {
     void getCommunity();
     void getCommunityRatings();

@@ -8,6 +8,7 @@ type Props = {
   boxWidth: number;
 };
 
+// Visualization of a community box. Logic is handled by parent.
 const MyCommunityBox: React.FC<Props> = ({ community, boxWidth }: Props) => {
   const navigate = useNavigate();
 

@@ -21,6 +21,8 @@ interface CommunityRatingFormProps {
   addCommunityRating: (rating: RatingModel) => void;
 }
 
+// Component to create a new rating or show your own rating.
+// Handles own logic.
 const CommunityRatingForm: React.FC<CommunityRatingFormProps> = ({
   id,
   rating,

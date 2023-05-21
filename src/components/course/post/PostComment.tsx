@@ -20,6 +20,8 @@ export interface CommentValues {
   text: string | null;
 }
 
+// Visualisatio of a comment
+// Logic is covered by the parent
 export default function Comment({ user, text }: CommentValues) {
   return (
     <Grid container wrap="nowrap" spacing={2} style={{ padding: "5px" }}>

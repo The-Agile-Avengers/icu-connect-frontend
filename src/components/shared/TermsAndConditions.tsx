@@ -2,6 +2,7 @@ import React from "react";
 import logo from "images/ICULogo.jpeg";
 import { Box, Button, Typography } from "@mui/material";
 
+// terms and conditions component, shown in the signup page
 export default function TermsAndConditions() {
   const containerStyle = {
     fontFamily: "Arial, sans-serif",

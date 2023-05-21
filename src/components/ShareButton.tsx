@@ -2,6 +2,7 @@ import { Button, Snackbar, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import LinkIcon from "@mui/icons-material/Link";
 
+// This is the Add to Clipboard button. It only work if navigator.clipboard != null
 export const ShareButton = () => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
